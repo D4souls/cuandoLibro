@@ -18,7 +18,7 @@ include('scripts/php/seguridad/seguridad.php');
     <header>
       <div class="image-text">
         <span class="image">
-          <img src="img/cuandoLibro-logo.pngpng" alt="logoClaro" />
+          <img src="img/cuandoLibro-logo.png" alt="logoClaro" />
         </span>
 
         <div class="text header-text">
@@ -56,7 +56,7 @@ include('scripts/php/seguridad/seguridad.php');
             </a>
           </li>
           <li class="nav-links">
-            <a href="#departamentos">
+            <a href="sites/departamentos.php">
               <i class="bx bx-briefcase-alt-2 icon"></i>
               <span class="text nav-text">Departamentos</span>
             </a>
@@ -131,24 +131,10 @@ include('scripts/php/seguridad/seguridad.php');
 
           echo '</tr>';
         }
-
-
-
-        echo '</table>';
-        // Agregar contenedor del panel
-        echo '<div id="panelEmpleado" class="panel">';
-        echo '    <!-- Contenido del panel (puedes personalizarlo según tus necesidades) -->';
-        echo '    <button onclick="cerrarPanel()">Cerrar</button>';
-        echo '</div>';
-
-        echo '</table>';
       }
       ?>
 
     </div>
-  </section>
-  <section class="homeTitle" id="departamentos">
-    <div class="text">Departamentos</div>
   </section>
   <section class="homeTitle" id="avisos">
     <div class="text">Avisos</div>
@@ -169,10 +155,36 @@ include('scripts/php/seguridad/seguridad.php');
         <input type="text" placeholder="Apellido 2..." name="apellido2">
         <label>IBAN</label>
         <input type="text" placeholder="IBAN..." name="iban">
-        <label>Numero categoría</label>
-        <input type="number" placeholder="Nº Categoría..." name="n_cat">
-        <label>Numero departamento</label>
-        <input type="number" placeholder="Nº Departamento..." name="n_departamento">
+
+        <select name="n_departamento">
+          <option value="">- Seleccione un departamento -</option>
+          <?php
+          // Fetch all departments
+          $query_departamentos = "SELECT * FROM departamentos";
+          $resultado_departamentos = mysqli_query($conexion, $query_departamentos);
+
+          // Display departments
+          while ($departamento = mysqli_fetch_assoc($resultado_departamentos)) {
+            $selected = ($departamento['id_departamento'] == $datos_empleado['n_departamento']) ? 'selected' : '';
+            echo "<option value='{$departamento['id_departamento']}' $selected>{$departamento['nombre']}</option>";
+          }
+          ?>
+        </select>
+
+        <select name="n_categoria">
+          <option value="">- Seleccione una categoría -</option>
+          <?php
+          // Fetch all categories
+          $query_categorias = "SELECT * FROM categorias";
+          $resultado_categorias = mysqli_query($conexion, $query_categorias);
+
+          // Display categories
+          while ($categoria = mysqli_fetch_assoc($resultado_categorias)) {
+            $selected = ($categoria['id_categoria'] == $datos_empleado['n_categoria']) ? 'selected' : '';
+            echo "<option value='{$categoria['id_categoria']}' $selected>{$categoria['nombre']}</option>";
+          }
+          ?>
+        </select>
         <button>Agregar Usuario</button>
       </form>
     </div>

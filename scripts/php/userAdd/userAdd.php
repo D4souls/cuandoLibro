@@ -4,8 +4,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST["nombre"];
     $apellido1 = $_POST["apellido1"];
     $apellido2 = $_POST["apellido2"];
-    $iban = $_POST["iban"];
-    $n_cat = $_POST["n_cat"];
+    //$iban = $_POST["iban"];
+    $n_categoria = $_POST["n_categoria"];
     $n_departamento = $_POST["n_departamento"];
 
     // Generando IBAN aleatorio
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $query_insert = "INSERT INTO empleados (dni, nombre, apellido1, apellido2, iban, n_categoria, n_departamento) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $resultado_insert = $conexion->prepare($query_insert);
-            $resultado_insert->bind_param("sssssss", $dni, $nombre, $apellido1, $apellido2, $iban, $n_cat, $n_departamento);
+            $resultado_insert->bind_param("sssssss", $dni, $nombre, $apellido1, $apellido2, $iban, $n_categoria, $n_departamento);
 
             if ($resultado_insert->execute()) {
                 echo "<h3>[+] Trabajador dado de alta correctamente!</h3>\n<a href='../../../dashboard.php#trabajadores'>Cerrar ventana</a>";
