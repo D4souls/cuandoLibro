@@ -18,7 +18,7 @@ include('scripts/php/seguridad/seguridad.php');
     <header>
       <div class="image-text">
         <span class="image">
-          <img src="img/MicrosoftTeams-image (1).png" alt="logoClaro" />
+          <img src="img/cuandoLibro-logo.pngpng" alt="logoClaro" />
         </span>
 
         <div class="text header-text">
