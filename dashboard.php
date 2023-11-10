@@ -10,6 +10,7 @@ include('scripts/php/seguridad/seguridad.php');
   <meta name="theme-color" content="#695CFE" />
   <link href="./css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="icon" href="img/cuandoLibro-logo.png">
   <title>Dashboard</title>
 </head>
 
@@ -95,11 +96,12 @@ include('scripts/php/seguridad/seguridad.php');
   <section class="homeTitle" id="horarios">
     <div class="text">Horarios</div>
   </section>
+
   <section class="homeTitle" id="trabajadores">
     <div class="text">Trabajadores</div>
     <div class="contenedor-tabla">
       <?php
-      include(__DIR__ . '/scripts/php/seguridad/conexion.php');
+      include("scripts/php/seguridad/conexion.php");
       $var_consulta = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e INNER JOIN categorias c ON c.id_categoria = e.n_categoria INNER JOIN departamentos d ON d.id_departamento = e.n_departamento";
       $var_resultado = $conexion->query($var_consulta);
       echo '<button class="nav-text"><a href="#userAdd"><i class="bx bx-user-plus"></i>Agregar empleado</a></button>';
@@ -136,8 +138,9 @@ include('scripts/php/seguridad/seguridad.php');
 
     </div>
   </section>
-  <section class="homeTitle" id="avisos">
-    <div class="text">Avisos</div>
+
+  <section class="homeTitle" id="department">
+    <div class="text">Departamentos</div>
   </section>
 
   <!-- Secciones ocultas -->

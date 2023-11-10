@@ -10,6 +10,7 @@ include('../scripts/php/seguridad/conexion.php');
   <meta name="theme-color" content="#695CFE" />
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="icon" href="../img/cuandoLibro-logo.png">
   <title>Dashboard</title>
 </head>
 
@@ -50,13 +51,13 @@ include('../scripts/php/seguridad/conexion.php');
             </a>
           </li>
           <li class="nav-links">
-            <a href="#trabajadores">
+            <a href="../dashboard.php">
               <i class="bx bx-user icon"></i>
               <span class="text nav-text">Trabajadores</span>
             </a>
           </li>
           <li class="nav-links">
-            <a href="#departamentos">
+            <a href="#department">
               <i class="bx bx-briefcase-alt-2 icon"></i>
               <span class="text nav-text">Departamentos</span>
             </a>
@@ -108,7 +109,7 @@ include('../scripts/php/seguridad/conexion.php');
         echo '</tr>';
 
         while ($var_fila = $var_resultado->fetch_array()) {
-          echo "<tr class='datos' id='departamento_{$var_fila["id_departamento"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id={$var_fila["id_departamento"]}'\">";
+          echo "<tr class='datos' id='departamento_{$var_fila["id_departamento"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento={$var_fila["id_departamento"]}'\">";
           // Celdas de la fila
           echo ("<td>{$var_fila["id_departamento"]}</td>");
           echo ("<td>{$var_fila["nombre"]}</td>");
@@ -133,6 +134,51 @@ include('../scripts/php/seguridad/conexion.php');
         <input type="number" placeholder="Presupuesto..." name="presupuesto">
         <button>Crear departamento</button>
       </form>
+    </div>
+  </section>
+
+  <section class="homeTitle" id="departmentEdit">
+    <div class="text">Editar departameto</div>
+    <div class="div-form-userAdd">
+      <?php
+      include("../scripts/php/seguridad/conexion.php");
+      $id = isset($_POST['id_departamento']) ? $_POST['id_departamento'] : null;
+
+      $query_departamentos = "SELECT * FROM departamentos WHERE id_departamento = '$id'";
+      $resultado_departamentos = mysqli_query($conexion, $query_departamentos);
+
+      if ($resultado_departamentos->num_rows > 0) {
+        $datos_departamentos = mysqli_fetch_assoc($resultado_departamentos);
+        ?>
+
+        <form action="departmentSave.php" method="get">
+          <label for="id_departamento">ID</label>
+          <input type="text" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>"
+            readonly>
+
+          <label for="nombre">Nombre:</label>
+          <input type="text" name="nombre" value="<?php echo $datos_departamentos['nombre']; ?>">
+
+          <label for="presupuesto">Presupuesto:</label>
+          <input type="text" name="presupuesto" value="<?php echo $datos_departamentos['presupuesto']; ?>">
+
+          <button type="submit">Guardar Cambios</button>
+        </form>
+
+        <!-- Botón para eliminar al departamento -->
+        <form action="departmentDelete.php" method="post">
+          <input type="hidden" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>">
+          <button type="submit">Eliminar Departamento</button>
+        </form>
+
+        <?php
+      } else {
+        echo "No se encontraron datos para el departamento con ID: $id";
+      }
+
+      // Cerrar la conexión
+      $conexion->close();
+      ?>
     </div>
   </section>
 
