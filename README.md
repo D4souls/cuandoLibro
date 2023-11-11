@@ -9,8 +9,8 @@ Trabajadores: <br>
 ❌ Acceso via web a sus datos, horario y nómina.<br><br>
 
 Departamentos:<br>
-❌ Agregar departamentos.<br>
-❌ Modificar departamentos.<br>
+✔️ Agregar departamentos.<br>
+✔️ Modificar departamentos.<br>
 ❌ Estadísitcas de los departamentos.<br><br>
 
 Horarios:<br>
