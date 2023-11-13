@@ -1,6 +1,13 @@
 function redirigirUserEdit(dni) {
   window.location.href = `#userEdit?dni=${dni}`;
 }
+
+function habilitarEdicion(idCategoria) {
+  document.getElementById('nombre' + idCategoria).removeAttribute('readonly');
+  document.getElementById('sueldo_normal' + idCategoria).removeAttribute('readonly');
+  document.getElementById('sueldo_plus' + idCategoria).removeAttribute('readonly');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const body = document.querySelector("body"),
       sidebar = body.querySelector(".sidebar"),

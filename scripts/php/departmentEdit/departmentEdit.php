@@ -48,10 +48,22 @@ if ($resultado_departamentos->num_rows > 0) {
                     echo "<td>" . $datos_categoria["nombre"] . "</td>";
                     echo "<td>" . $datos_categoria["sueldo_normal"] . "€" . "</td>";
                     echo "<td>" . $datos_categoria["sueldo_plus"] . "€" . "</td>";
+                    echo "<td><form method='post' action='../category/categoryDelete.php'>
+                    <input type='hidden' name='id_categoria' value="echo $datos_categoria['id_categoria'];">
+                    <button>Eliminar</button>
+                    </form><td>";
                 echo "</tr>";
             }?>
         </tr>
     </table>
+
+    <form method="post" action="../category/categoryAdd.php">
+        <input type="hidden" name="id" value="<?php echo $id ?>">
+        <input type="text" name="nombre" placeholder="Nombre">
+        <input type="number" name="sueldo_normal" placeholder="Sueldo Normal">
+        <input type="number" name="sueldo_plus" placeholder="Sueldo Plus">
+        <button>Crear categoría</button>
+    </form>
 
 
 

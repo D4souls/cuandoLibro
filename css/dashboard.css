@@ -402,6 +402,24 @@ body.dark .datos:hover td {
     gap: 5px;
 }
 
-.form-userAdd{
+.subtabla {
+    display: none;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+}
 
+  .subtabla th,
+  .subtabla td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+  .subtabla th {
+    background-color: #f2f2f2;
+}
+
+  .datos:hover .subtabla {
+    display: table;
 }
