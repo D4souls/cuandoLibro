@@ -13,9 +13,21 @@ Departamentos:<br>
 ✔️ Modificar departamentos.<br>
 ❌ Estadísitcas de los departamentos.<br><br>
 
+Categorias:<br>
+✔️ Ver categorias por departamentos
+✔️ Crear, editar y eliminarlas
+
 Horarios:<br>
 ❌ Crear horarios.<br>
 ❌ Modificar horarios.<br><br>
 
+Avisos:<br>
+❌ Ver avisos según el nombre del trabajador
+❌ Ver avisos según turnos
+❌ Ver avisos según departamentos
+
 Nóminas:<br>
 ❌ Generar nóminas.<br>
+
+Página de login:<br>
+✔️ Creada y funcional
