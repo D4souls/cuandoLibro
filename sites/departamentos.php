@@ -72,7 +72,7 @@ include('../scripts/php/seguridad/conexion.php');
       </div>
       <div class="bottom-content">
         <li class="">
-          <a href="scripts/php/seguridad/cerrarSesion.php">
+          <a href="../scripts/php/seguridad/cerrarSesion.php">
             <i class="bx bx-log-out icon"></i>
             <span class="text nav-text">Cerrar sesión</span>
           </a>
