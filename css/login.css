@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+:root{
+    /* ==== Colors ==== */
+    --body-color: #E4E9F7;
+    --sidebar-color: #FFF;
+    --primary-color: #41cf1d;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #707070;
+
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    /* ==== Transitions ==== */
+    --tran-02: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'QuickSand', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: var(--body-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    text-align: center;
+    padding: 20px 25px;
+    box-shadow: var(--box-shadow);
+}
+
+form .title {
+    color: #252525;
+    font-size: 35px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+form label {
+    margin-bottom: 35px;
+}
+
+form label i {
+    font-size: 20px;
+    color: var(--text-color);
+    margin-right: 10px;
+}
+
+form label input {
+    outline: none;
+    border: none;
+    color: #252525;
+    border-bottom: solid 1px var(--text-color);
+    padding: 0 5px;
+    font-size: 18px;
+}
+
+form label input::placeholder {
+    color: rgba(37, 37, 37, 0.5);
+}
+
+
+form .link {
+    color: #252525;
+    margin-bottom: 15px;
+}
+
+form button {
+    color: var(--primary-color-light);
+    border: none;
+    background: var(--primary-color);
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 6px;
+}
+
+form button:hover{
+    background-color: var(--text-color);
+    transition: var(--tran-04);
+}
+
+form a:hover{
+    color: var(--primary-color);
+    transition: var(--tran-04);
+}

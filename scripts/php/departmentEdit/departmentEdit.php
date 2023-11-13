@@ -7,7 +7,7 @@ $resultado_departamentos = mysqli_query($conexion, $query_departamentos);
 
 if ($resultado_departamentos->num_rows > 0) {
     $datos_departamentos = mysqli_fetch_assoc($resultado_departamentos);
-    ?>
+?>
 
     <form action="departmentSave.php" method="get">
         <label for="id_departamento">ID</label>
@@ -43,17 +43,22 @@ if ($resultado_departamentos->num_rows > 0) {
             <?php
             $query_categorias = "SELECT * FROM categorias WHERE id_departamento = $id";
             $resulatado_categorias = mysqli_query($conexion, $query_categorias);
-            while ($datos_categoria = mysqli_fetch_assoc($resulatado_categorias)) { 
+            while ($datos_categoria = mysqli_fetch_assoc($resulatado_categorias)) {
                 echo "<tr>";
-                    echo "<td>" . $datos_categoria["nombre"] . "</td>";
-                    echo "<td>" . $datos_categoria["sueldo_normal"] . "€" . "</td>";
-                    echo "<td>" . $datos_categoria["sueldo_plus"] . "€" . "</td>";
-                    echo "<td><form method='post' action='../category/categoryDelete.php'>
-                    <input type='hidden' name='id_categoria' value="echo $datos_categoria['id_categoria'];">
-                    <button>Eliminar</button>
-                    </form><td>";
+                echo "<td>
+                        <form method='post'>
+                            <input type='hidden' name='id_categoria' value='" . $datos_categoria['id_categoria'] . "'>
+                            <input type='hidden' name='id_departamento' value='" . $datos_departamentos['id_departamento'] . "'>
+                            <input type='text' name='nombre' value='" . $datos_categoria['nombre'] . "'>
+                            <input type='text' name='sueldo_normal' value='" . $datos_categoria['sueldo_normal'] . "'>
+                            <input type='text' name='sueldo_plus' value='" . $datos_categoria['sueldo_plus'] . "'>
+                            <button type='submit' formaction='../category/categoryDelete.php'>Eliminar</button>
+                            <button type='submit' formaction='../category/categorySave.php'>Guardar</button>
+                        </form>
+                      </td>";
                 echo "</tr>";
-            }?>
+            }
+            ?>
         </tr>
     </table>
 
@@ -64,15 +69,14 @@ if ($resultado_departamentos->num_rows > 0) {
         <input type="number" name="sueldo_plus" placeholder="Sueldo Plus">
         <button>Crear categoría</button>
     </form>
-
-
-
-
-    <?php
+<?php
 } else {
     echo "No se encontraron datos para el departamento con ID: $id";
 }
 
+
 // Cerrar la conexión
 $conexion->close();
 ?>
+
+<a href="../../../sites/departamentos.php">Volver atrás</a>

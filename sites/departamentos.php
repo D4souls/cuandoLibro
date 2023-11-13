@@ -39,19 +39,19 @@ include('../scripts/php/seguridad/conexion.php');
 
         <ul class="menu-links">
           <li class="nav-links">
-            <a href="#dashboard">
+            <a href="../dashboard.php">
               <i class="bx bx-home-alt-2 icon"></i>
               <span class="text nav-text">Dashboard</span>
             </a>
           </li>
           <li class="nav-links">
-            <a href="#horarios">
+            <a href="horarios.php">
               <i class="bx bx-calendar-alt icon"></i>
               <span class="text nav-text">Horarios</span>
             </a>
           </li>
           <li class="nav-links">
-            <a href="../dashboard.php">
+            <a href="trabajadores.php">
               <i class="bx bx-user icon"></i>
               <span class="text nav-text">Trabajadores</span>
             </a>
@@ -63,7 +63,7 @@ include('../scripts/php/seguridad/conexion.php');
             </a>
           </li>
           <li class="nav-links">
-            <a href="#avisos">
+            <a href="avisos.php">
               <i class="bx bx-error icon"></i>
               <span class="text nav-text">Avisos</span>
             </a>
