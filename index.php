@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#695CFE" />
     <link href="css/login.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="icon" href="../img/cuandoLibro-logo.png">
-    <title>CL | Login</title>
+    <link rel="icon" href="img/logo-alt.png">
+    <title>CL | Iniciar Sesión</title>
 </head>
 
 <body>
@@ -18,11 +18,11 @@
                 <h1 class="title">Iniciar Sesión</h1>
                 <label>
                     <i class='bx bx-user'></i>
-                    <input type="text" name="user">
+                    <input type="text" name="user" placeholder="Usuario...">
                 </label>
                 <label>
                     <i class='bx bx-lock-alt'></i>
-                    <input type="password" name="password">
+                    <input type="password" name="password" placeholder="Contraseña...">
                 </label>
                 <a href="#" class="link">Contactar al administrador</a>
 

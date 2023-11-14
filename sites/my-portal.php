@@ -1,35 +1,33 @@
 <?php
 include('../scripts/php/seguridad/seguridad.php');
 include('../scripts/php/seguridad/conexion.php');
-$dniUsuarioWeb = $_SESSION["userwebdni"];
+$dniUsuarioWeb = $conexion->real_escape_string($_SESSION["userwebdni"]);
 
-$query_trabajador = "SELECT * FROM empleados WHERE dni = ?";
-$query_obtener_trabajador = $conexion->prepare($query_trabajador);
-$query_obtener_trabajador->bind_param("s", $dniUsuarioWeb);
-$query_obtener_trabajador->execute();
+$var_consulta = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e INNER JOIN categorias c ON c.id_categoria = e.n_categoria INNER JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE e.dni = '$dniUsuarioWeb'";
+$var_resultado = $conexion->query($var_consulta);
 
-$query_obtener_trabajador->store_result();
-
-if ($query_obtener_trabajador->num_rows > 0) {
-    $query_obtener_trabajador->bind_result($dni, $nombre, $apellido1, $apellido2, $IBAN, $n_categoria, $n_departamento);
-    $query_obtener_trabajador->fetch();
-    // Cerrar la consulta después de haberla utilizado
-    $query_obtener_trabajador->close();
-} else {
-    // No se encontraron resultados, manejar de acuerdo a tu lógica
-    $query_obtener_trabajador->close();
+if (!$var_resultado) {
+    die("Error en la consulta: " . $conexion->error);
 }
 
-$nombreCompleto = $nombre . " " . $apellido1 ." ". $apellido2;
+if ($var_resultado->num_rows > 0) {
+    $row = $var_resultado->fetch_assoc();
 
-$query_nombreCategoria = "SELECT * FROM categorias WHERE id_categoria = ?";
-$query_obtener_nombreCategoria = $conexion->prepare($query_nombreCategoria);
-$query_obtener_nombreCategoria->bind_param("s", $n_categoria);
-$query_obtener_nombreCategoria->execute();
-$query_obtener_nombreCategoria->store_result();
+    $dni = $row['dni'];
+    $nombre = $row['nombre'];
+    $apellido1 = $row['apellido1'];
+    $apellido2 = $row['apellido2'];
+    $nombreCategoria = $row['nombreCategoria'];
+    $nombreDepartamento = $row['nombreDepartamento'];
+} else {
+    echo "No se encontraron resultados para el usuario con DNI: $dniUsuarioWeb";
+}
 
-
+$var_resultado->close();
+$conexion->close();
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -41,7 +39,7 @@ $query_obtener_nombreCategoria->store_result();
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="icon" href="../img/cuandoLibro-logo.png">
     <title>My site |
-        <?php echo $nombre . " ". $apellido1 . " " . $apellido2 ?>
+        <?php echo $nombre . " " . $apellido1 . " " . $apellido2 ?>
     </title>
 </head>
 
@@ -122,14 +120,20 @@ $query_obtener_nombreCategoria->store_result();
             <div class="user-img">
                 <img alt="userImage">
             </div>
-            <h3>Bienvenido de nuevo <?php echo $nombreCompleto ?></h3>
+            <h3>Bienvenido de nuevo
+                <?php echo $nombre . " " . $apellido1 . " " . $apellido2 ?>
+            </h3>
             <table>
                 <ul>
-                    <li>Departamento: <?php echo $nombreCategoria ?></li>
-                    <li>Categoria: <?php ?></li>
+                    <li>Departamento:
+                        <?php echo $nombreDepartamento ?>
+                    </li>
+                    <li>Categoria:
+                        <?php echo $nombreCategoria ?>
+                    </li>
                 </ul>
             </table>
-            <span>Última conexión: 12/11/2023 23:27</span>
+            <span>Última conexión: <?php echo $timestamp ?></span>
             <div class="edit-userweb">
                 <i class='bx bx-edit'></i>
             </div>

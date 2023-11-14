@@ -10,8 +10,8 @@ include('../scripts/php/seguridad/seguridad.php');
     <meta name="theme-color" content="#695CFE" />
     <link href="../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="icon" href="img/cuandoLibro-logo.png">
-    <title>Dashboard</title>
+    <link rel="icon" href="../img/logo-alt.png">
+    <title>CL | Turnos Publicados</title>
 </head>
 
 <body>
@@ -93,40 +93,18 @@ include('../scripts/php/seguridad/seguridad.php');
 
     <section class="homeTitle" id="trabajadores">
         <div class="text">Turnos publicados</div>
-        <div class="addturno">
-            <?php
-            include("../scripts/php/seguridad/conexion.php");
-            $query_schedule = "SELECT * FROM turnos_publicados";
-            $result_schedule = $conexion->query($query_schedule);
-
-            if ($result_schedule) {
-                $datos_turno = $result_schedule->fetch_assoc();
-            ?>
-                <form action="../scripts/php/schedule/scheduleCreate.php" method="post">
-                    <label>Fecha</label>
-                    <input type="hidden" name="id_turnoP" value="<?php echo $datos_turno['id_turnoP']; ?>">
-                    <input type="date" name="fecha" value="<?php echo $datos_turno['fecha']; ?>">
-                    <!-- Agrega otros campos del formulario si es necesario -->
-                    <button type="submit">Crear Turno</button>
-                </form>
-            <?php
-            } else {
-                echo "Error al obtener los datos del turno.";
-            }
-            ?>
-        </div>
-
         <div class="contenedor-tabla">
             <?php
             include('../scripts/php/seguridad/conexion.php');
             $var_consulta = "SELECT * FROM turnos_publicados";
             $var_resultado = $conexion->query($var_consulta);
-            echo '<button class="nav-text"><a href="#departmentAdd"><i class="bx bx-user-plus"></i>Nuevo departamento</a></button>';
+            echo '<button class="nav-text"><a href="../scripts/php/schedule/scheduleAdd.php"><i class="bx bx-user-plus"></i>Crear turnos</a></button>';
             if ($var_resultado->num_rows > 0) {
                 echo '<h3>Hay ' . $var_resultado->num_rows . ' departamentos en la base de datos</h3>';
                 echo '<table class="tabla-datos">';
                 echo '<tr>';
-                echo '<th>ID</th>';
+                echo '<th>Departamento</th>';
+                echo '<th>Categoria</th>';
                 echo '<th>Fecha</th>';
                 echo '<th>Trabajador</th>';
                 echo '<th>Turno</th>';
@@ -135,7 +113,8 @@ include('../scripts/php/seguridad/seguridad.php');
                 while ($var_fila = $var_resultado->fetch_array()) {
                     echo "<tr class='datos' id='idTurnoPublicado_{$var_fila["id_turnoP"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_turnoP={$var_fila["id_turnoP"]}'\">";
                     // Celdas de la fila
-                    echo ("<td>{$var_fila["id_turnoP"]}</td>");
+                    echo ("<td>{$var_fila["departamento"]}</td>");
+                    echo ("<td>{$var_fila["categoria"]}</td>");
                     echo ("<td>{$var_fila["fecha"]}</td>");
                     echo ("<td>{$var_fila["dni"]}</td>");
                     echo ("<td>{$var_fila["id_turno"]}</td>");

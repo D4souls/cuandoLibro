@@ -10,8 +10,8 @@ include('scripts/php/seguridad/seguridad.php');
   <meta name="theme-color" content="#695CFE" />
   <link href="./css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="icon" href="img/cuandoLibro-logo.png">
-  <title>Dashboard</title>
+  <link rel="icon" href="img/logo-alt.png">
+  <title>CL | Dashboard</title>
 </head>
 
 <body>
@@ -45,7 +45,7 @@ include('scripts/php/seguridad/seguridad.php');
             </a>
           </li>
           <li class="nav-links">
-            <a href="#horarios">
+            <a href="sites/horarios.php">
               <i class="bx bx-calendar-alt icon"></i>
               <span class="text nav-text">Horarios</span>
             </a>

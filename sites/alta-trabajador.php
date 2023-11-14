@@ -11,8 +11,8 @@ include('../scripts/php/seguridad/conexion.php');
   <meta name="theme-color" content="#695CFE" />
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="icon" href="img/cuandoLibro-logo.png">
-  <title>Dashboard</title>
+  <link rel="icon" href="../img/logo-alt.png">
+  <title>CL | Agregar trabajador</title>
 </head>
 
 <body>
