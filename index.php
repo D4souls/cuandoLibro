@@ -16,6 +16,10 @@
         <div class="form-login">
             <form method="POST" action="./scripts/php/seguridad/control.php">
                 <h1 class="title">Iniciar Sesión</h1>
+                <?php 
+                    $error_message = isset($_GET['error']) ? $_GET['error'] : '';
+                ?>
+                <div class="error-message text" id="error-message"><?php echo $error_message?></div>
                 <label>
                     <i class='bx bx-user'></i>
                     <input type="text" name="user" placeholder="Usuario...">

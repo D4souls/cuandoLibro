@@ -21,33 +21,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["autentificado"] = "SI";
             $_SESSION["userwebdni"] = $db_dniusuarioweb;
             if ($db_rol == 1) {
-                $timestamp = date("Y-m-d H:i:s");
-                $query_timestamp ="UPDATE userweb SET lastlogin = ? WHERE username = ?";
-                $query_timestamp = $conexion->prepare($query_timestamp);
-                $query_timestamp->bind_param("ss", $timestamp, $user);
-                $query_timestamp->execute();
-
                 header("Location: ../../../sites/my-portal.php");
                 exit();
             } else {
-                $timestamp = date("Y-m-d H:i:s");
-                $query_timestamp ="UPDATE userweb SET lastlogin = ? WHERE username = ?";
-                $query_timestamp = $conexion->prepare($query_timestamp);
-                $query_timestamp->bind_param("ss", $timestamp, $user);
-                $query_timestamp->execute();
                 header("Location: ../../../dashboard.php");
                 exit();
             }
         } else {
-            // Contraseña incorrecta, redirige al inicio de sesión con mensaje de error
-            header("Location: ../../../index.html?error=Contraseña incorrecta");
+            $error_message = "Credenciales no válidas";
+            header("Location: ../../../index.php?error=".urlencode($error_message));
             exit();
         }
+    } else {
+        $error_message = "Credenciales no válidas";
+        header("Location: ../../../index.php?error=".urlencode($error_message));
+        exit();
     }
 
     $query_comprobacion_userweb->close();
 } else {
-    header("Location: ../../../index.html");
+    header("Location: ../../../index.php");
     exit();
 }
 

@@ -1,5 +1,19 @@
 <?php
 include('scripts/php/seguridad/seguridad.php');
+include('scripts/php/seguridad/conexion.php');
+include('scripts/php/login/datosTrabajadorLogin.php');
+
+// Uso de la función para obtener los datos del empleado
+$datosEmpleado = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
+
+// Acceder a los elementos del array
+$dni = $datosEmpleado['dni'];
+$nombre = $datosEmpleado['nombre'];
+$apellido1 = $datosEmpleado['apellido1'];
+$apellido2 = $datosEmpleado['apellido2'];
+$categoria = $datosEmpleado['categoria'];
+$departamento = $datosEmpleado['departamento'];
+$lastlogin = $datosEmpleado['lastlogin'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -10,7 +24,7 @@ include('scripts/php/seguridad/seguridad.php');
   <meta name="theme-color" content="#695CFE" />
   <link href="./css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="icon" href="img/logo-alt.png">
+  <link rel="icon" href="img/cuandoLibro-logo.png">
   <title>CL | Dashboard</title>
 </head>
 
@@ -92,21 +106,19 @@ include('scripts/php/seguridad/seguridad.php');
   </nav>
   <section class="homeTitle" id="dashboard">
     <div class="text">Dashboard</div>
-    <div class="estadisticas">
+    <div class="card">
       <!-- Incluir la imagen del usuario -->
       <div class="user-img">
-        <img alt="userImage">
+        <img alt="userImage" src="img/imagen-prueba.jpg">
       </div>
-      <h3>Bienvenido de nuevo Sergio</h3>
+      <h3>Bienvenido de nuevo <?php echo $nombre ?></h3>
       <table>
         <ul>
-          <li>Departamento: Ingieneria</li>
-          <li>Categoria: Desarrolador Junior</li>
+          <li>Departamento: <?php echo $departamento ?></li>
+          <li>Categoria: <?php echo $categoria ?></li>
+          <li>Última conexión: <?php echo $lastlogin ?></li>
         </ul>
       </table>
-      <span>Última conexión: 12/11/2023 23:27</span>
-      <div class="edit-userweb">
-      <i class='bx bx-edit'></i>
       </div>
     </div>
   </section>

@@ -425,8 +425,8 @@ body.dark .datos:hover td {
     margin-top: 10px;
 }
 
-  .subtabla th,
-  .subtabla td {
+.subtabla th,
+.subtabla td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -436,6 +436,40 @@ body.dark .datos:hover td {
     background-color: #f2f2f2;
 }
 
-  .datos:hover .subtabla {
+.datos:hover .subtabla {
     display: table;
+}
+
+.homeTitle .card{
+    background-color: var(--sidebar-color);
+    box-shadow: var(--box-shadow);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    height: px;
+    width: 400px;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    margin-top: 35px;
+    flex-direction: column;
+}
+
+.user-img img{
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+}
+
+.card { text-align: justify;}
+.card h3{
+    font-size: 20px;
+}
+.card ul{
+    list-style: none;
+}
+
+.card:hover{
+    box-shadow: none;
+    transition: var(--tran-04);
 }

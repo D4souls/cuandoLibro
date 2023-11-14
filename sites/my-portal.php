@@ -1,30 +1,19 @@
 <?php
 include('../scripts/php/seguridad/seguridad.php');
 include('../scripts/php/seguridad/conexion.php');
-$dniUsuarioWeb = $conexion->real_escape_string($_SESSION["userwebdni"]);
+include('../scripts/php/login/datosTrabajadorLogin.php');
 
-$var_consulta = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e INNER JOIN categorias c ON c.id_categoria = e.n_categoria INNER JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE e.dni = '$dniUsuarioWeb'";
-$var_resultado = $conexion->query($var_consulta);
+// Uso de la función para obtener los datos del empleado
+$datosEmpleado = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
 
-if (!$var_resultado) {
-    die("Error en la consulta: " . $conexion->error);
-}
-
-if ($var_resultado->num_rows > 0) {
-    $row = $var_resultado->fetch_assoc();
-
-    $dni = $row['dni'];
-    $nombre = $row['nombre'];
-    $apellido1 = $row['apellido1'];
-    $apellido2 = $row['apellido2'];
-    $nombreCategoria = $row['nombreCategoria'];
-    $nombreDepartamento = $row['nombreDepartamento'];
-} else {
-    echo "No se encontraron resultados para el usuario con DNI: $dniUsuarioWeb";
-}
-
-$var_resultado->close();
-$conexion->close();
+// Acceder a los elementos del array
+$dni = $datosEmpleado['dni'];
+$nombre = $datosEmpleado['nombre'];
+$apellido1 = $datosEmpleado['apellido1'];
+$apellido2 = $datosEmpleado['apellido2'];
+$categoria = $datosEmpleado['categoria'];
+$departamento = $datosEmpleado['departamento'];
+$lastlogin = $datosEmpleado['lastlogin'];
 ?>
 
 
@@ -115,29 +104,21 @@ $conexion->close();
     </nav>
     <section class="homeTitle" id="dashboard">
         <div class="text">Dashboard</div>
-        <div class="stadisticas">
-            <!-- Incluir la imagen del usuario -->
-            <div class="user-img">
-                <img alt="userImage">
-            </div>
-            <h3>Bienvenido de nuevo
-                <?php echo $nombre . " " . $apellido1 . " " . $apellido2 ?>
-            </h3>
-            <table>
-                <ul>
-                    <li>Departamento:
-                        <?php echo $nombreDepartamento ?>
-                    </li>
-                    <li>Categoria:
-                        <?php echo $nombreCategoria ?>
-                    </li>
-                </ul>
-            </table>
-            <span>Última conexión: <?php echo $timestamp ?></span>
-            <div class="edit-userweb">
-                <i class='bx bx-edit'></i>
-            </div>
-        </div>
+        <div class="card">
+      <!-- Incluir la imagen del usuario -->
+      <div class="user-img">
+        <img alt="userImage" src="../img/imagen-prueba.jpg">
+      </div>
+      <h3>Bienvenido de nuevo <?php echo $nombre ?></h3>
+      <table>
+        <ul>
+          <li>Departamento: <?php echo $departamento ?></li>
+          <li>Categoria: <?php echo $categoria ?></li>
+          <li>Última conexión: <?php echo $lastlogin ?></li>
+        </ul>
+      </table>
+      </div>
+    </div>
     </section>
     <script src="../scripts/js/dashboard.js"></script>
 </body>

@@ -104,7 +104,7 @@ include('../scripts/php/seguridad/seguridad.php');
             $var_resultado = $conexion->query($var_consulta);
             echo '<button class="nav-text"><a href="../scripts/php/schedule/scheduleAdd.php"><i class="bx bx-user-plus"></i>Crear turnos</a></button>';
             if ($var_resultado->num_rows > 0) {
-                echo '<h3>Hay ' . $var_resultado->num_rows . ' departamentos en la base de datos</h3>';
+                echo '<h3>Hay ' . $var_resultado->num_rows . ' turnos en la base de datos</h3>';
                 echo '<table class="tabla-datos">';
                 echo '<tr>';
                 echo '<th>Departamento</th>';
