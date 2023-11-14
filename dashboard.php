@@ -92,7 +92,7 @@ include('scripts/php/seguridad/seguridad.php');
   </nav>
   <section class="homeTitle" id="dashboard">
     <div class="text">Dashboard</div>
-    <div class="stadisticas">
+    <div class="estadisticas">
       <!-- Incluir la imagen del usuario -->
       <div class="user-img">
         <img alt="userImage">

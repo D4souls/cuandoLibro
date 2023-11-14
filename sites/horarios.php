@@ -96,7 +96,11 @@ include('../scripts/php/seguridad/seguridad.php');
         <div class="contenedor-tabla">
             <?php
             include('../scripts/php/seguridad/conexion.php');
-            $var_consulta = "SELECT * FROM turnos_publicados";
+            // $var_consulta = "SELECT * FROM turnos_publicados";
+            $var_consulta = "SELECT tp.id_turnoP AS 'idturnoP', d.nombre AS 'nombreDepartamento', c.nombre AS 'nombreCat', tp.fecha AS 'fecha', tp.hora_fichaje_entrada AS 'hfe', tp.hora_fichaje_salida AS 'hfs', tp.dni AS 'dni', t.nombre AS 'nombreTurno' FROM turnos_publicados tp
+            INNER JOIN departamentos d ON tp.departamento = d.id_departamento
+            INNER JOIN categorias c ON c.id_categoria = tp.categoria
+            INNER JOIN turnos t ON t.id_turno = tp.id_turno;";
             $var_resultado = $conexion->query($var_consulta);
             echo '<button class="nav-text"><a href="../scripts/php/schedule/scheduleAdd.php"><i class="bx bx-user-plus"></i>Crear turnos</a></button>';
             if ($var_resultado->num_rows > 0) {
@@ -111,13 +115,13 @@ include('../scripts/php/seguridad/seguridad.php');
                 echo '</tr>';
 
                 while ($var_fila = $var_resultado->fetch_array()) {
-                    echo "<tr class='datos' id='idTurnoPublicado_{$var_fila["id_turnoP"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_turnoP={$var_fila["id_turnoP"]}'\">";
+                    echo "<tr class='datos' id='idTurnoPublicado_{$var_fila["idturnoP"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_turnoP={$var_fila["idturnoP"]}'\">";
                     // Celdas de la fila
-                    echo ("<td>{$var_fila["departamento"]}</td>");
-                    echo ("<td>{$var_fila["categoria"]}</td>");
+                    echo ("<td>{$var_fila["nombreDepartamento"]}</td>");
+                    echo ("<td>{$var_fila["nombreCat"]}</td>");
                     echo ("<td>{$var_fila["fecha"]}</td>");
                     echo ("<td>{$var_fila["dni"]}</td>");
-                    echo ("<td>{$var_fila["id_turno"]}</td>");
+                    echo ("<td>{$var_fila["nombreTurno"]}</td>");
                     echo '</tr>';
                 }
                 echo '</table>';
