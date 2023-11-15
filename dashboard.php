@@ -111,15 +111,23 @@ $lastlogin = $datosEmpleado['lastlogin'];
       <div class="user-img">
         <img alt="userImage" src="img/imagen-prueba.jpg">
       </div>
-      <h3>Bienvenido de nuevo <?php echo $nombre ?></h3>
+      <h3>Bienvenido de nuevo
+        <?php echo $nombre ?>
+      </h3>
       <table>
         <ul>
-          <li>Departamento: <?php echo $departamento ?></li>
-          <li>Categoria: <?php echo $categoria ?></li>
-          <li>Última conexión: <?php echo $lastlogin ?></li>
+          <li>Departamento:
+            <?php echo $departamento ?>
+          </li>
+          <li>Categoria:
+            <?php echo $categoria ?>
+          </li>
+          <li>Última conexión:
+            <?php echo $lastlogin ?>
+          </li>
         </ul>
       </table>
-      </div>
+    </div>
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>

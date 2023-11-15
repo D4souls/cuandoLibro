@@ -17,10 +17,12 @@ if ($conexion->connect_error){
             $resultado = $conexion->prepare($query);
             $resultado->bind_param("iisi", $categoria, $departamento, $fecha, $horario);
             $resultado->execute();
-            print"[+] Se ha hecho bien";
             $contador++;
         }
+        echo "<h2>Turnos publicados correctamente!</h2>\n<a href='../../../sites/horarios.php'>Volver atrás</a>";
         $conexion->close();
+    } else {
+        echo "[!] DATOS NO ENVIADOS CORRECTAMENTE";
     }
 }
 ?>

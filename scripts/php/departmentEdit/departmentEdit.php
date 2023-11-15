@@ -79,4 +79,4 @@ if ($resultado_departamentos->num_rows > 0) {
 $conexion->close();
 ?>
 
-<a href="../../../sites/departamentos.php">Volver atrás</a>
+<a href="../../../sites/departamentos.php">Volver atrás</a>ª

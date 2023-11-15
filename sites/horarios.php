@@ -115,7 +115,7 @@ include('../scripts/php/seguridad/seguridad.php');
                 echo '</tr>';
 
                 while ($var_fila = $var_resultado->fetch_array()) {
-                    echo "<tr class='datos' id='idTurnoPublicado_{$var_fila["idturnoP"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_turnoP={$var_fila["idturnoP"]}'\">";
+                    echo "<tr class='datos' id='idTurnoPublicado_{$var_fila["idturnoP"]}' onclick=\"window.location.href='../scripts/php/schedule/scheduleEdit.php?id_turnoP={$var_fila["idturnoP"]}'\">";
                     // Celdas de la fila
                     echo ("<td>{$var_fila["nombreDepartamento"]}</td>");
                     echo ("<td>{$var_fila["nombreCat"]}</td>");
