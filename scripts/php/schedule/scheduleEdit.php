@@ -24,7 +24,7 @@
             <select name="dni">
                 <option>-Selecciona un empleado-</option>
                 <?php
-                $empleados = "SELECT dni, nombre FROM empleados WHERE n_categoria = '{$datos['categoria']}'";
+                $empleados = "SELECT dni, nombre FROM empleados WHERE n_categoria = '{$datos['categoria']}' AND n_departamento = '{$datos['departamento']}'";
                 $query = mysqli_query($conexion, $empleados);
                 if ($query) {
                     while ($row = mysqli_fetch_assoc($query)) {
@@ -40,6 +40,7 @@
             <button>Guardar cambios</button>
             <button onclick="deleteSchedule()" type="button">Eliminar turno</button>
         </form>
+        <a href="../../../sites/horarios.php">Volver atrás</a>
         <?php
     } else {
         echo "No se encontraron datos para el departamento con ID: $id\n<a href='../../../sites/horarios.php'>Volver atrás</a>";
