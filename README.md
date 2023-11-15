@@ -14,25 +14,25 @@ Departamentos:<br>
 ❌ Estadísitcas de los departamentos.<br><br>
 
 Categorias:<br>
-✔️ Ver categorias por departamentos
+✔️ Ver categorias por departamentos<br>
 ✔️ Crear, editar y eliminarlas<br><br>
 
-Turnos:
-✔️ Crear turnos
-✔️ Eliminar turnos
-✔️ Asignar turnos
+Turnos:<br>
+✔️ Crear turnos<br>
+✔️ Eliminar turnos<br>
+✔️ Asignar turnos<br><br>
 
 Horarios:<br>
 ❌ Crear horarios.<br>
 ❌ Modificar horarios.<br><br>
 
 Avisos:<br>
-❌ Ver avisos según el nombre del trabajador
-❌ Ver avisos según turnos
-❌ Ver avisos según departamentos
+❌ Ver avisos según el nombre del trabajador<br>
+❌ Ver avisos según turnos<br>
+❌ Ver avisos según departamentos<br>
 
 Nóminas:<br>
 ❌ Generar nóminas.<br>
 
 Página de login:<br>
-✔️ Creada y funcional
+✔️ Creada y funcional<br>
