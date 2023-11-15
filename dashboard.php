@@ -2,18 +2,7 @@
 include('scripts/php/seguridad/seguridad.php');
 include('scripts/php/seguridad/conexion.php');
 include('scripts/php/login/datosTrabajadorLogin.php');
-
-// Uso de la función para obtener los datos del empleado
-$datosEmpleado = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
-
-// Acceder a los elementos del array
-$dni = $datosEmpleado['dni'];
-$nombre = $datosEmpleado['nombre'];
-$apellido1 = $datosEmpleado['apellido1'];
-$apellido2 = $datosEmpleado['apellido2'];
-$categoria = $datosEmpleado['categoria'];
-$departamento = $datosEmpleado['departamento'];
-$lastlogin = $datosEmpleado['lastlogin'];
+$datosLogin = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -112,22 +101,21 @@ $lastlogin = $datosEmpleado['lastlogin'];
         <img alt="userImage" src="img/imagen-prueba.jpg">
       </div>
       <h3>Bienvenido de nuevo
-        <?php echo $nombre ?>
+        <?php echo $datosLogin["nombre"] ?>
       </h3>
       <table>
         <ul>
           <li>Departamento:
-            <?php echo $departamento ?>
+            <?php echo $datosLogin["nombreDep"] ?>
           </li>
           <li>Categoria:
-            <?php echo $categoria ?>
+            <?php echo $datosLogin["nombreCat"]?>
           </li>
           <li>Última conexión:
-            <?php echo $lastlogin ?>
+            <?php echo $datosLogin["lastlogout"] ?>
           </li>
         </ul>
       </table>
-    </div>
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>

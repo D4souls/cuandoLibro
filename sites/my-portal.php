@@ -4,22 +4,10 @@ include('../scripts/php/seguridad/conexion.php');
 include('../scripts/php/login/datosTrabajadorLogin.php');
 include('../scripts/php/login/datosTurnos.php');
 
-// Uso de la función para obtener los datos del empleado
-$datosEmpleado = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
-
-// Acceder a los elementos del array
-$dni = $datosEmpleado['dni'];
-$nombre = $datosEmpleado['nombre'];
-$apellido1 = $datosEmpleado['apellido1'];
-$apellido2 = $datosEmpleado['apellido2'];
-$categoria = $datosEmpleado['categoria'];
-$departamento = $datosEmpleado['departamento'];
-$lastlogin = $datosEmpleado['lastlogin'];
-
-$nextschedule = proximosTrunos($conexion, $_SESSION["userwebdni"]);
-$primerTurno = $nextschedule[0];
-$fecha = date("d/m/Y", strtotime($primerTurno['fecha']));
-$nombreT = $nextschedule[1];
+$userLogin = $_SESSION["userwebdni"];
+$datosUserLogin = obtenerDatosEmpleado($conexion, $userLogin);
+$datosHorarios = obtenerHorarios($conexion, $userLogin);
+$result = array_merge($datosUserLogin, $datosHorarios);
 ?>
 
 
@@ -110,41 +98,41 @@ $nombreT = $nextschedule[1];
     </nav>
     <section class="homeTitle" id="dashboard">
         <div class="text">Dashboard</div>
-            <div class="card">
-                <!-- Incluir la imagen del usuario -->
-                <div class="user-img">
-                    <img alt="userImage" src="../img/imagen-prueba.jpg">
-                </div>
-                <h3>Bienvenido de nuevo
-                    <?php echo $nombre ?>
-                </h3>
-                <table>
-                    <ul>
-                        <li>Departamento:
-                            <?php echo $departamento ?>
-                        </li>
-                        <li>Categoria:
-                            <?php echo $categoria ?>
-                        </li>
-                        <li>Última conexión:
-                            <?php echo $lastlogin ?>
-                        </li>
-                    </ul>
-                </table>
+        <div class="card">
+            <!-- Incluir la imagen del usuario -->
+            <div class="user-img">
+                <img alt="userImage" src="../img/imagen-prueba.jpg">
             </div>
-            <div class="card">
-                <h3>Tus próximos horarios</h3>
-                <table>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Turno</th>
-                    </tr>
-                    <tr>
-                        <td><?php echo $fecha?></td>
-                        <td><?php echo $nombreT['nombre']?></td>
-                    </tr>
-                </table>
-            </div>
+            <h3>Bienvenido de nuevo
+                <?php echo $result["nombre"] ?>
+            </h3>
+            <table>
+                <ul>
+                    <li>Departamento:
+                        <?php echo $result["nombreDep"] ?>
+                    </li>
+                    <li>Categoria:
+                        <?php echo $result["nombreCat"] ?>
+                    </li>
+                    <li>Última conexión:
+                        <?php echo $result["lastlogout"] ?>
+                    </li>
+                </ul>
+            </table>
+        </div>
+        <div class="card">
+            <h3>Tus próximos horarios</h3>
+            <table>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Turno</th>
+                </tr>
+                <tr>
+                    <td><?php echo $result['fechaTurno']?></td>
+                    <td><?php echo $result['turno']?></td>
+                </tr>
+            </table>
+        </div>
         </div>
     </section>
     <script src="../scripts/js/dashboard.js"></script>

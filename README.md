@@ -15,7 +15,12 @@ Departamentos:<br>
 
 Categorias:<br>
 ✔️ Ver categorias por departamentos
-✔️ Crear, editar y eliminarlas
+✔️ Crear, editar y eliminarlas<br><br>
+
+Turnos:
+✔️ Crear turnos
+✔️ Eliminar turnos
+✔️ Asignar turnos
 
 Horarios:<br>
 ❌ Crear horarios.<br>
