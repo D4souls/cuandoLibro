@@ -95,7 +95,13 @@ form button:hover{
     transition: var(--tran-04);
 }
 
-form a:hover{
+form a {
+    text-decoration: none;
     color: var(--primary-color);
-    transition: var(--tran-04);
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+form a:hover {
+    color: var(--accent-color);
 }

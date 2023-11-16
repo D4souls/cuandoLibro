@@ -1,8 +1,7 @@
 <?php
 // include("../seguridad/conexion.php");
 
-function obtenerDatosEmpleado($conexion, $dniWeb)
-{
+function obtenerDatosEmpleado($conexion, $dniWeb){
     $array = array(
         "dni" => "",
         "nombre" => "",

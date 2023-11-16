@@ -1,5 +1,7 @@
 <?php
 include('../scripts/php/seguridad/seguridad.php');
+include("../scripts/php/seguridad/conexion.php");
+include('../scripts/php/workers/getDataWorkers.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -94,40 +96,8 @@ include('../scripts/php/seguridad/seguridad.php');
     <section class="homeTitle" id="trabajadores">
         <div class="text">Turnos publicados</div>
         <div class="contenedor-tabla">
-            <?php
-            include('../scripts/php/seguridad/conexion.php');
-            // $var_consulta = "SELECT * FROM turnos_publicados";
-            $var_consulta = "SELECT tp.id_turnoP AS 'idturnoP', d.nombre AS 'nombreDepartamento', c.nombre AS 'nombreCat', tp.fecha AS 'fecha', tp.hora_fichaje_entrada AS 'hfe', tp.hora_fichaje_salida AS 'hfs', tp.dni AS 'dni', t.nombre AS 'nombreTurno' FROM turnos_publicados tp
-            INNER JOIN departamentos d ON tp.departamento = d.id_departamento
-            INNER JOIN categorias c ON c.id_categoria = tp.categoria
-            INNER JOIN turnos t ON t.id_turno = tp.id_turno;";
-            $var_resultado = $conexion->query($var_consulta);
-            echo '<button class="nav-text"><a href="../scripts/php/schedule/scheduleAdd.php"><i class="bx bx-user-plus"></i>Crear turnos</a></button>';
-            if ($var_resultado->num_rows > 0) {
-                echo '<h3>Hay ' . $var_resultado->num_rows . ' turnos en la base de datos</h3>';
-                echo '<table class="tabla-datos">';
-                echo '<tr>';
-                echo '<th>Departamento</th>';
-                echo '<th>Categoria</th>';
-                echo '<th>Fecha</th>';
-                echo '<th>Trabajador</th>';
-                echo '<th>Turno</th>';
-                echo '</tr>';
-
-                while ($var_fila = $var_resultado->fetch_array()) {
-                    echo "<tr class='datos' id='idTurnoPublicado_{$var_fila["idturnoP"]}' onclick=\"window.location.href='../scripts/php/schedule/scheduleEdit.php?id_turnoP={$var_fila["idturnoP"]}'\">";
-                    // Celdas de la fila
-                    echo ("<td>{$var_fila["nombreDepartamento"]}</td>");
-                    echo ("<td>{$var_fila["nombreCat"]}</td>");
-                    echo ("<td>{$var_fila["fecha"]}</td>");
-                    echo ("<td>{$var_fila["dni"]}</td>");
-                    echo ("<td>{$var_fila["nombreTurno"]}</td>");
-                    echo '</tr>';
-                }
-                echo '</table>';
-            }
-            ?>
-
+            <button class='nav-text'><a href='../scripts/php/schedule/scheduleAdd.php'><i class='bx bx-user-plus'></i>Crear turnos</a></button>
+            <?php echo $data = getSchedule($conexion) ?>
         </div>
     </section>
     </section>

@@ -1,5 +1,7 @@
 <?php
 include('../scripts/php/seguridad/seguridad.php');
+include("../scripts/php/seguridad/conexion.php");
+include('../scripts/php/workers/getDataWorkers.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -94,45 +96,10 @@ include('../scripts/php/seguridad/seguridad.php');
   <section class="homeTitle" id="trabajadores">
     <div class="text">Trabajadores</div>
     <div class="contenedor-tabla">
-      <?php
-      include("../scripts/php/seguridad/conexion.php");
-      $var_consulta = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e INNER JOIN categorias c ON c.id_categoria = e.n_categoria INNER JOIN departamentos d ON d.id_departamento = e.n_departamento";
-      $var_resultado = $conexion->query($var_consulta);
-      echo '<button class="nav-text"><a href="alta-trabajador.php"><i class="bx bx-user-plus"></i>Agregar empleado</a></button>';
-      if ($var_resultado->num_rows > 0) {
-        echo '<h3>Hay ' . $var_resultado->num_rows . ' trabajadores en la base de datos</h3>';
-        echo '<table class="tabla-datos">';
-        echo '<tr>';
-        echo '<th>DNI</th>';
-        echo '<th>Nombre</th>';
-        echo '<th>Apellido</th>';
-        echo '<th>Apellido 2</th>';
-        echo '<th>Categoria</th>';
-        echo '<th>Departamento</th>';
-        echo '</tr>';
-
-        while ($var_fila = $var_resultado->fetch_array()) {
-          echo "<tr class='datos' id='empleado_{$var_fila["dni"]}' onclick=\"window.location.href='../scripts/php/userEdit/userEdit.php?dni={$var_fila["dni"]}'\">";
-
-          // Ocultar DNI
-          $dni_oculto = str_repeat("*", 4) . substr($var_fila["dni"], 4);
-
-          // Celdas de la fila
-          echo ("<td>{$dni_oculto}</td>");
-          echo ("<td>{$var_fila["nombre"]}</td>");
-          echo ("<td>{$var_fila["apellido1"]}</td>");
-          echo ("<td>{$var_fila["apellido2"]}</td>");
-          echo ("<td>{$var_fila["nombreCategoria"]}</td>");
-          echo ("<td>{$var_fila["nombreDepartamento"]}</td>");
-
-          echo '</tr>';
-        }
-      }
-      ?>
-
+      <button class="nav-text"><a href="alta-trabajador.php"><i class="bx bx-user-plus"></i>Agregar empleado</a></button>
+      <?php echo $data = getDataWorkers($conexion) ?>
     </div>
   </section>
-
   <script src="../scripts/js/dashboard.js"></script>
 </body>
 

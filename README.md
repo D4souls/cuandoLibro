@@ -29,10 +29,10 @@ Horarios:<br>
 Avisos:<br>
 ❌ Ver avisos según el nombre del trabajador<br>
 ❌ Ver avisos según turnos<br>
-❌ Ver avisos según departamentos<br>
+❌ Ver avisos según departamentos<br><br>
 
 Nóminas:<br>
-❌ Generar nóminas.<br>
+❌ Generar nóminas.<br><br>
 
 Página de login:<br>
 ✔️ Creada y funcional<br>

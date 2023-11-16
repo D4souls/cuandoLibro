@@ -1,5 +1,7 @@
 <?php
 include('../scripts/php/seguridad/conexion.php');
+include("../scripts/php/seguridad/conexion.php");
+include('../scripts/php/workers/getDataWorkers.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -94,32 +96,8 @@ include('../scripts/php/seguridad/conexion.php');
   <section class="homeTitle" id="department">
     <div class="text">Departamentos</div>
     <div class="contenedor-tabla">
-      <?php
-      include('../scripts/php/seguridad/conexion.php');
-      $var_consulta = "SELECT * FROM departamentos";
-      $var_resultado = $conexion->query($var_consulta);
-      echo '<button class="nav-text"><a href="#departmentAdd"><i class="bx bx-user-plus"></i>Nuevo departamento</a></button>';
-      if ($var_resultado->num_rows > 0) {
-        echo '<h3>Hay ' . $var_resultado->num_rows . ' departamentos en la base de datos</h3>';
-        echo '<table class="tabla-datos">';
-        echo '<tr>';
-        echo '<th>ID</th>';
-        echo '<th>Nombre</th>';
-        echo '<th>Presupuesto</th>';
-        echo '</tr>';
-
-        while ($var_fila = $var_resultado->fetch_array()) {
-          echo "<tr class='datos' id='departamento_{$var_fila["id_departamento"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento={$var_fila["id_departamento"]}'\">";
-          // Celdas de la fila
-          echo ("<td>{$var_fila["id_departamento"]}</td>");
-          echo ("<td>{$var_fila["nombre"]}</td>");
-          echo ("<td>{$var_fila["presupuesto"]}€</td>");
-          echo '</tr>';
-        }
-        echo '</table>';
-      }
-      ?>
-
+      <button class="nav-text"><a href="#departmentAdd"><i class="bx bx-user-plus"></i>Nuevo departamento</a></button>
+      <?php echo $data = getDataDeraptment($conexion) ?>
     </div>
   </section>
 
@@ -149,12 +127,11 @@ include('../scripts/php/seguridad/conexion.php');
 
       if ($resultado_departamentos->num_rows > 0) {
         $datos_departamentos = mysqli_fetch_assoc($resultado_departamentos);
-        ?>
+      ?>
 
         <form action="departmentSave.php" method="get">
           <label for="id_departamento">ID</label>
-          <input type="text" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>"
-            readonly>
+          <input type="text" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>" readonly>
 
           <label for="nombre">Nombre:</label>
           <input type="text" name="nombre" value="<?php echo $datos_departamentos['nombre']; ?>">
@@ -171,7 +148,7 @@ include('../scripts/php/seguridad/conexion.php');
           <button type="submit">Eliminar Departamento</button>
         </form>
 
-        <?php
+      <?php
       } else {
         echo "No se encontraron datos para el departamento con ID: $id";
       }
