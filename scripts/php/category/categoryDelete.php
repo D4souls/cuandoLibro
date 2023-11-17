@@ -1,8 +1,8 @@
 <?php
 include("../seguridad/conexion.php");
 
-$categoria_id = $_POST["id_categoria"];
-$departamento_id = $_POST["id_departamento"];
+$departamento_id = $_GET["id_departamento"];
+$categoria_id = $_GET["id_categoria"];
 
 $query_delete = "DELETE FROM categorias WHERE id_categoria = " . "'" . $categoria_id . "'";
 
@@ -11,5 +11,5 @@ $stm->execute();
 $stm->close();
 
 echo "<h3>[-] Categoria eliminada correctamente</h3>";
-echo "<a href='../departmentEdit/departmentEdit.php?id_departamento=$departamento_id'>Volver atrás</a>";
+echo "<a href='../../../sites/categorias.php?id_departamento=$departamento_id'>Volver atrás</a>";
 ?>

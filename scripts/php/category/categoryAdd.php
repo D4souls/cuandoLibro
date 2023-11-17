@@ -8,7 +8,7 @@ if ($conexion->connect_error) {
         $nombre = $_POST["nombre"];
         $sueldo_normal = $_POST["sueldo_normal"];
         $sueldo_plus = $_POST["sueldo_plus"];
-        $departamento_id = $_POST["id"];
+        $departamento_id = $_POST["n_departamento"];
 
         $query_category = "SELECT nombre FROM categorias WHERE nombre = ? AND id_departamento = ?";
         $resultado_comprobacion = $conexion->prepare($query_category);
@@ -16,14 +16,16 @@ if ($conexion->connect_error) {
         $resultado_comprobacion->execute();
 
         if ($resultado_comprobacion->fetch()) {
-            print("<h3>[!] Error: Ya hay una categoria igual</h3>\n<a href='../departmentEdit/departmentEdit.php?id_departamento=$departamento_id'>Cerrar ventana</a>");
+            print("<h3>[!] Error: Ya hay una categoria igual</h3>\n");
+            print("<a href='../../../sites/categorias.php?id_departamento=$departamento_id#categoryAdd'>Cerrar ventana</a>");
         } else {
             $query_insert = "INSERT INTO categorias (id_departamento, nombre, sueldo_normal, sueldo_plus) VALUES (?, ?, ?, ?)";
             $resultado_insert = $conexion->prepare($query_insert);
             $resultado_insert->bind_param("isii", $departamento_id, $nombre, $sueldo_normal, $sueldo_plus);
 
             if ($resultado_insert->execute()) {
-                echo "<h3>[+] Categoría creada correctamente!</h3>\n<a href='../departmentEdit/departmentEdit.php?id_departamento=$departamento_id'>Cerrar ventana</a>";
+                echo "<h3>[+] Categoría creada correctamente!</h3>\n";
+                echo "<a href='../../../sites/categorias.php?id_departamento=$departamento_id'>Cerrar ventana</a>";
                 exit();
             }
         }

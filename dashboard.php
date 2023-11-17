@@ -109,7 +109,7 @@ $datosLogin = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
             <?php echo $datosLogin["nombreDep"] ?>
           </li>
           <li>Categoria:
-            <?php echo $datosLogin["nombreCat"]?>
+            <?php echo $datosLogin["nombreCat"] ?>
           </li>
           <li>Última conexión:
             <?php echo $datosLogin["lastlogout"] ?>

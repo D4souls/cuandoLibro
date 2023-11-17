@@ -516,7 +516,16 @@ body.dark .card h3{
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 6px;
+    transition: transform var(--tran-04);
 }
+
+.addButton:hover,
+.deleteButton:hover,
+.saveButton:hover {
+    transition: var(--tran-04);
+    transform: scale(1.1);
+}
+
 
 body.dark .saveButton{
     color: var(--toggle-color);
@@ -524,10 +533,21 @@ body.dark .saveButton{
 
 body.dark .saveButton:hover{ background-color: var(--primary-color);}
 
-.deleteButton {
+.addButton {
     color: var(--primary-color-light);
     border: none;
     background: var(--text-color);
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--tran-04);
+    font-size: 18px;
+}
+
+.deleteButton {
+    color: var(--primary-color-light);
+    border: none;
+    background: var(--toggle-color);
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 6px;
@@ -579,9 +599,20 @@ body.dark .form a{
     color: var(--toggle-color);
 }
 
-.form a:hover{
+
+#category.homeTitle a {
+    text-decoration: none;
     color: var(--primary-color);
-    transition: var(--tran-04);
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+#category.homeTitle a:hover {
+    color: var(--accent-color);
+}
+
+body.dark #category.homeTitle a{
+    color: var(--toggle-color);
 }
 
 .form label {
@@ -607,9 +638,6 @@ body.dark .form a{
     color: rgba(37, 37, 37, 0.5);
 }
 
-.form a:hover {
-    color: var(--accent-color);
-}
 
 body.dark .form label,
 body.dark .form label input{

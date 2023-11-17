@@ -12,7 +12,7 @@ include("../seguridad/conexion.php");
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="icon" href="../../../img/logo-alt.png">
-    <title>CL | Editando departamentos</title>
+    <title>CL | Editando categorías</title>
 </head>
 
 <body>
@@ -93,61 +93,62 @@ include("../seguridad/conexion.php");
     </nav>
 
     <section class="homeTitle" id="department">
-        <div class="contenedor-formulario">
+    <div class="contenedor-formulario">
             <?php
             include("../seguridad/conexion.php");
-            $id = isset($_GET['id_departamento']) ? $_GET['id_departamento'] : null;
+            $id_categoria = isset($_GET['id_categoria']) ? $_GET['id_categoria'] : null;
+            $id_departamento = isset($_GET['id_departamento']) ? $_GET['id_departamento'] : null;
+            $nombre_departamento = isset($_GET['nombre_departamento']) ? $_GET['nombre_departamento'] : null;
 
-            $query_departamentos = "SELECT * FROM departamentos WHERE id_departamento = '$id'";
+            $query_departamentos = "SELECT * FROM categorias WHERE id_categoria = '$id_categoria'";
             $resultado_departamentos = mysqli_query($conexion, $query_departamentos);
 
             if ($resultado_departamentos->num_rows > 0) {
                 $datos_departamentos = mysqli_fetch_assoc($resultado_departamentos);
             ?>
 
-                <form action="departmentSave.php" method="get" class="form" id="scheduleForm">
-                    <h2 class="text">Editar departamento</h2>
-                    <label for="id_departamento">ID:
-                        <input type="text" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>" readonly>
+                <form action="categorySave.php" method="get" class="form" id="scheduleForm">
+                <h2 class="text">Editar categoria</h2>
+                <input type="hidden" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>">
+                    <label for="id_categoria">ID:
+                        <input type="text" name="id_categoria" value="<?php echo $datos_departamentos['id_categoria']; ?>" readonly>
                     </label>
 
                     <label for="nombre">Nombre:
                         <input type="text" name="nombre" value="<?php echo $datos_departamentos['nombre']; ?>">
                     </label>
+                    
 
-
-                    <label for="presupuesto">Presupuesto:
-                        <input type="text" name="presupuesto" value="<?php echo $datos_departamentos['presupuesto'] . "€"; ?>">
+                    <label for="sueldo_normal">Sueldo base:
+                        <input type="text" name="sueldo_normal" value="<?php echo $datos_departamentos['sueldo_normal'] . "€"; ?>">
                     </label>
+                    <label for="sueldo_plus">Sueldo plus:
+                        <input type="text" name="sueldo_plus" value="<?php echo $datos_departamentos['sueldo_plus'] . "€"; ?>">
+                    </label>
+                    
 
                     <button class="saveButton">Guardar Cambios</button>
-                    <button onclick="changeToCategory()" type="button" class="addButton">Ver categorías</button>
-                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar departamento</button>
-                    <a href="../../../sites/departamentos.php">Volver atrás</a>
+                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar categoría</button>
+                    <a href="../../../sites/categorias.php?id_departamento=<?php echo $id_departamento?>&nombre_departamento=<?php echo $nombre_departamento?>">Volver atrás</a>
                 </form>
             <?php
             } else {
-                echo "No se encontraron datos para el departamento con ID: $id";
+                echo "No se encontraron datos para el departamento con ID: $id_categoria";
             }
 
 
             // Cerrar la conexión
             $conexion->close();
             ?>
+
         </div>
     </section>
     <script src="../../js/dashboard.js"></script>
     <script>
         function changeActionAndSubmit() {
             var form = document.getElementById("scheduleForm");
-            form.action = "departmentDelete.php"; // Cambia la acción del formulario
-            form.submit(); // Envía el formulario
-        }
-
-        function changeToCategory() {
-            var idDepartamento = "<?php echo $id; ?>";
-            var nombreDepartamento = "<?php echo $datos_departamentos['nombre']; ?>";
-            window.location.href = "../../../sites/categorias.php?id_departamento=" + idDepartamento + "&nombre_departamento=" + encodeURIComponent(nombreDepartamento);
+            form.action = "categoryDelete.php";  // Cambia la acción del formulario
+            form.submit();  // Envía el formulario
         }
     </script>
 </body>

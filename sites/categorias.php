@@ -2,6 +2,7 @@
 include('../scripts/php/seguridad/conexion.php');
 include("../scripts/php/seguridad/conexion.php");
 include('../scripts/php/workers/getDataWorkers.php');
+$nombreDepartamento = isset($_GET['nombre_departamento']) ? urldecode($_GET['nombre_departamento']) : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -13,7 +14,7 @@ include('../scripts/php/workers/getDataWorkers.php');
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="icon" href="../img/logo-alt.png">
-  <title>CL | Departamentos</title>
+  <title>CL | Categorías</title>
 </head>
 
 <body>
@@ -59,7 +60,7 @@ include('../scripts/php/workers/getDataWorkers.php');
             </a>
           </li>
           <li class="nav-links">
-            <a href="#department">
+            <a href="departamentos.php">
               <i class="bx bx-briefcase-alt-2 icon"></i>
               <span class="text nav-text">Departamentos</span>
             </a>
@@ -93,35 +94,45 @@ include('../scripts/php/workers/getDataWorkers.php');
     </div>
   </nav>
 
-  <section class="homeTitle" id="department">
-    <div class="text">Departamentos</div>
+  <section class="homeTitle" id="category">
+    <div class="text">Categorias del departamento <?php echo $nombreDepartamento ?></div>
     <div class="contenedor-tabla">
-      <button class="nav-text"><a href="#departmentAdd"><i class="bx bx-user-plus"></i>Nuevo departamento</a></button>
-      <?php echo $data = getDataDeraptment($conexion) ?>
+      <button class="nav-text"><a href="#categoryAdd"><i class="bx bx-user-plus"></i>Nueva categoria</a></button>
+      <?php
+      $id_departamento = isset($_GET['id_departamento']) ? $_GET['id_departamento'] : null;
+      echo getDataCategory($conexion, $id_departamento, $nombreDepartamento);
+      ?>
     </div>
+    <center><a href="../scripts/php/departmentEdit/departmentEdit.php?id_departamento=<?php echo $id_departamento ?>">Volver atrás</a></center>
   </section>
 
   <!-- Secciones ocultas -->
-  <section class="homeTitle" id="departmentAdd">
+  <section class="homeTitle" id="categoryAdd">
     <div class="contenedor-formulario">
-      <form class="form" method="POST" action="../scripts/php/departmentAdd/departmentAdd.php">
-        <h2 class="text">Nuevo departamento</h2>
+      <form class="form" method="POST" action="../scripts/php/category/categoryAdd.php">
+        <h2 class="text">Nueva categoria</h2>
+        <input type="hidden" name="n_departamento" value="<?php echo $id_departamento ?>">
         <label>Nombre:
           <input type="text" placeholder="Nombre..." name="nombre">
         </label>
-        <label>Presupuesto:
-          <input type="number" placeholder="Presupuesto..." name="presupuesto">
+        <label>Sueldo base:
+          <input type="number" placeholder="Sueldo base..." name="sueldo_normal">
         </label>
+        <label>Sueldo plus:
+          <input type="number" placeholder="Sueldo plus..." name="sueldo_plus">
+        </label>
+        </select>
         <button class="saveButton">Guardar Cambios</button>
-        <a href="departamentos.php#department">Volver atrás</a>
+        <a href="categorias.php?id_departamento=<?php echo $id_departamento ?>&nombre_departamento=<?php echo $nombreDepartamento?>">Volver atrás</a>
       </form>
     </div>
   </section>
   <script src="../scripts/js/dashboard.js"></script>
   <script>
-    function verCategorias(idDepartamento) {
-      // Redirige a la página de categorías con el ID del departamento
-      window.location.href = `../scripts/php/category/categoryEdit.php?id_departamento=${idDepartamento}`;
+    function changeToCategory() {
+      var form = document.getElementById("scheduleForm");
+      form.action = "../scripts/php/categorias.php?id_departamento=<?php echo $id_departamento; ?>";
+      form.submit();
     }
   </script>
 </body>

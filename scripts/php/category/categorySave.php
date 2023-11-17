@@ -1,6 +1,6 @@
 <?php
 include("../seguridad/conexion.php");
-$departamento_id = $_POST["id_departamento"];
+$departamento_id = $_GET["id_departamento"];
 // Verifica si los parámetros necesarios están presentes en la solicitud
 $query_modificar = "UPDATE categorias SET nombre = ?, sueldo_normal = ?, sueldo_plus = ? WHERE id_categoria = ?";
     
@@ -16,7 +16,7 @@ $query_modificar = "UPDATE categorias SET nombre = ?, sueldo_normal = ?, sueldo_
         // Cierra la consulta preparada
         $stmt->close();
 
-        echo "Datos actualizados correctamente.\n<a href='../departmentEdit/departmentEdit.php?id_departamento=$departamento_id'>Volver atrás</a>";
+        echo "<center>Datos actualizados correctamente.\n<a href='../../../sites/categorias.php?id_departamento=$departamento_id'>Volver atrás</a></center>";
     } else {
         echo "Error en la preparación de la consulta.";
     }
