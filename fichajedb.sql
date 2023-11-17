@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2023 a las 15:19:46
+-- Tiempo de generación: 17-11-2023 a las 19:07:04
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `fichajedb`
 --
-CREATE DATABASE IF NOT EXISTS `fichajedb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `fichajedb`;
 
 -- --------------------------------------------------------
 
@@ -29,16 +27,12 @@ USE `fichajedb`;
 -- Estructura de tabla para la tabla `aviso`
 --
 
-CREATE TABLE IF NOT EXISTS `aviso` (
-  `id_aviso` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `aviso` (
+  `id_aviso` int(9) NOT NULL,
   `tipo` int(9) NOT NULL,
   `comentario` varchar(500) DEFAULT 'No se han proporcionado comentarios',
   `dni` varchar(9) NOT NULL,
-  `id_turnoP` int(9) NOT NULL,
-  PRIMARY KEY (`id_aviso`),
-  KEY `dni` (`dni`),
-  KEY `id_turnoP` (`id_turnoP`),
-  KEY `tipo` (`tipo`)
+  `id_turnoP` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -47,15 +41,28 @@ CREATE TABLE IF NOT EXISTS `aviso` (
 -- Estructura de tabla para la tabla `categorias`
 --
 
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `id_categoria` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `categorias` (
+  `id_categoria` int(10) NOT NULL,
   `id_departamento` int(10) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `sueldo_normal` int(9) NOT NULL,
-  `sueldo_plus` int(9) NOT NULL,
-  PRIMARY KEY (`id_categoria`),
-  KEY `id_departamento` (`id_departamento`)
+  `sueldo_plus` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id_categoria`, `id_departamento`, `nombre`, `sueldo_normal`, `sueldo_plus`) VALUES
+(23, 1, 'Desarrollador de Software Senior', 40, 50),
+(24, 1, 'Ingeniero de Sistemas', 35, 45),
+(25, 1, 'Especialista en Redes y Seguridad', 38, 48),
+(26, 2, 'Ingeniero de Pruebas Senior', 37, 47),
+(27, 2, 'Analista de Calidad de Software', 32, 42),
+(28, 2, 'Especialista en Automatización de Pruebas', 35, 45),
+(29, 3, 'Diseñador Gráfico Principal', 30, 40),
+(30, 3, 'Diseñador de Experiencia de Usuario (UX)', 33, 43),
+(31, 3, 'Ilustrador Creativo', 28, 38);
 
 -- --------------------------------------------------------
 
@@ -63,12 +70,20 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 -- Estructura de tabla para la tabla `departamentos`
 --
 
-CREATE TABLE IF NOT EXISTS `departamentos` (
-  `id_departamento` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `departamentos` (
+  `id_departamento` int(10) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `presupuesto` int(10) NOT NULL,
-  PRIMARY KEY (`id_departamento`)
+  `presupuesto` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `departamentos`
+--
+
+INSERT INTO `departamentos` (`id_departamento`, `nombre`, `presupuesto`) VALUES
+(1, 'Ingenieria', 30000),
+(2, 'Testing', 15000),
+(3, 'Diseño', 12000);
 
 -- --------------------------------------------------------
 
@@ -76,18 +91,24 @@ CREATE TABLE IF NOT EXISTS `departamentos` (
 -- Estructura de tabla para la tabla `empleados`
 --
 
-CREATE TABLE IF NOT EXISTS `empleados` (
+CREATE TABLE `empleados` (
   `dni` varchar(9) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido1` varchar(50) NOT NULL,
   `apellido2` varchar(50) DEFAULT NULL,
   `IBAN` varchar(50) NOT NULL,
   `n_categoria` int(10) DEFAULT NULL,
-  `n_departamento` int(10) DEFAULT NULL,
-  PRIMARY KEY (`dni`),
-  KEY `n_categoria` (`n_categoria`),
-  KEY `n_departamento` (`n_departamento`)
+  `n_departamento` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleados` (`dni`, `nombre`, `apellido1`, `apellido2`, `IBAN`, `n_categoria`, `n_departamento`) VALUES
+('12345678H', 'Verónica', 'Macho', 'Tojo', 'PT21687648140471431174668', 30, 3),
+('12774250G', 'Jose Antonio', 'Avila', 'Mollón', 'AD7171460497798476193923', 27, 2),
+('72210584Z', 'Sergio', 'Avila', 'Macho', 'AD8133916842406993823885', 23, 1);
 
 --
 -- Disparadores `empleados`
@@ -111,13 +132,11 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `nominas`
 --
 
-CREATE TABLE IF NOT EXISTS `nominas` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `nominas` (
+  `id` int(9) NOT NULL,
   `fecha` datetime NOT NULL,
   `dni` varchar(9) NOT NULL,
-  `total` int(9) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `dni` (`dni`)
+  `total` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -126,11 +145,18 @@ CREATE TABLE IF NOT EXISTS `nominas` (
 -- Estructura de tabla para la tabla `roles`
 --
 
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `roles` (
+  `id` int(9) NOT NULL,
+  `tipo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `tipo`) VALUES
+(1, 'user'),
+(2, 'admin');
 
 -- --------------------------------------------------------
 
@@ -138,11 +164,20 @@ CREATE TABLE IF NOT EXISTS `roles` (
 -- Estructura de tabla para la tabla `tipoaviso`
 --
 
-CREATE TABLE IF NOT EXISTS `tipoaviso` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `tipoaviso` (
+  `id` int(9) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipoaviso`
+--
+
+INSERT INTO `tipoaviso` (`id`, `nombre`) VALUES
+(1, 'Retraso'),
+(2, 'Falta injustificada'),
+(3, 'Aviso leve'),
+(4, 'Aviso grave');
 
 -- --------------------------------------------------------
 
@@ -150,14 +185,23 @@ CREATE TABLE IF NOT EXISTS `tipoaviso` (
 -- Estructura de tabla para la tabla `turnos`
 --
 
-CREATE TABLE IF NOT EXISTS `turnos` (
-  `id_turno` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `turnos` (
+  `id_turno` int(9) NOT NULL,
   `nombre` varchar(40) NOT NULL,
   `hora_salida` time NOT NULL,
   `hora_entrada` time NOT NULL,
-  `plus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id_turno`)
+  `plus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `turnos`
+--
+
+INSERT INTO `turnos` (`id_turno`, `nombre`, `hora_salida`, `hora_entrada`, `plus`) VALUES
+(1, 'Mañana', '06:00:00', '14:00:00', 0),
+(2, 'Tarde', '14:00:00', '22:00:00', 0),
+(3, 'Noche', '22:00:00', '06:00:00', 1),
+(4, 'Fin De Semana', '07:00:00', '15:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -165,21 +209,24 @@ CREATE TABLE IF NOT EXISTS `turnos` (
 -- Estructura de tabla para la tabla `turnos_publicados`
 --
 
-CREATE TABLE IF NOT EXISTS `turnos_publicados` (
-  `id_turnoP` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `turnos_publicados` (
+  `id_turnoP` int(9) NOT NULL,
   `categoria` int(9) DEFAULT NULL,
   `departamento` int(9) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `hora_fichaje_entrada` datetime DEFAULT NULL,
   `hora_fichaje_salida` datetime DEFAULT NULL,
   `dni` varchar(9) DEFAULT NULL,
-  `id_turno` int(9) NOT NULL,
-  PRIMARY KEY (`id_turnoP`),
-  KEY `dni` (`dni`),
-  KEY `id_turno` (`id_turno`),
-  KEY `fk_category` (`categoria`),
-  KEY `fk_department` (`departamento`)
+  `id_turno` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `turnos_publicados`
+--
+
+INSERT INTO `turnos_publicados` (`id_turnoP`, `categoria`, `departamento`, `fecha`, `hora_fichaje_entrada`, `hora_fichaje_salida`, `dni`, `id_turno`) VALUES
+(12, 23, 1, '2023-11-20', NULL, NULL, '72210584Z', 1),
+(14, 27, 2, '2023-11-18', NULL, NULL, '12774250G', 3);
 
 -- --------------------------------------------------------
 
@@ -187,17 +234,158 @@ CREATE TABLE IF NOT EXISTS `turnos_publicados` (
 -- Estructura de tabla para la tabla `userweb`
 --
 
-CREATE TABLE IF NOT EXISTS `userweb` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `userweb` (
+  `id` int(9) NOT NULL,
   `username` varchar(20) NOT NULL,
   `userpassword` varchar(50) NOT NULL,
   `rol` int(9) NOT NULL,
   `dniusuarioweb` varchar(9) NOT NULL,
-  `lastlogin` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `rol` (`rol`),
-  KEY `dniusuarioweb` (`dniusuarioweb`)
+  `lastlogout` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `userweb`
+--
+
+INSERT INTO `userweb` (`id`, `username`, `userpassword`, `rol`, `dniusuarioweb`, `lastlogout`) VALUES
+(9, 'S.Avila', '72210584Z', 2, '72210584Z', '2023-11-17 19:04:30'),
+(10, 'J.Avila', '12774250G', 1, '12774250G', '2023-11-17 19:05:07'),
+(11, 'V.Macho', '12345678H', 1, '12345678H', '2023-11-17 18:16:41');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `aviso`
+--
+ALTER TABLE `aviso`
+  ADD PRIMARY KEY (`id_aviso`),
+  ADD KEY `dni` (`dni`),
+  ADD KEY `id_turnoP` (`id_turnoP`),
+  ADD KEY `tipo` (`tipo`);
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id_categoria`),
+  ADD KEY `id_departamento` (`id_departamento`);
+
+--
+-- Indices de la tabla `departamentos`
+--
+ALTER TABLE `departamentos`
+  ADD PRIMARY KEY (`id_departamento`);
+
+--
+-- Indices de la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD PRIMARY KEY (`dni`),
+  ADD KEY `n_categoria` (`n_categoria`),
+  ADD KEY `n_departamento` (`n_departamento`);
+
+--
+-- Indices de la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `dni` (`dni`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipoaviso`
+--
+ALTER TABLE `tipoaviso`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `turnos`
+--
+ALTER TABLE `turnos`
+  ADD PRIMARY KEY (`id_turno`);
+
+--
+-- Indices de la tabla `turnos_publicados`
+--
+ALTER TABLE `turnos_publicados`
+  ADD PRIMARY KEY (`id_turnoP`),
+  ADD KEY `dni` (`dni`),
+  ADD KEY `id_turno` (`id_turno`),
+  ADD KEY `fk_category` (`categoria`),
+  ADD KEY `fk_department` (`departamento`);
+
+--
+-- Indices de la tabla `userweb`
+--
+ALTER TABLE `userweb`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rol` (`rol`),
+  ADD KEY `dniusuarioweb` (`dniusuarioweb`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `aviso`
+--
+ALTER TABLE `aviso`
+  MODIFY `id_aviso` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id_categoria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT de la tabla `departamentos`
+--
+ALTER TABLE `departamentos`
+  MODIFY `id_departamento` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `nominas`
+--
+ALTER TABLE `nominas`
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tipoaviso`
+--
+ALTER TABLE `tipoaviso`
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `turnos`
+--
+ALTER TABLE `turnos`
+  MODIFY `id_turno` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `turnos_publicados`
+--
+ALTER TABLE `turnos_publicados`
+  MODIFY `id_turnoP` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `userweb`
+--
+ALTER TABLE `userweb`
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
