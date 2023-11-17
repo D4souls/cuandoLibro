@@ -93,21 +93,28 @@ include('../scripts/php/seguridad/conexion.php');
   </nav>
   <!-- Secciones ocultas -->
   <section class="homeTitle" id="userAdd">
-    <div class="text">Agregar usuario</div>
-    <div class="div-form-userAdd">
-      <form class="form-userAdd" method="POST" action="../scripts/php/userAdd/userAdd.php">
-        <label>DNI</label>
-        <input type="text" placeholder="DNI..." name="dni">
-        <label>Nombre</label>
-        <input type="text" placeholder="Nombre..." name="nombre">
-        <label>Apellido 1</label>
-        <input type="text" placeholder="Apellido 1..." name="apellido1">
-        <label>Apellido 2</label>
-        <input type="text" placeholder="Apellido 2..." name="apellido2">
-        <label>IBAN</label>
-        <input type="text" placeholder="IBAN..." name="iban">
+    <div class="contenedor-formulario">
+      <form method="POST" action="../scripts/php/userAdd/userAdd.php" class="form">
+        <h2 class="text">Agregar usuario</h2>
+        <label>DNI:
+          <input type="text" placeholder="DNI..." name="dni">
+        </label>
+        <label>Nombre:
+          <input type="text" placeholder="Nombre..." name="nombre">
+        </label>
+        <label>Apellido 1:
+          <input type="text" placeholder="Apellido 1..." name="apellido1">
+        </label>
+        <label>Apellido 2:
+          <input type="text" placeholder="Apellido 2..." name="apellido2">
+        </label>
+        <label>IBAN:
+          <input type="text" placeholder="IBAN..." name="iban">
+        </label>
 
-        <select name="n_departamento">
+        <?php $datos_empleado = []; ?>
+
+        <select name="n_departamento" id="departamento">
           <option value="">- Seleccione un departamento -</option>
           <?php
           // Fetch all departments
@@ -116,32 +123,44 @@ include('../scripts/php/seguridad/conexion.php');
 
           // Display departments
           while ($departamento = mysqli_fetch_assoc($resultado_departamentos)) {
-            $selected = ($departamento['id_departamento'] == $datos_empleado['n_departamento']) ? 'selected' : '';
-            echo "<option value='{$departamento['id_departamento']}' $selected>{$departamento['nombre']}</option>";
+            echo "<option value='{$departamento['id_departamento']}'>{$departamento['nombre']}</option>";
           }
           ?>
         </select>
-
-        <select name="n_categoria">
+        <select name="n_categoria" id="categoria" disabled="">
           <option value="">- Seleccione una categoría -</option>
-          <?php
-          // Fetch all categories
-          $query_categorias = "SELECT * FROM categorias";
-          $resultado_categorias = mysqli_query($conexion, $query_categorias);
-
-          // Display categories
-          while ($categoria = mysqli_fetch_assoc($resultado_categorias)) {
-            $selected = ($categoria['id_categoria'] == $datos_empleado['n_categoria']) ? 'selected' : '';
-            echo "<option value='{$categoria['id_categoria']}' $selected>{$categoria['nombre']}</option>";
-          }
-          ?>
         </select>
-        <button>Agregar Usuario</button>
+        <button class="saveButton">Guardar Cambios</button>
+        <a href="trabajadores.php">Volver atrás</a>
       </form>
     </div>
   </section>
 
   <script src="../scripts/js/dashboard.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var categoria = $('#categoria');
+
+      $('#departamento').change(function () {
+        var departamento_id = $(this).val();
+        if (departamento_id !== '') {
+          $.ajax({
+            data: { departamento_id: departamento_id },
+            dataType: 'html',
+            type: 'POST',
+            url: '../scripts/php/category/categoryGet.php'
+          }).done(function (data) {
+            categoria.html(data);
+            categoria.prop('disabled', false);
+          });
+        } else {
+          categoria.val('');
+          categoria.prop('disabled', true);
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@ $query_modificar = "UPDATE empleados SET nombre = ?, apellido1 = ?, apellido2 = 
         // Cierra la consulta preparada
         $stmt->close();
 
-        echo "Datos actualizados correctamente.\n<a href='../../../dashboard.php#trabajadores'>Volver atrás</a>";
+        echo "Datos actualizados correctamente.\n<a href='../../../sites/trabajadores.php'>Volver atrás</a>";
     } else {
         echo "Error en la preparación de la consulta.";
     }

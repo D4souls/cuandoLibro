@@ -1,8 +1,9 @@
 <?php
 include("../seguridad/conexion.php");
-    ?>
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,17 +100,17 @@ include("../seguridad/conexion.php");
 
             if ($resultado->num_rows > 0) {
                 $datos = mysqli_fetch_assoc($resultado);
-            ?>
+                ?>
 
-                <form method="post" action="scheduleSaveChanges.php" id="scheduleForm" class="form">
+                <form method="post" id="scheduleForm" class="form">
                     <h2 class="text">Realizar cambios</h2>
                     <input type="hidden" name="id_turnoP" value="<?php echo $datos['id_turnoP']; ?>">
                     <!-- <input type="hidden" name="categoria" value="<?php echo $datos['categoria']; ?>"> -->
                     <select name="dni">
                         <?php
                         $comprobación = "SELECT e.dni, e.nombre FROM empleados e 
-                INNER JOIN turnos_publicados tp ON e.dni = tp.dni
-                WHERE tp.id_turnoP = ?";
+                        INNER JOIN turnos_publicados tp ON e.dni = tp.dni
+                        WHERE tp.id_turnoP = ?";
 
                         $stm = $conexion->prepare($comprobación);
                         $stm->bind_param("s", $id);
@@ -139,10 +140,10 @@ include("../seguridad/conexion.php");
                     </select>
                     <div id="mensaje"></div>
                     <button class="saveButton" onclick="guardarCambios()">Guardar cambios</button>
-                    <button onclick="deleteSchedule()" type="button" class="deleteButton">Eliminar turno</button>
+                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar turno</button>
                     <a href="../../../sites/horarios.php">Volver atrás</a>
                 </form>
-            <?php
+                <?php
             } else {
                 echo "No se encontraron datos para el departamento con ID: $id\n<a href='../../../sites/horarios.php'>Volver atrás</a>";
             }
@@ -151,10 +152,19 @@ include("../seguridad/conexion.php");
         </div>
     </section>
     <!-- <script src="../scripts/js/dashboard.js"></script> -->
-    <script src="../../js/dashboard.js">
-        function deleteSchedule() {
-            document.getElementById("scheduleForm").action = "scheduleDelete.php";
-            document.getElementById("scheduleForm").submit();
+    <script src="../../js/dashboard.js"></script>
+    <script>
+        function changeActionAndSubmit() {
+            var form = document.getElementById("scheduleForm");
+            form.action = "scheduleDelete.php";  // Cambia la acción del formulario
+            form.submit();  // Envía el formulario
+        }
+
+        function guardarCambios() {
+            var form = document.getElementById("scheduleForm");
+            form.action = "scheduleSaveChanges.php";  // Cambia la acción del formulario
+            form.submit();  // Envía el formulario
+
         }
     </script>
 </body>

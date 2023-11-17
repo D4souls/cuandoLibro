@@ -522,6 +522,8 @@ body.dark .saveButton{
     color: var(--toggle-color);
 }
 
+body.dark .saveButton:hover{ background-color: var(--primary-color);}
+
 .deleteButton {
     color: var(--primary-color-light);
     border: none;
@@ -529,6 +531,14 @@ body.dark .saveButton{
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 6px;
+    transition: var(--tran-04);
+}
+.deleteButton:hover{
+    background: red;
+}
+
+body.dark .form .deleteButton:hover{
+    color:var(--toggle-color) ;
 }
 
 .form select {
@@ -540,6 +550,7 @@ body.dark .saveButton{
     font-size: 14px;
     width: 100%;
 }
+
 
 .form select:focus {
     outline: none;
@@ -572,3 +583,36 @@ body.dark .form a{
     color: var(--primary-color);
     transition: var(--tran-04);
 }
+
+.form label {
+    text-align: justify;
+    padding: 20px;
+    background: var(--primary-color-light);
+    border-radius: 10px;
+}
+
+.form label input {
+    border-radius: 6px;
+    background: var(--primary-color-light);
+    outline: none;
+    border: none;
+    padding: 0 5px;
+}
+
+.form label input,
+.saveButton,
+.deleteButton{ font-size: 16px; }
+
+.form label input::placeholder {
+    color: rgba(37, 37, 37, 0.5);
+}
+
+.form a:hover {
+    color: var(--accent-color);
+}
+
+body.dark .form label,
+body.dark .form label input{
+    color: var(--toggle-color);
+}
+
