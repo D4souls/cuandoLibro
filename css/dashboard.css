@@ -441,7 +441,7 @@ body.dark .datos:hover td {
     text-align: left;
 }
 
-  .subtabla th {
+.subtabla th {
     background-color: #f2f2f2;
 }
 
@@ -455,19 +455,22 @@ body.dark .datos:hover td {
     border-radius: 6px;
     overflow: hidden;
     display: flex;
-    height: px;
-    width: 400px;
+    height: auto; /* Cambiado a auto para adaptarse al contenido */
+    max-width: 400px; /* Agregado un ancho máximo */
     align-items: center;
     padding: 10px;
     margin: 20px;
     margin-top: 35px;
     flex-direction: column;
+    cursor: pointer;
+    position: relative;
 }
+
 
 .user-img img{
     height: 110px;
     width: 110px;
-    border-radius: 50%;
+    border-radius: 50%; 
 }
 
 .card { text-align: justify;}
@@ -481,6 +484,28 @@ body.dark .datos:hover td {
 .card:hover{
     box-shadow: none;
     transition: var(--tran-04);
+}
+
+.homeTitle .card table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+
+.homeTitle .card th,
+.homeTitle .card td {
+    padding: 10px;
+    text-align: center; /* Centrar el contenido */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.homeTitle .card th {
+    background-color: var(--primary-color); /* Cambiar el color de fondo */
+    color: white; /* Cambiar el color del texto */
+}
+
+.homeTitle .card tr:hover {
+    background-color: var(--table-row-hover-bg);
 }
 
 body.dark .card ul,

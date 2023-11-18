@@ -160,6 +160,7 @@ include("../seguridad/conexion.php");
                     </select>
 
                     <button class="saveButton">Guardar Cambios</button>
+                    <button onclick="resetPassword()" type="button" class="addButton">Reestablecer contraseña</button>
                     <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar trabajador</button>
                     <a href="../../../sites/trabajadores.php">Volver atrás</a>
                 </form>
@@ -180,6 +181,11 @@ include("../seguridad/conexion.php");
         function changeActionAndSubmit() {
             var form = document.getElementById("scheduleForm");
             form.action = "userDelete.php";  // Cambia la acción del formulario
+            form.submit();  // Envía el formulario
+        }
+        function resetPassword() {
+            var form = document.getElementById("scheduleForm");
+            form.action = "resetPassword.php";  // Cambia la acción del formulario
             form.submit();  // Envía el formulario
         }
     </script>

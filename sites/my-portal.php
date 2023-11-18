@@ -22,7 +22,7 @@ $result = array_merge($datosUserLogin, $datosHorarios);
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="icon" href="../img/cuandoLibro-logo.png">
     <title>My site |
-        <?php echo $nombre . " " . $apellido1 . " " . $apellido2 ?>
+        <?php echo $result["nombre"] ?>
     </title>
 </head>
 
@@ -98,7 +98,7 @@ $result = array_merge($datosUserLogin, $datosHorarios);
     </nav>
     <section class="homeTitle" id="dashboard">
         <div class="text">Dashboard</div>
-        <div class="card">
+        <div class="card" id="card">
             <!-- Incluir la imagen del usuario -->
             <div class="user-img">
                 <img alt="userImage" src="../img/imagen-prueba.jpg">
@@ -121,21 +121,25 @@ $result = array_merge($datosUserLogin, $datosHorarios);
             </table>
         </div>
         <div class="card">
-            <h3>Tus próximos horarios</h3>
             <table>
+                <h3>Tus próximos horarios</h3>
                 <tr>
                     <th>Fecha</th>
                     <th>Turno</th>
                 </tr>
                 <tr>
-                    <td><?php echo $result['fechaTurno']?></td>
-                    <td><?php echo $result['turno']?></td>
+                    <td><?php echo $result['fechaTurno'] ?></td>
+                    <td><?php echo $result['turno'] ?></td>
                 </tr>
             </table>
         </div>
-        </div>
     </section>
     <script src="../scripts/js/dashboard.js"></script>
+    <script>
+        document.getElementById("card").onclick = function() {
+            window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $result['dni'] ?>";
+        }
+    </script>
 </body>
 
 </html>

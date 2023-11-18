@@ -126,7 +126,7 @@ include("../seguridad/conexion.php");
 
                     <label for="IBAN">IBAN:
 
-                        <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>">
+                        <input type="text" name="IBAN" size="24" value="<?php echo $datos_empleado['IBAN']; ?>">
                     </label>
 
                     <label> Departamento:
