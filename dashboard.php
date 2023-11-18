@@ -95,7 +95,7 @@ $datosLogin = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
   </nav>
   <section class="homeTitle" id="dashboard">
     <div class="text">Dashboard</div>
-    <div class="card">
+    <div class="card" id="card">
       <!-- Incluir la imagen del usuario -->
       <div class="user-img">
         <img alt="userImage" src="img/imagen-prueba.jpg">
@@ -119,6 +119,11 @@ $datosLogin = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>
+  <script>
+    document.getElementById("card").onclick = function(){
+      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni']?>";
+    }
+  </script>
 </body>
 
 </html>
