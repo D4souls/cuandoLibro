@@ -512,7 +512,6 @@ body.dark .card ul,
 body.dark .card h3{
     color: var(--text-color);
 }
-
 .contenedor-formulario {
     display: flex;
     flex-direction: column;

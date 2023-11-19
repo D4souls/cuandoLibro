@@ -170,3 +170,30 @@ function getSchedule($conexion)
     $var_resultado->close();
     return $tablaHtml;
 }
+
+function totalMoney($conexion) {
+    $var_consulta = "SELECT * FROM departamentos";
+    $var_resultado = $conexion->query($var_consulta);
+
+    $data = array();
+
+    if ($var_resultado->num_rows > 0) {
+        while ($row = $var_resultado->fetch_assoc()) {
+            $data[] = array(
+                "id" => $row["id_departamento"],
+                "nombre" => $row["nombre"],
+                "dinero" => $row["presupuesto"],
+            );
+        }
+    }
+
+    return $data;
+}
+
+function totalWorkers($conexion) {
+    $var_consulta = "SELECT COUNT(*) AS 'cantidad' FROM empleados";
+    $var_resultado = $conexion->query($var_consulta);
+    $data = $var_resultado->fetch_assoc();
+
+    return $data['cantidad'];
+}
