@@ -129,7 +129,7 @@ include("../seguridad/conexion.php");
                         <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>">
                     </label>
 
-                    <select name="n_departamento">
+                    <select name="n_departamento" id="departamento">
                         <option value="">- Seleccione un departamento -</option>
                         <?php
                         // Fetch all departments
@@ -138,30 +138,18 @@ include("../seguridad/conexion.php");
 
                         // Display departments
                         while ($departamento = mysqli_fetch_assoc($resultado_departamentos)) {
-                            $selected = ($departamento['id_departamento'] == $datos_empleado['n_departamento']) ? 'selected' : '';
-                            echo "<option value='{$departamento['id_departamento']}' $selected>Departamento: {$departamento['nombre']}</option>";
+                            echo "<option value='{$departamento['id_departamento']}'>{$departamento['nombre']}</option>";
                         }
                         ?>
                     </select>
-
-                    <select name="n_categoria">
+                    <select name="n_categoria" id="categoria" disabled="">
                         <option value="">- Seleccione una categoría -</option>
-                        <?php
-                        // Fetch all categories
-                        $query_categorias = "SELECT * FROM categorias";
-                        $resultado_categorias = mysqli_query($conexion, $query_categorias);
-
-                        // Display categories
-                        while ($categoria = mysqli_fetch_assoc($resultado_categorias)) {
-                            $selected = ($categoria['id_categoria'] == $datos_empleado['n_categoria']) ? 'selected' : '';
-                            echo "<option value='{$categoria['id_categoria']}' $selected>Categoría: {$categoria['nombre']}</option>";
-                        }
-                        ?>
                     </select>
 
                     <button class="saveButton">Guardar Cambios</button>
                     <button onclick="resetPassword()" type="button" class="addButton">Reestablecer contraseña</button>
-                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar trabajador</button>
+                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar
+                        trabajador</button>
                     <a href="../../../sites/trabajadores.php">Volver atrás</a>
                 </form>
 
@@ -189,6 +177,31 @@ include("../seguridad/conexion.php");
             form.submit();  // Envía el formulario
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var categoria = $('#categoria');
+
+            $('#departamento').change(function () {
+                var departamento_id = $(this).val();
+                if (departamento_id !== '') {
+                    $.ajax({
+                        data: { departamento_id: departamento_id },
+                        dataType: 'html',
+                        type: 'POST',
+                        url: '../scripts/php/category/categoryGet.php'
+                    }).done(function (data) {
+                        categoria.html(data);
+                        categoria.prop('disabled', false);
+                    });
+                } else {
+                    categoria.val('');
+                    categoria.prop('disabled', true);
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

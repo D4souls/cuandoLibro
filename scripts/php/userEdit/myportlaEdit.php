@@ -9,8 +9,9 @@ include("../seguridad/conexion.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="icon" href="../../../img/logo-alt.png">
-    <title>CL | Editar turno</title>
+    <title>CL | Editar perfil</title>
 </head>
 
 <body>
@@ -103,7 +104,7 @@ include("../seguridad/conexion.php");
                 $datos_empleado = mysqli_fetch_assoc($resultado_empleado);
                 ?>
 
-                <form action="myPortalSave.php" method="get" class="form" id="scheduleForm">
+                <form action="myPortalSave.php" method="get" class="form flex flex-cols w-[600px] h-[600px]" id="scheduleForm">
                     <h2 class="text">Modificar trabajador</h2>
                     <label for="dni">DNI:
                         <input type="text" name="dni" value="<?php echo $datos_empleado['dni']; ?>" readonly>

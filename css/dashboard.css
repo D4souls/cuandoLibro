@@ -28,7 +28,7 @@ body{
     height: 100vh;
     background: var(--body-color);
     transition: var(--tran-02);
-    overflow: hidden;
+    overflow: auto;
 }
 
 body.dark{

@@ -121,7 +121,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
     <div class="text">Dashboard</div>
     <div class="grid md:grid-cols-3 md:grid-rows-5 sm:grid-cols-1 gap-5 m-4 mt-[40px]">
       <!-- Datos usuario login -->
-      <div class="flex p-2 gap-3 items-center border-box bg-indigo-50 rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer" id="card">
+      <div class="flex p-2 gap-3 items-center border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer" id="card">
         <!-- Incluir la imagen del usuario -->
         <div class="user-img">
           <img alt="userImage" src="img/imagen-prueba.jpg">
@@ -146,14 +146,14 @@ $dinero3 = $dineroDepart[2]['dinero'];
         </div>
       </div>
       <!-- Graficos departamento -->
-      <div id="graficoDepartamentos" class="items-center flex p-2 gap-3 row-span-2 border-box bg-indigo-50 rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
+      <div id="graficoDepartamentos" class="items-center flex p-2 gap-3 row-span-2 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
         <div>
           <canvas class="w-[60vh]" id="departmentMoney"></canvas>
         </div>
       </div>
       <!-- Ultimos empleados dado de alta -->
-      <div class="flex p-2 gap-3 border-box items-center place-content-center content-center bg-indigo-50 rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
-        <span id="contador" class="text-4xl font-extrabold"><?php echo $totalEmpleados ?> trabajadores dados de alta</span>
+      <div class="flex p-2 gap-3 border-box items-center place-content-center content-center bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
+        <span id="contador" class="text-3xl font-extrabold"><?php echo $totalEmpleados ?> trabajadores dados de alta</span>
       </div>
     </div>
   </section>
@@ -176,7 +176,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
       data: {
         labels: ["<?php echo $dep1 ?>", "<?php echo $dep2 ?>", "<?php echo $dep3 ?>"],
         datasets: [{
-          label: 'Dinero por departamento',
+          label: '€/departamento',
           data: [<?php echo $dinero1 ?>, <?php echo $dinero2 ?>, <?php echo $dinero3 ?>],
           borderWidth: 1,
           backgroundColor: '#41cf1d',
@@ -207,16 +207,16 @@ $dinero3 = $dineroDepart[2]['dinero'];
 
     function animateCounter(element, target) {
       var current = 0;
-      var increment = 1; // Puedes ajustar la velocidad de la animación cambiando este valor
-      var interval = 50; // Puedes ajustar la frecuencia de actualización cambiando este valor
+      var increment = 1; // ajustar la velocidad de la animación 
+      var interval = 50; // ajustar la frecuencia de actualización
 
       var animation = setInterval(function() {
         // Actualiza el contenido del elemento con el valor actual
         element.textContent = current + " trabajadores dados de alta";
 
-        // Verifica si se alcanzó el objetivo
+        // Verificación
         if (current >= target) {
-          clearInterval(animation); // Detén la animación
+          clearInterval(animation);
         } else {
           // Incrementa el valor actual
           current += increment;

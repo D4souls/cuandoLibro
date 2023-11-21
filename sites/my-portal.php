@@ -8,6 +8,7 @@ $userLogin = $_SESSION["userwebdni"];
 $datosUserLogin = obtenerDatosEmpleado($conexion, $userLogin);
 $datosHorarios = obtenerHorarios($conexion, $userLogin);
 $result = array_merge($datosUserLogin, $datosHorarios);
+// print_r ($result);
 ?>
 
 
