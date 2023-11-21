@@ -68,12 +68,14 @@ function obtenerHorarios($conexion, $dniWeb)
     $array = array(
         "fechaTurno" => "",
         "turno"=> "",
+        "fechaF" => ""
     );
 
     $fecha = "";
     $nombreT = "";
+    $fechaFichar ="";
 
-    $query = "SELECT tp.fecha, t.nombre FROM turnos_publicados tp INNER JOIN turnos t ON t.id_turno = tp.id_turno WHERE tp.dni = ?";
+    $query = "SELECT tp.fecha, t.nombre, tp.hora_fichaje_entrada FROM turnos_publicados tp INNER JOIN turnos t ON t.id_turno = tp.id_turno WHERE tp.dni = ?";
     $stm = $conexion->prepare($query);
     if (!$stm) {
         die("Error de preparación de la consulta: " . $conexion->error);
@@ -86,11 +88,12 @@ function obtenerHorarios($conexion, $dniWeb)
     }
 
     $stm->store_result();
-    $stm->bind_result($fecha, $nombreT);
+    $stm->bind_result($fecha, $nombreT, $fechaFichar);
 
     $stm->fetch();
     $array["fechaTurno"] = $fecha;
     $array["turno"] = $nombreT;
+    $array["fechaF"] = $fechaFichar;
 
     $stm->close();
 

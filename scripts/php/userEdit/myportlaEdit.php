@@ -170,7 +170,7 @@ include("../seguridad/conexion.php");
 
                     <button class="saveButton">Guardar Cambios</button>
                     <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar trabajador</button>
-                    <a href="../../../dashboard.php">Volver atrás</a>
+                    <a href="../../../sites/my-portal.php">Volver atrás</a>
                 </form>
 
                 <?php

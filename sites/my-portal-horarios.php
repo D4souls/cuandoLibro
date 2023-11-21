@@ -1,14 +1,10 @@
 <?php
 include('../scripts/php/seguridad/seguridad.php');
 include('../scripts/php/seguridad/conexion.php');
-include('../scripts/php/login/datosTrabajadorLogin.php');
+// include('../scripts/php/login/datosTrabajadorLogin.php');
 include('../scripts/php/login/datosTurnos.php');
-
-$userLogin = $_SESSION["userwebdni"];
-$datosUserLogin = obtenerDatosEmpleado($conexion, $userLogin);
-$datosHorarios = obtenerHorarios($conexion, $userLogin);
-$result = array_merge($datosUserLogin, $datosHorarios);
-// print_r ($datosHorarios);
+$userLogin = $_SESSION['userwebdni'];
+$datosHorarios = todosTurnos($conexion, $userLogin);
 ?>
 
 
@@ -22,9 +18,7 @@ $result = array_merge($datosUserLogin, $datosHorarios);
     <link href="../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="icon" href="../img/cuandoLibro-logo.png">
-    <title>My site |
-        <?php echo $result["nombre"] ?>
-    </title>
+    <title>My site | Horarios</title>
 </head>
 
 <body>
@@ -52,13 +46,13 @@ $result = array_merge($datosUserLogin, $datosHorarios);
 
                 <ul class="menu-links">
                     <li class="nav-links">
-                        <a href="#dashboard">
+                        <a href="my-portal.php">
                             <i class="bx bx-home-alt-2 icon"></i>
                             <span class="text nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-links">
-                        <a href="my-portal-horarios.php">
+                        <a href="#horarios">
                             <i class="bx bx-calendar-alt icon"></i>
                             <span class="text nav-text">Horarios</span>
                         </a>
@@ -97,66 +91,51 @@ $result = array_merge($datosUserLogin, $datosHorarios);
             </div>
         </div>
     </nav>
-    <section class="homeTitle" id="dashboard">
-        <div class="text">Dashboard</div>
-        <div class="card" id="editarPerfil">
-            <!-- Incluir la imagen del usuario -->
-            <div class="user-img">
-                <img alt="userImage" src="../img/imagen-prueba.jpg">
-            </div>
-            <h3>Bienvenido de nuevo
-                <?php echo $result["nombre"] ?>
-            </h3>
-            <table>
-                <ul>
-                    <li>Departamento:
-                        <?php echo $result["nombreDep"] ?>
-                    </li>
-                    <li>Categoria:
-                        <?php echo $result["nombreCat"] ?>
-                    </li>
-                    <li>Última conexión:
-                        <?php echo $result["lastlogout"] ?>
-                    </li>
-                </ul>
-            </table>
-        </div>
-        <div class="card" id="accederHorarios">
+    <section class="homeTitle" id="trabajadores">
+        <div class="text">Turnos publicados</div>
+        <div class="contenedor-tabla">
             <?php
-            if (isset($datosHorarios['fechaF']) && !empty($datosHorarios['fechaF'])) {
+            if (isset($datosHorarios) && !empty($datosHorarios)) {
                 ?>
-                <table>
-                    <h2>Próximos turnos</h2>
+                <table class='tabla-datos'>
                     <tr>
                         <th>Fecha</th>
                         <th>Turno</th>
+                        <th>Hora entrada</th>
+                        <th>Hora salida</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <?php echo date("d-m-y", strtotime($datosHorarios['fechaTurno'])) ?>
-                        </td>
-                        <td>
-                            <?php echo $datosHorarios['turno'] ?>
-                        </td>
-                    </tr>
+
+                    <?php
+                    foreach ($datosHorarios as $turno) {
+                        ?>
+                        <tr class='datos'>
+                            <td>
+                                <?php echo date("d-m-y", strtotime($turno['fecha'])) ?>
+                            </td>
+                            <td
+                                title="Hora entrada: <?php echo date("H:m", strtotime($turno['he'])) . '| Hora salida: ' . date("H:m", strtotime($turno['hs'])); ?>">
+                                <?php echo $turno['nombre'] . " (" . date("H:m", strtotime($turno['he'])) . " a ". date("H:m", strtotime($turno['hs'])) .")" ?>
+                            </td>
+                            <td>
+                                <?php echo isset($turno['hfe']) ? date("d-m-y H:m:s", strtotime($turno['hfe'])) : "Sin datos..." ?>
+                            </td>
+                            <td>
+                                <?php echo isset($turno['hfs']) ? date("d-m-y H:m:s", strtotime($turno['hfs'])) : "Sin datos..." ?>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <?php
+                    } ?>
+
                 </table>
                 <?php
             } else {
-                ?>
-                <h2>No hay nada por aquí...</h2>
-                <?php
-            } ?>
+                echo "<h2>No hay turnos aún...</h2>";
+            }
+            ?>
         </div>
     </section>
     <script src="../scripts/js/dashboard.js"></script>
-    <script>
-        document.getElementById("editarPerfil").onclick = function () {
-            window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $result['dni'] ?>";
-        }
-        document.getElementById("accederHorarios").onclick = function () {
-            window.location.href = "my-portal-horarios.php";
-        }
-    </script>
 </body>
 
 </html>
