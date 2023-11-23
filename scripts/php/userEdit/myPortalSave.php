@@ -18,7 +18,7 @@ if (isset($_REQUEST["nombre"], $_REQUEST["apellido1"], $_REQUEST["apellido2"], $
         // Cierra la consulta preparada
         $stmt->close();
 
-        echo "<a href='../../../dashboard.php'>Datos de empleados actualizados correctamente.<a>\n";
+        echo "<a href='../../../sites/my-portal.php'>Datos de empleados actualizados correctamente.<a>\n";
     } else {
         echo "Error en la preparación de la consulta para datos de empleados: " . $conexion->error;
     }
@@ -46,7 +46,7 @@ if (isset($_REQUEST["userpassword"])) {
         // Cierra la consulta preparada
         $stmt2->close();
 
-        echo "<a href='../../../dashboard.php'>Contraseña actualizada correctamente.<a>";
+        echo "<a href='../../../sites/my-portal.php'>Contraseña actualizada correctamente.<a>";
     } else {
         echo "Error en la preparación de la consulta para la contraseña: " . $conexion->error;
     }

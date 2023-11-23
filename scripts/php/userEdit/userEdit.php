@@ -179,28 +179,28 @@ include("../seguridad/conexion.php");
     </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        $(document).ready(function () {
-            var categoria = $('#categoria');
+    $(document).ready(function () {
+      var categoria = $('#categoria');
 
-            $('#departamento').change(function () {
-                var departamento_id = $(this).val();
-                if (departamento_id !== '') {
-                    $.ajax({
-                        data: { departamento_id: departamento_id },
-                        dataType: 'html',
-                        type: 'POST',
-                        url: '../scripts/php/category/categoryGet.php'
-                    }).done(function (data) {
-                        categoria.html(data);
-                        categoria.prop('disabled', false);
-                    });
-                } else {
-                    categoria.val('');
-                    categoria.prop('disabled', true);
-                }
-            });
-        });
-    </script>
+      $('#departamento').change(function () {
+        var departamento_id = $(this).val();
+        if (departamento_id !== '') {
+          $.ajax({
+            data: { departamento_id: departamento_id },
+            dataType: 'html',
+            type: 'POST',
+            url: '../category/categoryGet.php'
+          }).done(function (data) {
+            categoria.html(data);
+            categoria.prop('disabled', false);
+          });
+        } else {
+          categoria.val('');
+          categoria.prop('disabled', true);
+        }
+      });
+    });
+  </script>
 
 </body>
 

@@ -9,6 +9,8 @@ include("../seguridad/conexion.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../js/alerts.js"></script>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="icon" href="../../../img/logo-alt.png">
     <title>CL | Editar perfil</title>
@@ -104,7 +106,8 @@ include("../seguridad/conexion.php");
                 $datos_empleado = mysqli_fetch_assoc($resultado_empleado);
                 ?>
 
-                <form action="myPortalSave.php" method="get" class="form flex flex-cols w-[600px] h-[600px]" id="scheduleForm">
+                <form action="myPortalSave.php" method="get" class="form flex flex-cols w-[600px] h-[600px]"
+                    id="scheduleForm">
                     <h2 class="text">Modificar trabajador</h2>
                     <label for="dni">DNI:
                         <input type="text" name="dni" value="<?php echo $datos_empleado['dni']; ?>" readonly>
@@ -138,12 +141,14 @@ include("../seguridad/conexion.php");
                         if ($resultado_departamentos && $resultado_departamentos->num_rows > 0) {
                             $datosDepartamentos = mysqli_fetch_assoc($resultado_departamentos);
                             ?>
-                            <input type="hidden" name="n_departamento" value="<?php echo $datosDepartamentos['id_departamento']?>">
-                            <input type="text" name="nombreDepartamento" value="<?php echo $datosDepartamentos['nombre']?>" readonly>
-                        <?php
+                            <input type="hidden" name="n_departamento"
+                                value="<?php echo $datosDepartamentos['id_departamento'] ?>">
+                            <input type="text" name="nombreDepartamento" value="<?php echo $datosDepartamentos['nombre'] ?>"
+                                readonly>
+                            <?php
                         } else { ?>
                             <input type="text" name="nombreDepartamento" value="Sin asignar...">
-                        <?php
+                            <?php
                         } ?>
                     </label>
 
@@ -155,21 +160,22 @@ include("../seguridad/conexion.php");
                         if ($resultado_categoria && $resultado_categoria->num_rows > 0) {
                             $datoscategoria = mysqli_fetch_assoc($resultado_categoria);
                             ?>
-                            <input type="hidden" name="n_departamento" value="<?php echo $datoscategoria['id_categoria']?>">
-                            <input type="text" name="nombreCategoria" size="40" value="<?php echo $datoscategoria['nombre']?>" readonly>
-                        <?php
+                            <input type="hidden" name="n_departamento" value="<?php echo $datoscategoria['id_categoria'] ?>">
+                            <input type="text" name="nombreCategoria" size="40" value="<?php echo $datoscategoria['nombre'] ?>"
+                                readonly>
+                            <?php
                         } else { ?>
                             <input type="text" name="nombreCategoria" value="Sin asignar...">
-                        <?php
+                            <?php
                         } ?>
                     </label>
-                    
+
                     <label>Contraseña:
                         <input type="password" name="userpassword">
                     </label>
 
-                    <button class="saveButton">Guardar Cambios</button>
-                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar trabajador</button>
+                    <button class="saveButton" onclick="saveChanges()">Guardar Cambios</button>
+                    <button onclick="eliminarUsuario()" type="button" class="deleteButton">Eliminar trabajador</button>
                     <a href="../../../sites/my-portal.php">Volver atrás</a>
                 </form>
 
@@ -185,11 +191,6 @@ include("../seguridad/conexion.php");
     </section>
     <!-- <script src="../scripts/js/dashboard.js"></script> -->
     <script src="../../js/dashboard.js"></script>
-    <script>
-        function changeActionAndSubmit() {
-            alert('No puedes eliminarte!');
-        }
-    </script>
 </body>
 
 </html>
