@@ -10,7 +10,19 @@ include("../seguridad/conexion.php");
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="icon" href="../../../img/logo-alt.png">
-    <title>CL | Editar turno</title>
+    <script src="../../js/dashboard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.all.min.js"></script>
+
+    <title>CL | Editar trabajador</title>
 </head>
 
 <body>
@@ -91,19 +103,23 @@ include("../seguridad/conexion.php");
     </nav>
 
     <section class="homeTitle" id="trabajadores">
+        <?php
+        $stmtMessage = isset($_GET['status']) ? $_GET['status'] : '';
+        ?>
+        <div id="resultado"></div>
         <div class="contenedor-formulario">
             <?php
             include("../seguridad/conexion.php");
             $dni_empleado = $_GET['dni'];
 
-            $query_empleado = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, e.IBAN, n_departamento, n_categoria, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e INNER JOIN categorias c ON c.id_categoria = e.n_categoria INNER JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE dni = '$dni_empleado'";
+            $query_empleado = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, e.IBAN, n_departamento, n_categoria, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e LEFT JOIN categorias c ON c.id_categoria = e.n_categoria LEFT JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE dni = '$dni_empleado'";
             $resultado_empleado = mysqli_query($conexion, $query_empleado);
 
             if ($resultado_empleado && $resultado_empleado->num_rows > 0) {
                 $datos_empleado = mysqli_fetch_assoc($resultado_empleado);
-                ?>
+            ?>
 
-                <form action="userSave.php" method="get" class="form" id="scheduleForm">
+                <form method="post" class="form" id="scheduleForm">
                     <h2 class="text">Modificar trabajador</h2>
                     <label for="dni">DNI:
                         <input type="text" name="dni" value="<?php echo $datos_empleado['dni']; ?>" readonly>
@@ -146,14 +162,13 @@ include("../seguridad/conexion.php");
                         <option value="">- Seleccione una categoría -</option>
                     </select>
 
-                    <button class="saveButton">Guardar Cambios</button>
+                    <button type="button" class="saveButton" id="saveChanges">Guardar Cambios</button>
                     <button onclick="resetPassword()" type="button" class="addButton">Reestablecer contraseña</button>
-                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar
-                        trabajador</button>
+                    <button onclick="deleteEmployee()" type="button" class="deleteButton">Eliminar trabajador</button>
                     <a href="../../../sites/trabajadores.php">Volver atrás</a>
                 </form>
 
-                <?php
+            <?php
             } else {
                 echo "No se encontraron datos para el trabajador con DNI: $dni_empleado";
             }
@@ -163,44 +178,107 @@ include("../seguridad/conexion.php");
             ?>
         </div>
     </section>
-    <!-- <script src="../scripts/js/dashboard.js"></script> -->
-    <script src="../../js/dashboard.js"></script>
     <script>
-        function changeActionAndSubmit() {
-            var form = document.getElementById("scheduleForm");
-            form.action = "userDelete.php";  // Cambia la acción del formulario
-            form.submit();  // Envía el formulario
+        function deleteEmployee() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción eliminará al trabajador. Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+            }).then((result) =>{
+                if(result.isconfirmed){
+                    var form = document.getElementById("scheduleForm");
+                    form.action = "userDelete.php";
+                    form.submit();
+                }
+            });
         }
+
         function resetPassword() {
             var form = document.getElementById("scheduleForm");
-            form.action = "resetPassword.php";  // Cambia la acción del formulario
-            form.submit();  // Envía el formulario
+            form.action = "resetPassword.php";
+            form.submit();
         }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-    $(document).ready(function () {
-      var categoria = $('#categoria');
+        $(document).ready(function() {
+            var categoria = $('#categoria');
 
-      $('#departamento').change(function () {
-        var departamento_id = $(this).val();
-        if (departamento_id !== '') {
-          $.ajax({
-            data: { departamento_id: departamento_id },
-            dataType: 'html',
-            type: 'POST',
-            url: '../category/categoryGet.php'
-          }).done(function (data) {
-            categoria.html(data);
-            categoria.prop('disabled', false);
-          });
-        } else {
-          categoria.val('');
-          categoria.prop('disabled', true);
-        }
-      });
-    });
-  </script>
+            $('#departamento').change(function() {
+                var departamento_id = $(this).val();
+                if (departamento_id !== '') {
+                    $.ajax({
+                        data: {
+                            departamento_id: departamento_id
+                        },
+                        dataType: 'html',
+                        type: 'POST',
+                        url: '../category/categoryGet.php'
+                    }).done(function(data) {
+                        categoria.html(data);
+                        categoria.prop('disabled', false);
+                    });
+                } else {
+                    categoria.val('');
+                    categoria.prop('disabled', true);
+                }
+            });
+
+            $('#saveChanges').click(function() {
+                // Obtener valores de los campos del formulario
+                var formData = {
+                    dni: $('[name="dni"]').val(),
+                    nombre: $('[name="nombre"]').val(),
+                    apellido1: $('[name="apellido1"]').val(),
+                    apellido2: $('[name="apellido2"]').val(),
+                    IBAN: $('[name="IBAN"]').val(),
+                    n_departamento: $('[name="n_departamento"]').val(),
+                    n_categoria: $('[name="n_categoria"]').val()
+                };
+
+                // Aquí va tu código AJAX
+                $.ajax({
+                    url: 'userSave.php',
+                    type: 'post',
+                    data: formData,
+                    success: function(response) {
+                        var result = JSON.parse(response);
+
+                        if (result.success) {
+                            Swal.fire({
+                                title: "Datos actualizados",
+                                icon: "success",
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                            setTimeout(function() {
+                                window.location.href = "../../../sites/trabajadores.php";
+                            }, 3000);
+
+                            // Redirigir o realizar otras acciones necesarias después del éxito
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: result.message,
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la solicitud AJAX',
+                            text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 
