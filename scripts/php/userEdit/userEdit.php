@@ -188,8 +188,8 @@ include("../seguridad/conexion.php");
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, eliminar'
-            }).then((result) =>{
-                if(result.isconfirmed){
+            }).then((result) => {
+                if (result.isConfirmed) {
                     var form = document.getElementById("scheduleForm");
                     form.action = "userDelete.php";
                     form.submit();
@@ -198,9 +198,21 @@ include("../seguridad/conexion.php");
         }
 
         function resetPassword() {
-            var form = document.getElementById("scheduleForm");
-            form.action = "resetPassword.php";
-            form.submit();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción reiniciará la contraseña del usuario.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, reestrablecer'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var form = document.getElementById("scheduleForm");
+                    form.action = "resetPassword.php";
+                    form.submit();
+                }
+            });
         }
         $(document).ready(function() {
             var categoria = $('#categoria');
@@ -237,7 +249,6 @@ include("../seguridad/conexion.php");
                     n_categoria: $('[name="n_categoria"]').val()
                 };
 
-                // Aquí va tu código AJAX
                 $.ajax({
                     url: 'userSave.php',
                     type: 'post',
