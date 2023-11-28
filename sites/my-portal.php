@@ -151,7 +151,7 @@ $result = array_merge($datosUserLogin, $datosHorarios);
     <script src="../scripts/js/dashboard.js"></script>
     <script>
         document.getElementById("editarPerfil").onclick = function () {
-            window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $result['dni'] ?>";
+            window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $result['dni'] ?>&rol=<?php echo $result['rol']?>";
         }
         document.getElementById("accederHorarios").onclick = function () {
             window.location.href = "my-portal-horarios.php";

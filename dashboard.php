@@ -90,7 +90,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
             </a>
           </li>
           <li class="nav-links">
-            <a href="#avisos">
+            <a href="sites/avisos.php">
               <i class="bx bx-error icon"></i>
               <span class="text nav-text">Avisos</span>
             </a>
@@ -160,7 +160,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
   <script src="scripts/js/dashboard.js"></script>
   <script>
     document.getElementById("card").onclick = function() {
-      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>";
+      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"]?>";
     }
 
     document.getElementById("graficoDepartamentos").onclick = function() {

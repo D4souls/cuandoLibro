@@ -9,6 +9,7 @@ function obtenerDatosEmpleado($conexion, $dniWeb){
         "nombreCat" => "",
         "nombreDep" => "",
         "lastlogout" => "",
+        "rol" => "",
     );
 
     $dni = "";
@@ -17,14 +18,16 @@ function obtenerDatosEmpleado($conexion, $dniWeb){
     $nombreCat = "";
     $nombreDep = "";
     $lastlogout = "";
+    $rol = "";
 
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);
     } else {
-        $query = "SELECT e.dni, e.nombre, CONCAT(e.apellido1,' ',e.apellido2) AS 'apellidos', c.nombre, d.nombre, u.lastlogout FROM empleados e INNER JOIN departamentos d ON 
+        $query = "SELECT e.dni, e.nombre, CONCAT(e.apellido1,' ',e.apellido2) AS 'apellidos', c.nombre, d.nombre, u.lastlogout, uw.rol FROM empleados e INNER JOIN departamentos d ON 
         d.id_departamento = e.n_departamento
         INNER JOIN categorias c ON c.id_categoria = e.n_categoria
         INNER JOIN userweb u ON e.dni = u.dniusuarioweb
+        INNER JOIN userweb uw ON e.dni = uw.dniusuarioweb
         WHERE e.dni = ?";
         
         $stm = $conexion->prepare($query);
@@ -45,7 +48,8 @@ function obtenerDatosEmpleado($conexion, $dniWeb){
             $apellidos,
             $nombreCat,
             $nombreDep,
-            $lastlogout
+            $lastlogout,
+            $rol
         );
 
         $stm->fetch();
@@ -55,6 +59,7 @@ function obtenerDatosEmpleado($conexion, $dniWeb){
         $array["nombreCat"] = $nombreCat;
         $array["nombreDep"] = $nombreDep;
         $array["lastlogout"] = $lastlogout;
+        $array["rol"] = $rol;
 
         $stm->close();
     }

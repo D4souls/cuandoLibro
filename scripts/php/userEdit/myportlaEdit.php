@@ -1,5 +1,6 @@
 <?php
 include("../seguridad/conexion.php");
+include("../seguridad/seguridad.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -98,6 +99,7 @@ include("../seguridad/conexion.php");
             <?php
             include("../seguridad/conexion.php");
             $dni_empleado = $_GET['dni'];
+            $rol = $_GET["rol"];
 
             $query_empleado = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, e.IBAN, n_departamento, n_categoria, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e INNER JOIN categorias c ON c.id_categoria = e.n_categoria INNER JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE dni = '$dni_empleado'";
             $resultado_empleado = mysqli_query($conexion, $query_empleado);
@@ -176,7 +178,13 @@ include("../seguridad/conexion.php");
 
                     <button class="saveButton" onclick="saveChanges()">Guardar Cambios</button>
                     <button onclick="eliminarUsuario()" type="button" class="deleteButton">Eliminar trabajador</button>
-                    <a href="../../../sites/my-portal.php">Volver atrás</a>
+                    <?php
+                    if ($rol === "1") {
+                        print("<a href='../../../sites/my-portal.php'>Volver atrás</a>");
+                    } else {
+                        print("<a href='../../../dashboard.php'>Volver atrás</a>");
+                    }
+                    ?>
                 </form>
 
                 <?php
