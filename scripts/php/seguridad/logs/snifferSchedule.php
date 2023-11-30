@@ -38,7 +38,22 @@ if (!$conexion) {
                     print("✅ Ejecución para registro nº" . $conteo . " completado\n");
 
                     //! COMPROBAMOS SI HFE Y HFS ESTÁN VACÍAS
+                    /*
+                    $query_checkExistenciaAvisos = "SELECT tp.id_turnoP, tp.dni FROM turnos_publicados tp INNER JOIN aviso a ON a.dni = tp.dni AND a.id_turnoP = tp.id_turnoP WHERE tp.id_turnoP = ? AND tp.dni = ?";
+                    $query_checkExistenciaAvisos = $conexion->prepare($query_checkExistenciaAvisos);
 
+                    if(!$query_checkExistenciaAvisos) {
+                        die("❌ Preparación de la comprobación de query_checkExistenciaAvisos" . $conexion->error . "\n");
+                    }
+
+                    $query_checkExistenciaAvisos->bind_param("is", $id_turnoP, $uid);
+
+                    if(!$query_checkExistenciaAvisos->execute()) {
+                        die("❌ Error al ejecutar la query_checkExistenciaAvisos". $conexion->error . "\n");
+                    }
+
+                    $query_checkExistenciaAvisos->get_result();
+                    */
                     if ($hfe !== null && $hfs !== null) {
                         print("❌ $uid ya tiene registro\n");
                         continue;
