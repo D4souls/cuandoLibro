@@ -105,16 +105,13 @@ include('../scripts/php/seguridad/config.php');
     <div class="text">Avisos</div>
     <div class="grid md:grid-cols-6 gap-5 m-4 mt-[40px]">
     <?php
-      $today = date("Y-m-s");
-      echo $today;
-      $query = "SELECT ta.nombre, a.dni, a.id_aviso FROM aviso a 
+      $query = "SELECT count(ta.nombre), a.dni, a.id_aviso FROM aviso a 
       INNER JOIN tipoaviso ta ON a.tipo = ta.id
-      INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP WHERE tp.fecha = ?";
+      INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP GROUP BY a.dni";
       $stmt = $conexion->prepare($query);
       if (!$stmt) {
         die("<p>Error al preparar la consulta: </p>" . $conexion->error);
       }
-      $stmt->bind_param("s", $today);
       if ($stmt->execute()) {
         $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
         if($stmt->num_rows > 0){
@@ -124,7 +121,7 @@ include('../scripts/php/seguridad/config.php');
             <div id="<?php echo $id_aviso ?>"
               class="flex flex-col items-center justify-center bg-white w-[225px] p-2 ml-2 shadow-lg rounded-md hover:shadow-none cursor-pointer">
               <h2 class="text-lg">⚠️<b><?php echo $dni ?></b></h2>
-              <span><b>Tipo aviso: </b><?php echo $cantidadAviso ?></span>
+              <span><b>Cantidad de avisos: </b><?php echo $cantidadAviso ?></span>
             </div>
             <?php
           }
