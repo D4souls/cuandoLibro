@@ -112,7 +112,7 @@ include("../seguridad/conexion.php");
             include("../seguridad/conexion.php");
             $dni_empleado = $_GET['dni'];
 
-            $query_empleado = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, e.IBAN, n_departamento, n_categoria, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e LEFT JOIN categorias c ON c.id_categoria = e.n_categoria LEFT JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE dni = '$dni_empleado'";
+            $query_empleado = "SELECT e.dni, e.nombre, e.apellido1, e.apellido2, e.IBAN, e.mail, n_departamento, n_categoria, c.nombre AS 'nombreCategoria', d.nombre AS 'nombreDepartamento' FROM empleados e LEFT JOIN categorias c ON c.id_categoria = e.n_categoria LEFT JOIN departamentos d ON d.id_departamento = e.n_departamento WHERE dni = '$dni_empleado'";
             $resultado_empleado = mysqli_query($conexion, $query_empleado);
 
             if ($resultado_empleado && $resultado_empleado->num_rows > 0) {
@@ -126,23 +126,23 @@ include("../seguridad/conexion.php");
                     </label>
 
                     <label for="nombre">Nombre:
-
                         <input type="text" name="nombre" value="<?php echo $datos_empleado['nombre']; ?>">
                     </label>
 
                     <label for="apellido1">Apellido 1:
                         <input type="text" name="apellido1" value="<?php echo $datos_empleado['apellido1']; ?>">
-
                     </label>
 
                     <label for="apellido2">Apellido 2:
-
                         <input type="text" name="apellido2" value="<?php echo $datos_empleado['apellido2']; ?>">
                     </label>
 
                     <label for="IBAN">IBAN:
-
                         <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>">
+                    </label>
+
+                    <label for="IBAN">email:
+                        <input type="text" name="mail" value="<?php echo $datos_empleado['mail']; ?>">
                     </label>
 
                     <select name="n_departamento" id="departamento">
@@ -245,6 +245,7 @@ include("../seguridad/conexion.php");
                     apellido1: $('[name="apellido1"]').val(),
                     apellido2: $('[name="apellido2"]').val(),
                     IBAN: $('[name="IBAN"]').val(),
+                    mail: $('[name="mail"]').val(),
                     n_departamento: $('[name="n_departamento"]').val(),
                     n_categoria: $('[name="n_categoria"]').val()
                 };

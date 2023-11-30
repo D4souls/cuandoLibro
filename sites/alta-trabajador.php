@@ -112,7 +112,9 @@ include('../scripts/php/seguridad/conexion.php');
         <label>IBAN:
           <input type="text" placeholder="IBAN..." name="iban">
         </label>
-
+        <label>Correo electrónico:
+          <input type="text" placeholder="email..." name="mail">
+        </label>
         
 
         <select name="n_departamento" id="departamento">

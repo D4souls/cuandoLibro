@@ -103,35 +103,55 @@ include('../scripts/php/seguridad/config.php');
   </nav>
   <section class="homeTitle" id="dashboard">
     <div class="text">Avisos</div>
-    <div class="grid md:grid-cols-2 gap-5 m-4 mt-[40px]">
-      <div class="flex flex-col gap-4" id="searchContainer">
-        <form class="bg-white">
-          <i class='bx bx-search-alt'></i>
-          <input type="text" id="searchbar" placeholder="Buscar avisos..." class="w-[428px]">
-        </form>
-        <div id="userDNI" class="flex gap-3 items-center justify-center bg-white w-[280px] p-2 ml-2 shadow-lg rounded-md hover:shadow-none cursor-pointer">
-          <img src="../img/imagen-prueba.jpg" class="rounded-full w-[60px]">
-          <div>
-            <h2 class="text-lg font-bold">Sergio Ávila Macho</h2>
-            <span>[❗] Retraso de 5 minutos</span>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center justify-center">
-        <h2>Últimos avisos</h2>
+    <div class="grid md:grid-cols-6 gap-5 m-4 mt-[40px]">
+    <?php
+      $today = date("Y-m-s");
+      echo $today;
+      $query = "SELECT ta.nombre, a.dni, a.id_aviso FROM aviso a 
+      INNER JOIN tipoaviso ta ON a.tipo = ta.id
+      INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP WHERE tp.fecha = ?";
+      $stmt = $conexion->prepare($query);
+      if (!$stmt) {
+        die("<p>Error al preparar la consulta: </p>" . $conexion->error);
+      }
+      $stmt->bind_param("s", $today);
+      if ($stmt->execute()) {
+        $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
+        if($stmt->num_rows > 0){
+          $stmt->bind_result($cantidadAviso, $dni, $id_aviso);
+          while ($stmt->fetch()) {
+            ?>
+            <div id="<?php echo $id_aviso ?>"
+              class="flex flex-col items-center justify-center bg-white w-[225px] p-2 ml-2 shadow-lg rounded-md hover:shadow-none cursor-pointer">
+              <h2 class="text-lg">⚠️<b><?php echo $dni ?></b></h2>
+              <span><b>Tipo aviso: </b><?php echo $cantidadAviso ?></span>
+            </div>
+            <?php
+          }
+        } else {
+          echo "<p>No hay avisos hoy!</p>";
+        }
+      } else {
+        die("<p>Error al ejecutar la consulta: </p>" . $conexion->error);
+      }
 
-      </div>
+    ?>
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>
   <script>
-    document.getElementById("card").onclick = function () {
-      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
+    document.getElementById(<?php echo $id_aviso?>).onclick = function () {
+      alert("Funciona")
+      //window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
     }
 
     document.getElementById("graficoDepartamentos").onclick = function () {
       window.location.href = "sites/departamentos.php";
     }
+  </script>
+
+  <script>
+
   </script>
 
 
