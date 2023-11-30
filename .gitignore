@@ -1,1 +1,3 @@
-mail
+scripts/php/seguridad/mail/vendor
+scripts/php/seguridad/mail/composer.json
+scripts/php/seguridad/mail/composer.lock
