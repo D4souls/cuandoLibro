@@ -1,7 +1,18 @@
 <?php
 include('../scripts/php/seguridad/seguridad.php');
 include('../scripts/php/seguridad/conexion.php');
-include('../scripts/php/seguridad/config.php');
+
+//? IMPORTAMOS SIDEBAR & RUTAS
+include_once('../config.php');
+include(COMPONENTS_PATH . 'sidebar.php');
+
+$nav_dashboard = '../dashboard.php';
+$nav_turnosP = 'horarios.php';
+$nav_workers = 'trabajadores.php';
+$nav_department = 'departamentos.php';
+$nav_warnigs = 'avisos.php';
+
+$nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav_warnigs);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,84 +37,10 @@ include('../scripts/php/seguridad/config.php');
 </head>
 
 <body>
-  <nav class="sidebar close">
-    <header>
-      <div class="image-text">
-        <span class="image">
-          <img src="../img/cuandoLibro-logo.png" alt="logoClaro" />
-        </span>
-
-        <div class="text header-text">
-          <span class="name">CuandoLibro</span>
-          <span class="profession">IAW & DB</span>
-        </div>
-      </div>
-      <i class="bx bx-chevron-right toggle"></i>
-    </header>
-
-    <div class="menu-bar">
-      <div class="menu">
-        <li class="search-box">
-          <i class="bx bx-search icon"></i>
-          <input type="text" placeholder="Buscar..." />
-        </li>
-
-        <ul class="menu-links">
-          <li class="nav-links">
-            <a href="#dashboard">
-              <i class="bx bx-home-alt-2 icon"></i>
-              <span class="text nav-text">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="<?php echo SCHEDULE; ?>">
-              <i class="bx bx-calendar-alt icon"></i>
-              <span class="text nav-text">Horarios</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="<?php echo WORKERS; ?>">
-              <i class="bx bx-user icon"></i>
-              <span class="text nav-text">Trabajadores</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="<?php echo DEPARTMENT; ?>">
-              <i class="bx bx-briefcase-alt-2 icon"></i>
-              <span class="text nav-text">Departamentos</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="<?php echo WARNINGS; ?>">
-              <i class="bx bx-error icon"></i>
-              <span class="text nav-text">Avisos</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="bottom-content">
-        <li class="">
-          <a href="../scripts/php/seguridad/cerrarSesion.php">
-            <i class="bx bx-log-out icon"></i>
-            <span class="text nav-text">Cerrar sesión</span>
-          </a>
-        </li>
-        <li class="mode">
-          <div class="moon-sun">
-            <i class="bx bx-moon icon moon"></i>
-            <i class="bx bx-sun icon sun"></i>
-          </div>
-          <span class="mode-text text">Modo oscuro</span>
-          <div class="toogle-switch">
-            <span class="switch"></span>
-          </div>
-        </li>
-      </div>
-    </div>
-  </nav>
+  <?php echo $nav ?>
   <section class="homeTitle" id="dashboard">
     <div class="text">Avisos</div>
-    <div class="grid md:grid-cols-6 gap-5 m-4 mt-[40px] contenedor-tabla">
+    <div class="contenedor-tabla">
       <table class="tabla-datos">
         <tr>
           <th>DNI</th>
@@ -131,7 +68,9 @@ include('../scripts/php/seguridad/config.php');
                 <td>
                   <?php echo $tipoAviso ?>
                 </td>
-                <td><?php echo $comentarioAviso?></td>
+                <td>
+                  <?php echo $comentarioAviso ?>
+                </td>
               </tr>
             </table>
             <?php
