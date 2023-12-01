@@ -152,17 +152,33 @@ function getSchedule($conexion)
         <th>Fecha</th>
         <th>Trabajador</th>
         <th>Turno</th>
+        <th>Estado</th>
         </tr>";
 
         while ($var_fila = $var_resultado->fetch_array()) {
+            $fechaToSTR = strtotime($var_fila['fecha']);
+            $fechaFormateada = date("d/m/Y", $fechaToSTR);
             $tablaHtml .= "
             <tr class='datos' id='idTurnoPublicado_{$var_fila["idturnoP"]}' onclick=\"window.location.href='../scripts/php/schedule/scheduleEdit.php?id_turnoP={$var_fila["idturnoP"]}'\">
             <td>{$var_fila['nombreDepartamento']}</td>
             <td>{$var_fila['nombreCat']}</td>
-            <td>{$var_fila['fecha']}</td>
+            <td>{$fechaFormateada}</td>
             <td>{$var_fila['dni']}</td>
-            <td>{$var_fila['nombreTurno']}</td>
-            </tr>";
+            <td>{$var_fila['nombreTurno']}</td>";
+            
+            if(!$var_fila['hfe'] == null && $var_fila['hfs'] == null){
+                $tablaHtml .= "
+                <td>En proceso...</td>
+                </tr>";
+            } elseif ($var_fila['hfe'] == null && $var_fila['hfe'] == null){
+                $tablaHtml .= "
+                <td>Sin realizar</td>
+                </tr>";
+            } else {
+                $tablaHtml .= "
+                <td>Turno completado</td>
+                </tr>";
+            }
         }
         $tablaHtml .= "</table>";
     }

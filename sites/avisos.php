@@ -103,41 +103,51 @@ include('../scripts/php/seguridad/config.php');
   </nav>
   <section class="homeTitle" id="dashboard">
     <div class="text">Avisos</div>
-    <div class="grid md:grid-cols-6 gap-5 m-4 mt-[40px]">
-    <?php
-      $query = "SELECT count(ta.nombre), a.dni, a.id_aviso FROM aviso a 
+    <div class="grid md:grid-cols-6 gap-5 m-4 mt-[40px] contenedor-tabla">
+      <table class="tabla-datos">
+        <tr>
+          <th>DNI</th>
+          <th>Tipo Aviso</th>
+          <th>Comentario</th>
+        </tr>
+        <?php
+        $query = "SELECT ta.nombre, a.dni, a.id_aviso, a.comentario FROM aviso a 
       INNER JOIN tipoaviso ta ON a.tipo = ta.id
-      INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP GROUP BY a.dni";
-      $stmt = $conexion->prepare($query);
-      if (!$stmt) {
-        die("<p>Error al preparar la consulta: </p>" . $conexion->error);
-      }
-      if ($stmt->execute()) {
-        $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
-        if($stmt->num_rows > 0){
-          $stmt->bind_result($cantidadAviso, $dni, $id_aviso);
-          while ($stmt->fetch()) {
-            ?>
-            <div id="<?php echo $id_aviso ?>"
-              class="flex flex-col items-center justify-center bg-white w-[225px] p-2 ml-2 shadow-lg rounded-md hover:shadow-none cursor-pointer">
-              <h2 class="text-lg">⚠️<b><?php echo $dni ?></b></h2>
-              <span><b>Cantidad de avisos: </b><?php echo $cantidadAviso ?></span>
-            </div>
+      INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP";
+        $stmt = $conexion->prepare($query);
+        if (!$stmt) {
+          die("<p>Error al preparar la consulta: </p>" . $conexion->error);
+        }
+        if ($stmt->execute()) {
+          $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
+          if ($stmt->num_rows > 0) {
+            $stmt->bind_result($tipoAviso, $dni, $id_aviso, $comentarioAviso);
+            while ($stmt->fetch()) {
+              ?>
+              <tr class="datos">
+                <td>
+                  <?php echo $dni ?>
+                </td>
+                <td>
+                  <?php echo $tipoAviso ?>
+                </td>
+                <td><?php echo $comentarioAviso?></td>
+              </tr>
+            </table>
             <?php
+            }
           }
         } else {
-          echo "<p>No hay avisos hoy!</p>";
+          die("<p>Error al ejecutar la consulta: </p>" . $conexion->error);
         }
-      } else {
-        die("<p>Error al ejecutar la consulta: </p>" . $conexion->error);
-      }
 
-    ?>
+        ?>
+      </table>
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>
   <script>
-    document.getElementById(<?php echo $id_aviso?>).onclick = function () {
+    document.getElementById(<?php echo $id_aviso ?>).onclick = function () {
       alert("Funciona")
       //window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
     }

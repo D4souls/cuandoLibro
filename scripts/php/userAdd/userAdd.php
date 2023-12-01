@@ -32,9 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($resultado_comprobacion->fetch()) {
             print("<h3>[!] Error: Ya hay un trabajador registrado con estos datos</h3>\n<a href='../../../sites/trabajadores.php'>Cerrar ventana</a>");
         } else {
-            $query_insert = "INSERT INTO empleados (dni, nombre, apellido1, apellido2, iban, mail, n_categoria, n_departamento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $query_insert = "INSERT INTO empleados (dni, nombre, apellido1, apellido2, iban, mail, n_categoria, n_departamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $resultado_insert = $conexion->prepare($query_insert);
-            $resultado_insert->bind_param("sssssss", $dni, $nombre, $apellido1, $apellido2, $iban, $n_categoria, $n_departamento);
+            $resultado_insert->bind_param("ssssssss", $dni, $nombre, $apellido1, $apellido2, $iban, $mail, $n_categoria, $n_departamento);
 
             if ($resultado_insert->execute()) {
                 echo "<h3>[+] Trabajador dado de alta correctamente!</h3>\n<a href='../../../sites/trabajadores.php'>Cerrar ventana</a>";

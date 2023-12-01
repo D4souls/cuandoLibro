@@ -146,7 +146,7 @@ include("../seguridad/conexion.php");
                     </label>
 
                     <select name="n_departamento" id="departamento">
-                        <option value="">- Seleccione un departamento -</option>
+                        <option value="<?php $datos_empleado['n_departamento']?>"><?php echo $datos_empleado['nombreDepartamento']?></option>
                         <?php
                         // Fetch all departments
                         $query_departamentos = "SELECT * FROM departamentos";
@@ -159,7 +159,7 @@ include("../seguridad/conexion.php");
                         ?>
                     </select>
                     <select name="n_categoria" id="categoria" disabled="">
-                        <option value="">- Seleccione una categoría -</option>
+                        <option value="<?php $datos_empleado['n_categoria']?>"><?php echo $datos_empleado['nombreCategoria']?></option>
                     </select>
 
                     <button type="button" class="saveButton" id="saveChanges">Guardar Cambios</button>

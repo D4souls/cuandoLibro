@@ -175,10 +175,10 @@ if (!$conexion) {
                             }
 
                             //! COMPROBAMOS SI EL TRABAJADOR HA DESFICHADO PARA TENERLO EN CUENTA
-
+                            //echo $hora_salidaReal . " " . $hora_salidaT;
                             if ($hora_salida !== null) {
                                 if (strtotime($hora_salidaReal) < strtotime($hora_salidaT)) {
-                                    $diferencia = date_diff(new DateTime($hora_salidaReal), new DateTime($hora_salidaT));
+                                    $diferencia = date_diff(new DateTime($hora_salidaT), new DateTime($hora_salidaReal));
                                     $comentarioAviso = "El trabajador ha salido pronto " . $diferencia->format('%H:%I:%S');
                                     $tipoAvisoSalida = 5;
 
@@ -207,7 +207,8 @@ if (!$conexion) {
                                         print("❌ El trabajador ya ha recibido la alerta de salida, imposible crear otra\n");
                                     } else {
                                         $query_chkAviso->close();
-                                        //? AHORA INSERTAMOS EL AVISO
+
+                                        //! AHORA INSERTAMOS EL AVISO
                                         $aviso = "INSERT INTO aviso(tipo, comentario, dni, id_turnoP) VALUES (?,?,?,?)";
                                         $stmt_aviso = $conexion->prepare($aviso);
                                         if (!$stmt_aviso) {
