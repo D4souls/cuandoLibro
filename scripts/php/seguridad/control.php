@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../../../sites/my-portal.php");
                     exit();
                 } else {
-                    header("Location: ../../../dashboard.php");
+                    header("Location: ../../../sites/dashboard.php");
                     exit();
                 }
             } else {
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../../../sites/my-portal.php");
                     exit();
                 } else {
-                    header("Location: ../../../dashboard.php");
+                    header("Location: ../../../sites/dashboard.php");
                     exit();
                 }
             } else {

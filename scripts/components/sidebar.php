@@ -19,10 +19,7 @@ function sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $n
 
         <div class='menu-bar'>
             <div class='menu'>
-                <li class='search-box'>
-                    <i class='bx bx-search icon'></i>
-                    <input type='text' placeholder='Buscar...' />
-                </li>
+                
 
                 <ul class='menu-links'>
                     <li class='nav-links'>
@@ -64,16 +61,7 @@ function sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $n
                         <span class='text nav-text'>Cerrar sesión</span>
                     </a>
                 </li>
-                <li class='mode'>
-                    <div class='moon-sun'>
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                    </div>
-                    <span class='mode-text text'>Modo oscuro</span>
-                    <div class='toogle-switch'>
-                        <span class='switch'></span>
-                    </div>
-                </li>
+                
             </div>
         </div>
     </nav>

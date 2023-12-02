@@ -328,8 +328,8 @@ body.dark .switch::before{
 }
 
 .contenedor-tabla button{
-    width: 90px;
-    height: 50px;
+    gap: 5px;
+    padding: 10px;
     border-radius: 6px;
     border: none;
     box-shadow: var(--box-shadow);
@@ -338,19 +338,19 @@ body.dark .switch::before{
     cursor: pointer;
     justify-self: end;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+
 }
 
-.contenedor-tabla button a{
-    transition: var(--tran-04);
-    color: var(--text-color);
-    text-decoration: none;
+.contenedor-tabla button i{
+    scale: 1.5;
 }
-
 .contenedor-tabla button:hover{
     background-color: var(--primary-color);
 }
 
-.contenedor-tabla button:hover a{
+.contenedor-tabla button:hover{
     color: var(--primary-color-light);
 }
 

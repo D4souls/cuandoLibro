@@ -9,6 +9,17 @@ include("../seguridad/conexion.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.all.min.js"></script>
+
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="icon" href="../../../img/logo-alt.png">
     <title>CL | Editar turno</title>
 </head>
@@ -31,10 +42,6 @@ include("../seguridad/conexion.php");
 
         <div class="menu-bar">
             <div class="menu">
-                <li class="search-box">
-                    <i class="bx bx-search icon"></i>
-                    <input type="text" placeholder="Buscar..." />
-                </li>
 
                 <ul class="menu-links">
                     <li class="nav-links">
@@ -76,23 +83,13 @@ include("../seguridad/conexion.php");
                         <span class="text nav-text">Cerrar sesión</span>
                     </a>
                 </li>
-                <li class="mode">
-                    <div class="moon-sun">
-                        <i class="bx bx-moon icon moon"></i>
-                        <i class="bx bx-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Modo oscuro</span>
-                    <div class="toogle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
             </div>
         </div>
     </nav>
 
     <section class="homeTitle" id="trabajadores">
         <div class="contenedor-formulario">
-            <form action="scheduleSave.php" method="post" class="form">
+            <form method="post" class="form">
                 <h2 class="text">Crear nuevo turno</h2>
                 <select name="horario">
                     <option value="">- Seleccione una horario -</option>
@@ -132,14 +129,11 @@ include("../seguridad/conexion.php");
                     Cantidad de registros?
                     <input type="number" name="cantidad" id="cantidad">
                 </label>
-                <button class="saveButton">Crear turnos</button>
+                <button type="button" class="saveButton" id="createSchedule">Crear turnos</button>
                 <a href="../../../sites/horarios.php">Volver atrás</a>
             </form>
         </div>
     </section>
-    <!-- <script src="../scripts/js/dashboard.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <script>
         $(document).ready(function () {
             var categoria = $('#categoria');
@@ -148,20 +142,86 @@ include("../seguridad/conexion.php");
                 var departamento_id = $(this).val();
                 if (departamento_id !== '') {
                     $.ajax({
-                        data: { departamento_id: departamento_id },
+                        data: {
+                            departamento_id: departamento_id
+                        },
                         dataType: 'html',
                         type: 'POST',
                         url: '../category/categoryGet.php'
                     }).done(function (data) {
                         categoria.html(data);
-                        categoria.prop('disabled', false);
+                        categoria.prop('disabled', categoria.find('option').length === 0);
                     });
                 } else {
                     categoria.val('');
                     categoria.prop('disabled', true);
                 }
             });
+
+            $('#createSchedule').click(function () {
+                var formData = {
+                    horario: $('[name="horario"]').val(),
+                    n_departamento: $('[name="n_departamento"]').val(),
+                    n_categoria: $('[name="n_categoria"]').val(),
+                    fecha: $('[name="fecha"]').val(),
+                    cantidad: $('[name="cantidad"]').val(),
+                };
+
+                if(formData.cantidad === '') {
+                    formData.cantidad = 1;
+                }
+
+                if (formData.horario === '' || formData.n_departamento === '' || formData.n_categoria === '' || formData.fecha === '') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Por favor, completa todos los campos del formulario.',
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                } else {
+                    $.ajax({
+                        url: 'scheduleSave.php',
+                        type: 'post',
+                        data: formData,
+                        success: function (response) {
+                            var result = JSON.parse(response);
+                            if (result.success) {
+                                Swal.fire({
+                                    title: result.message,
+                                    icon: "success",
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,   
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
+                                setTimeout(function () {
+                                    window.location.href = "../../../sites/horarios.php";
+                                }, 3000)
+                                // Redirigir o realizar otras acciones necesarias después del éxito
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: result.message,
+                                });
+                            }
+                            },
+                            error: function () {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error en la solicitud AJAX',
+                                    text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                                });
+                            }
+                    });
+                }
+            });
         });
+
     </script>
 </body>
 

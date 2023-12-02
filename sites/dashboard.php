@@ -1,8 +1,22 @@
 <?php
-include('scripts/php/seguridad/seguridad.php');
-include('scripts/php/seguridad/conexion.php');
-include('scripts/php/login/datosTrabajadorLogin.php');
-include('scripts/php/workers/getDataWorkers.php');
+include_once('../config.php');
+include(SECURITY_PATH . 'seguridad.php');
+include(SECURITY_PATH . 'conexion.php');
+include('../scripts/php/login/datosTrabajadorLogin.php');
+include('../scripts/php/workers/getDataWorkers.php');
+
+//? IMPORTAMOS SIDEBAR & RUTAS
+include(COMPONENTS_PATH . 'sidebar.php');
+
+$nav_dashboard = '../dashboard.php';
+$nav_turnosP = 'horarios.php';
+$nav_workers = 'trabajadores.php';
+$nav_department = 'departamentos.php';
+$nav_warnigs = 'avisos.php';
+
+$nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav_warnigs);
+
+
 $datosLogin = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
 
 /* Cantidad total de empleados */
@@ -26,7 +40,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#695CFE" />
-  <link href="./css/dashboard.css" rel="stylesheet" />
+  <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="icon" href="img/cuandoLibro-logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -42,86 +56,14 @@ $dinero3 = $dineroDepart[2]['dinero'];
 </head>
 
 <body>
-  <nav class="sidebar close">
-    <header>
-      <div class="image-text">
-        <span class="image">
-          <img src="img/cuandoLibro-logo.png" alt="logoClaro" />
-        </span>
-
-        <div class="text header-text">
-          <span class="name">CuandoLibro</span>
-          <span class="profession">IAW & DB</span>
-        </div>
-      </div>
-      <i class="bx bx-chevron-right toggle"></i>
-    </header>
-
-    <div class="menu-bar">
-      <div class="menu">
-        <li class="search-box">
-          <i class="bx bx-search icon"></i>
-          <input type="text" placeholder="Buscar..." />
-        </li>
-
-        <ul class="menu-links">
-          <li class="nav-links">
-            <a href="#dashboard">
-              <i class="bx bx-home-alt-2 icon"></i>
-              <span class="text nav-text">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="sites/horarios.php">
-              <i class="bx bx-calendar-alt icon"></i>
-              <span class="text nav-text">Horarios</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="sites/trabajadores.php">
-              <i class="bx bx-user icon"></i>
-              <span class="text nav-text">Trabajadores</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="sites/departamentos.php">
-              <i class="bx bx-briefcase-alt-2 icon"></i>
-              <span class="text nav-text">Departamentos</span>
-            </a>
-          </li>
-          <li class="nav-links">
-            <a href="sites/avisos.php">
-              <i class="bx bx-error icon"></i>
-              <span class="text nav-text">Avisos</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="bottom-content">
-        <li class="">
-          <a href="scripts/php/seguridad/cerrarSesion.php">
-            <i class="bx bx-log-out icon"></i>
-            <span class="text nav-text">Cerrar sesión</span>
-          </a>
-        </li>
-        <li class="mode">
-          <div class="moon-sun">
-            <i class="bx bx-moon icon moon"></i>
-            <i class="bx bx-sun icon sun"></i>
-          </div>
-          <span class="mode-text text">Modo oscuro</span>
-          <div class="toogle-switch">
-            <span class="switch"></span>
-          </div>
-        </li>
-      </div>
-    </div>
-  </nav>
+  <?php echo $nav ?>
   <section class="homeTitle" id="dashboard">
     <div class="text">Dashboard</div>
     <div class="grid md:grid-cols-3 md:grid-rows-5 sm:grid-cols-1 gap-5 m-4 mt-[40px]">
       <!-- Datos usuario login -->
-      <div class="flex p-2 gap-3 items-center border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer" id="card">
+      <div
+        class="flex p-2 gap-3 items-center border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer"
+        id="card">
         <!-- Incluir la imagen del usuario -->
         <div class="user-img">
           <img alt="userImage" src="img/imagen-prueba.jpg">
@@ -146,24 +88,28 @@ $dinero3 = $dineroDepart[2]['dinero'];
         </div>
       </div>
       <!-- Graficos departamento -->
-      <div id="graficoDepartamentos" class="items-center flex p-2 gap-3 row-span-2 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
+      <div id="graficoDepartamentos"
+        class="items-center flex p-2 gap-3 row-span-2 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
         <div>
           <canvas class="w-[60vh]" id="departmentMoney"></canvas>
         </div>
       </div>
       <!-- Ultimos empleados dado de alta -->
-      <div class="flex p-2 gap-3 border-box items-center place-content-center content-center bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
-        <span id="contador" class="text-3xl font-extrabold"><?php echo $totalEmpleados ?> trabajadores dados de alta</span>
+      <div
+        class="flex p-2 gap-3 border-box items-center place-content-center content-center bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
+        <span id="contador" class="text-3xl font-extrabold">
+          <?php echo $totalEmpleados ?> trabajadores dados de alta
+        </span>
       </div>
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>
   <script>
-    document.getElementById("card").onclick = function() {
-      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"]?>";
+    document.getElementById("card").onclick = function () {
+      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
     }
 
-    document.getElementById("graficoDepartamentos").onclick = function() {
+    document.getElementById("graficoDepartamentos").onclick = function () {
       window.location.href = "sites/departamentos.php";
     }
   </script>
@@ -194,7 +140,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
 
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       // Obtén el elemento del contador
       var contador = document.getElementById("contador");
 
@@ -210,7 +156,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
       var increment = 1; // ajustar la velocidad de la animación 
       var interval = 50; // ajustar la frecuencia de actualización
 
-      var animation = setInterval(function() {
+      var animation = setInterval(function () {
         // Actualiza el contenido del elemento con el valor actual
         element.textContent = current + " trabajadores dados de alta";
 

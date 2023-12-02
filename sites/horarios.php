@@ -1,13 +1,13 @@
 <?php
 include_once('../config.php');
-include(SECURITY_PATH.'seguridad.php');
-include(SECURITY_PATH.'conexion.php');
-include(SCHEDULE_PATH."functionSchedule.php");
+include(SECURITY_PATH . 'seguridad.php');
+include(SECURITY_PATH . 'conexion.php');
+include(SCHEDULE_PATH . "functionSchedule.php");
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include(COMPONENTS_PATH.'sidebar.php');
+include(COMPONENTS_PATH . 'sidebar.php');
 
-$nav_dashboard ='../dashboard.php';
+$nav_dashboard = 'dashboard.php';
 $nav_turnosP = 'horarios.php';
 $nav_workers = 'trabajadores.php';
 $nav_department = 'departamentos.php';
@@ -30,11 +30,14 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
 </head>
 
 <body>
-    <?php echo $nav?>
+    <?php echo $nav ?>
     <section class="homeTitle" id="trabajadores">
         <div class="text">Turnos publicados</div>
         <div class="contenedor-tabla">
-            <button class='nav-text'><a href='../scripts/php/schedule/scheduleAdd.php'><i class='bx bx-user-plus'></i>Crear turnos</a></button>
+            <button onclick="buttonAction()" class='nav-text' id='buttonAction'>
+                <i class='bx bx-plus'></i>
+                <span>Nuevo turno</span>
+            </button>
             <?php echo $data = getSchedule($conexion) ?>
         </div>
     </section>
@@ -42,5 +45,11 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
 
     <script src="../scripts/js/dashboard.js"></script>
 </body>
+
+<script>
+    function buttonAction() {
+        window.location.href = "../scripts/php/schedule/scheduleAdd.php";
+    }
+</script>
 
 </html>
