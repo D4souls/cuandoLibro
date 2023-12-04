@@ -6,7 +6,7 @@ include('../scripts/php/workers/getDataWorkers.php');
 //? IMPORTAMOS SIDEBAR & RUTAS
 include('../scripts/components/sidebar.php');
 
-$nav_dashboard = '../dashboard.php';
+$nav_dashboard = 'dashboard.php';
 $nav_turnosP = 'horarios.php';
 $nav_workers = 'trabajadores.php';
 $nav_department = 'departamentos.php';
@@ -23,6 +23,7 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
   <meta name="theme-color" content="#695CFE" />
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="../scripts/js/dashboard.js"></script>
   <link rel="icon" href="../img/logo-alt.png">
   <title>CL | Trabajadores</title>

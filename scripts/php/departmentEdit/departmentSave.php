@@ -1,26 +1,45 @@
 <?php
 include("../seguridad/conexion.php");
 
-// Verifica si los parámetros necesarios están presentes en la solicitud
-$query_modificar = "UPDATE departamentos SET id_departamento = ?, nombre = ?, presupuesto = ? WHERE id_departamento = ?";
-    
+$id = $_REQUEST["id"];
+$nombre = $_REQUEST["nombre"];
+$presupuesto = $_REQUEST["presupuesto"];
+
+$query_modificar = "UPDATE departamentos SET nombre = ?, presupuesto = ? WHERE id_departamento = ?";
+
+try {
     $stmt = $conexion->prepare($query_modificar);
 
-    if ($stmt) {
-        // Asigna los parámetros
-        $stmt->bind_param("isii", $_REQUEST["id_departamento"], $_REQUEST["nombre"], $_REQUEST["presupuesto"], $_REQUEST["id_departamento"]);
-
-        // Ejecuta la consulta
-        $stmt->execute();
-
-        // Cierra la consulta preparada
-        $stmt->close();
-
-        echo "Datos actualizados correctamente.\n<a href='../../../sites/departamentos.php#department'>Volver atrás</a>";
-    } else {
-        echo "Error en la preparación de la consulta.";
+    if (!$stmt) {
+        $mensaje = "Error al preparar la consulta de actualización del depart.";
+        $response = array('success' => false, 'message' => $mensaje);
+        echo json_encode($response);
     }
 
-// Cierra la conexión
-$conexion->close();
+    $stmt->bind_param('sii', $nombre, $presupuesto, $id);
+
+    if (!$stmt) {
+        $mensaje = "Error al vincular parametros de la consulta de actualización del depart.";
+        $response = array('success' => false, 'message' => $mensaje);
+        echo json_encode($response);
+    }
+
+    if (!$stmt->execute()) {
+        $mensaje = "Error al ejecutar la consulta de actualización del depart.";
+        $response = array('success' => false, 'message' => $mensaje);
+        echo json_encode($response);
+    } else {
+        $mensaje = "Datos del departamento actualizados correctamente.";
+        $response = array('success' => true, 'message' => $mensaje);
+        echo json_encode($response);
+        $stmt->close();
+    }
+
+} catch (Exception $e) {
+
+} finally {
+    if ($conexion) {
+        $conexion->close();
+    }
+}
 ?>

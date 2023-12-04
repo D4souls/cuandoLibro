@@ -83,13 +83,12 @@ function getDataDeraptment($conexion)
         </tr>";
 
     while ($row = $resultadoConsulta->fetch_assoc()) {
-        $datosEmpleados[] = $row;  // Almacena los datos en el nuevo array
 
         // Construye la tabla HTML como una cadena
         $tablaHtml .= "<tr class='datos' id='departamento_{$row["id_departamento"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento={$row["id_departamento"]}'\">
             <td>" . $row['id_departamento'] . "</td>
             <td>" . $row['nombre'] . "</td>
-            <td>" . $row['presupuesto'] . "€</td>
+            <td>" . number_format($row['presupuesto'], 2, ',', '.') . "€</td>
 
         </tr>";
     }
@@ -116,28 +115,40 @@ function getDataCategory($conexion, $id_departamento, $nombre_departamento)
     }
 
     $resultadoConsulta = $stm->get_result();
-    $tablaHtml = "
-    <h3>Hay $resultadoConsulta->num_rows categorias en el departamento</h3>
-    <table class='tabla-datos'>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Sueldo base</th>
-            <th>Sueldo plus</th>
-        </tr>";
 
-    while ($row = $resultadoConsulta->fetch_assoc()) {
-
-        // Construye la tabla HTML como una cadena
-        $tablaHtml .= "<tr class='datos' id='categoria_{$row["id_categoria"]}' onclick=\"window.location.href='../scripts/php/category/categoryEdit.php?id_categoria={$row["id_categoria"]}&id_departamento={$id_departamento}&nombre_departamento={$nombre_departamento}'\">
-            <td>" . $row['id_categoria'] . "</td>
-            <td>" . $row['nombre'] . "</td>
-            <td>" . $row['sueldo_normal'] . "€/h</td>
-            <td>" . $row['sueldo_plus'] . "€/h</td>
-        </tr>";
+    $tablaHtml = "";
+    if($resultadoConsulta->num_rows > 0) {
+        $tablaHtml = "
+        <h3>Hay $resultadoConsulta->num_rows categorias en el departamento</h3>
+        <table class='tabla-datos'>
+            <tr>
+                <!-- <th>ID</th> -->
+                <th>Nombre</th>
+                <th>Sueldo base</th>
+                <th>Sueldo plus</th>
+            </tr>";
+    
+        while ($row = $resultadoConsulta->fetch_assoc()) {
+    
+            // Construye la tabla HTML como una cadena
+            $tablaHtml .= "<tr class='datos' id='categoria_{$row["id_categoria"]}' onclick=\"window.location.href='../scripts/php/category/categoryEdit.php?id_categoria={$row["id_categoria"]}&id_departamento={$id_departamento}&nombre_departamento={$nombre_departamento}'\">
+                <!-- <td>" . $row['id_categoria'] . "</td> -->
+                <td>" . $row['nombre'] . "</td>
+                <td>" . number_format($row['sueldo_normal'], 2, ',', '.') . "€/h</td>
+                <td>" . number_format($row['sueldo_plus'], 2, ',', '.') . "€/h</td>
+            </tr>";
+        }
+    
+        $tablaHtml .= "</table>";
+        $tablaHtml .= "<center>
+            <a href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento=$id_departamento'>
+                Volver atrás
+            </a>
+        </center>";
+    } else {
+        echo "<h3>No hay categorías aún...</h3>";
     }
 
-    $tablaHtml .= "</table>";
 
     $stm->close();
 

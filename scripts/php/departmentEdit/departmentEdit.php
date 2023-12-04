@@ -11,6 +11,14 @@ include("../seguridad/conexion.php");
     <meta name="theme-color" content="#695CFE" />
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.all.min.js"></script>
     <link rel="icon" href="../../../img/logo-alt.png">
     <title>CL | Editando departamentos</title>
 </head>
@@ -103,13 +111,13 @@ include("../seguridad/conexion.php");
 
             if ($resultado_departamentos->num_rows > 0) {
                 $datos_departamentos = mysqli_fetch_assoc($resultado_departamentos);
-            ?>
+                ?>
 
-                <form action="departmentSave.php" method="get" class="form" id="scheduleForm">
+                <form method="post" class="form" id="scheduleForm">
                     <h2 class="text">Editar departamento</h2>
-                    <label for="id_departamento">ID:
-                        <input type="text" name="id_departamento" value="<?php echo $datos_departamentos['id_departamento']; ?>" readonly>
-                    </label>
+                    <input type="hidden" name="id_departamento"
+                        value="<?php echo $datos_departamentos['id_departamento']; ?>" readonly>
+
 
                     <label for="nombre">Nombre:
                         <input type="text" name="nombre" value="<?php echo $datos_departamentos['nombre']; ?>">
@@ -117,15 +125,16 @@ include("../seguridad/conexion.php");
 
 
                     <label for="presupuesto">Presupuesto:
-                        <input type="text" name="presupuesto" value="<?php echo $datos_departamentos['presupuesto'] . "€"; ?>">
+                        <input type="text" name="presupuesto"
+                            value="<?php echo $datos_departamentos['presupuesto'] . "€"; ?>">
                     </label>
 
-                    <button class="saveButton">Guardar Cambios</button>
+                    <button onclick="saveChanges()" type="button" class="saveButton">Guardar Cambios</button>
                     <button onclick="changeToCategory()" type="button" class="addButton">Ver categorías</button>
-                    <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar departamento</button>
+                    <button onclick="deleteDepartment()" type="button" class="deleteButton">Eliminar departamento</button>
                     <a href="../../../sites/departamentos.php">Volver atrás</a>
                 </form>
-            <?php
+                <?php
             } else {
                 echo "No se encontraron datos para el departamento con ID: $id";
             }
@@ -138,16 +147,137 @@ include("../seguridad/conexion.php");
     </section>
     <script src="../../js/dashboard.js"></script>
     <script>
-        function changeActionAndSubmit() {
-            var form = document.getElementById("scheduleForm");
-            form.action = "departmentDelete.php"; // Cambia la acción del formulario
-            form.submit(); // Envía el formulario
+
+        //! GUARDAR CAMBIOS
+
+        function saveChanges() {
+            var formData = {
+                id: $('[name=id_departamento]').val(),
+                nombre: $('[name=nombre]').val(),
+                presupuesto: $('[name=presupuesto]').val(),
+            }
+
+            if (formData.nombre === '' || formData.presupuesto === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Por favor, completa todos los campos del formulario.',
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+            } else {
+                $.ajax({
+                    url: 'departmentSave.php',
+                    type: 'post',
+                    data: formData,
+                    success: function (response) {
+                        // console.log(response);
+                        var result = JSON.parse(response);
+
+                        if (result.success) {
+                            Swal.fire({
+                                title: "Datos del departamento actualizados.",
+                                icon: "success",
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                            setTimeout(function () {
+                                window.location.href = "../../../sites/departamentos.php";
+                            }, 3000);
+
+                            // Redirigir o realizar otras acciones necesarias después del éxito
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: result.message,
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la solicitud AJAX',
+                            text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                        });
+                    }
+                });
+            }
         }
 
+        //! ELIMINAR DEPARTAMENTO
+
+        function deleteDepartment() {
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción eliminará el departamento. Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    //* DATOS DEL FORMULARIO
+
+                    var formData = {
+                        id: $('[name=id_departamento]').val()
+                    }
+
+                    $.ajax({
+                        url: 'departmentDelete.php',
+                        type: 'post',
+                        data: formData,
+                        success: function (response) {
+                            var result = JSON.parse(response);
+                            // console.log(result);
+
+                            if (result.success) {
+                                Swal.fire({
+                                    title: "Departamento eliminado correctamente.",
+                                    icon: "success",
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
+                                setTimeout(function () {
+                                    window.location.href = "../../../sites/departamentos.php";
+                                }, 3000);
+
+                                // Redirigir o realizar otras acciones necesarias después del éxito
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: result.message,
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error en la solicitud AJAX',
+                                text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        //! ACCEDER A categorías
+
         function changeToCategory() {
-            var idDepartamento = "<?php echo $id; ?>";
-            var nombreDepartamento = "<?php echo $datos_departamentos['nombre']; ?>";
-            window.location.href = "../../../sites/categorias.php?id_departamento=" + idDepartamento + "&nombre_departamento=" + encodeURIComponent(nombreDepartamento);
+            window.location.href = '../../../sites/categorias.php?id_departamento=<?php echo $_GET['id_departamento']?>&nombre_departamento=<?php echo $datos_departamentos['nombre']?>'
         }
     </script>
 </body>

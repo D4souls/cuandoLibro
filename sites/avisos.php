@@ -5,7 +5,7 @@ include('../scripts/php/seguridad/conexion.php');
 //? IMPORTAMOS SIDEBAR & RUTAS
 include('../scripts/components/sidebar.php');
 
-$nav_dashboard = '../dashboard.php';
+$nav_dashboard = 'dashboard.php';
 $nav_turnosP = 'horarios.php';
 $nav_workers = 'trabajadores.php';
 $nav_department = 'departamentos.php';

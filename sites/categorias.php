@@ -25,6 +25,16 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
   <meta name="theme-color" content="#695CFE" />
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.min.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../scripts/js/dashboard.js"></script>
   <link rel="icon" href="../img/logo-alt.png">
   <title>CL | Categorías</title>
 </head>
@@ -37,46 +47,17 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
       <?php echo $nombreDepartamento ?>
     </div>
     <div class="contenedor-tabla">
-      <button class="nav-text"><a href="#categoryAdd"><i class="bx bx-user-plus"></i>Nueva categoria</a></button>
+      <button type="button" onclick="newCategory()" class="nav-text"><i class="bx bx-user-plus"></i>Nueva categoria</button>
       <?php
       $id_departamento = isset($_GET['id_departamento']) ? $_GET['id_departamento'] : null;
       echo getDataCategory($conexion, $id_departamento, $nombreDepartamento);
       ?>
     </div>
-    <center><a
-        href="../scripts/php/departmentEdit/departmentEdit.php?id_departamento=<?php echo $id_departamento ?>">Volver
-        atrás</a></center>
   </section>
 
-  <!-- Secciones ocultas -->
-  <section class="homeTitle" id="categoryAdd">
-    <div class="contenedor-formulario">
-      <form class="form" method="POST" action="../scripts/php/category/categoryAdd.php">
-        <h2 class="text">Nueva categoria</h2>
-        <input type="hidden" name="n_departamento" value="<?php echo $id_departamento ?>">
-        <label>Nombre:
-          <input type="text" placeholder="Nombre..." name="nombre">
-        </label>
-        <label>Sueldo base:
-          <input type="number" placeholder="Sueldo base..." name="sueldo_normal">
-        </label>
-        <label>Sueldo plus:
-          <input type="number" placeholder="Sueldo plus..." name="sueldo_plus">
-        </label>
-        </select>
-        <button class="saveButton">Guardar Cambios</button>
-        <a
-          href="categorias.php?id_departamento=<?php echo $id_departamento ?>&nombre_departamento=<?php echo $nombreDepartamento ?>">Volver
-          atrás</a>
-      </form>
-    </div>
-  </section>
-  <script src="../scripts/js/dashboard.js"></script>
   <script>
-    function changeToCategory() {
-      var form = document.getElementById("scheduleForm");
-      form.action = "../scripts/php/categorias.php?id_departamento=<?php echo $id_departamento; ?>";
-      form.submit();
+    function newCategory() {
+      window.location.href = '../scripts/php/category/categoryCreate.php?id_departamento=<?php echo $id_departamento?>&nombre_departamento=<?php echo $nombreDepartamento?>'
     }
   </script>
 </body>

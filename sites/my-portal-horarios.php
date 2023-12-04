@@ -17,6 +17,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
     <meta name="theme-color" content="#695CFE" />
     <link href="../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="../img/cuandoLibro-logo.png">
     <title>My site | Horarios</title>
 </head>

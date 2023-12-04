@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#695CFE" />
-    <link href="css/login.css" rel="stylesheet" />
+    <link href="../css/login.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="icon" href="img/logo-alt.png">
-    <title>CL | Iniciar Sesión</title>
+    <link rel="icon" href="../img/logo-alt.png">
+    <title>CL | Recuperar contraseña</title>
 </head>
 
 <body>
     <div class="container-login">
         <div class="form-login">
-            <form method="POST" action="./scripts/php/seguridad/control.php">
-                <h1 class="title">Iniciar Sesión</h1>
+            <form method="POST" action="./scripts/php/mail/recover-password.php">
+                <h1 class="title">Recuperar contraseña</h1>
                 <?php
                 $error_message = isset($_GET['error']) ? $_GET['error'] : '';
                 ?>
@@ -23,16 +23,11 @@
                     <?php echo $error_message ?>
                 </div>
                 <label>
-                    <i class='bx bx-user'></i>
-                    <input type="text" name="user" placeholder="Usuario...">
+                    <i class='bx bx-envelope'></i>
+                    <input type="mail" name="mail" placeholder="Mail de recuperación">
                 </label>
-                <label>
-                    <i class='bx bx-lock-alt'></i>
-                    <input type="password" name="password" placeholder="Contraseña...">
-                </label>
-                <a href="sites/recuperar-contrasena.php" class="link">He olvidado la Contraseña</a>
 
-                <button id="button">Acceder</button>
+                <button id="button">Enviar correo de recuperación</button>
             </form>
         </div>
     </div>
