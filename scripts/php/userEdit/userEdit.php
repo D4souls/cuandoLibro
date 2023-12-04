@@ -103,10 +103,6 @@ include('../seguridad/seguridad.php');
     </nav>
 
     <section class="homeTitle" id="trabajadores">
-        <?php
-        $stmtMessage = isset($_GET['status']) ? $_GET['status'] : '';
-        ?>
-        <div id="resultado"></div>
         <div class="contenedor-formulario">
             <?php
             include("../seguridad/conexion.php");
@@ -168,10 +164,38 @@ include('../seguridad/seguridad.php');
 
                     <button onclick="saveChanges()" type="button" class="saveButton">Guardar Cambios</button>
                     <button onclick="resetPassword()" type="button" class="addButton">Reestablecer contraseña</button>
-                    <button onclick="redirectToWarnings()" type="button" class="addButton">
-                        <i class='bx bx-history'></i>
-                        Historial de avisos
-                    </button>
+                    <?php
+
+                    //! MOSTRAR BOTÓN SI TIENE AVISOS
+
+                    $queryAvisos = "SELECT dni FROM aviso WHERE dni = ?";
+                    $stmt_queryAvisos = $conexion->prepare($queryAvisos);
+
+                    if (!$stmt_queryAvisos) {
+                        throw new Exception("Error al preparar la comprobación de los avisos: " . $conexion->error);
+                    }
+
+                    $stmt_queryAvisos->bind_param("s", $dni_empleado);
+
+                    if (!$stmt_queryAvisos->execute()) {
+                        throw new Exception("Error al ejecutar la consulta de comprobación de avisos: " . $stmt_queryAvisos->error);
+                    }
+
+                    $resultado_queryAvisos = $stmt_queryAvisos->get_result();
+
+                    if ($resultado_queryAvisos->num_rows > 0) {
+                        ?>
+                        <button onclick="redirectToWarnings()" type="button" class="addButton">
+                            <i class='bx bx-history'></i>
+                            Historial de avisos
+                        </button>
+                        <?php
+                    }
+
+                    $stmt_queryAvisos->close();
+                    ?>
+
+
                     <button onclick="deleteEmployee()" type="button" class="deleteButton">Eliminar trabajador</button>
                     <!-- <a href="../../../sites/trabajadores.php">Volver atrás</a> -->
                 </form>
@@ -334,7 +358,7 @@ include('../seguridad/seguridad.php');
                 nombre: $('[name="nombre"]').val(),
                 apellido1: $('[name="apellido1"]').val(),
                 apellido2: $('[name="apellido2"]').val(),
-                iban: $('[name="IBAN"]').val(),
+                iban: $('[name="IBAN"]').val().toUpperCase().trim().replace(/\s/g, ''),
                 mail: $('[name="mail"]').val(),
                 n_departamento: $('[name="n_departamento"]').val(),
                 n_categoria: $('[name="n_categoria"]').val()
