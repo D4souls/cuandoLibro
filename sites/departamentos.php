@@ -4,8 +4,7 @@ include("../scripts/php/seguridad/conexion.php");
 include('../scripts/php/workers/getDataWorkers.php');
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include_once('../config.php');
-include(COMPONENTS_PATH.'sidebar.php');
+include('../scripts/components/sidebar.php');
 
 $nav_dashboard ='../dashboard.php';
 $nav_turnosP = 'horarios.php';

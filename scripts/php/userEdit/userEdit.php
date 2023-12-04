@@ -1,5 +1,5 @@
 <?php
-include("../seguridad/conexion.php");
+include('../seguridad/seguridad.php');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -117,13 +117,12 @@ include("../seguridad/conexion.php");
 
             if ($resultado_empleado && $resultado_empleado->num_rows > 0) {
                 $datos_empleado = mysqli_fetch_assoc($resultado_empleado);
-            ?>
+                ?>
 
                 <form method="post" class="form" id="scheduleForm">
                     <h2 class="text">Modificar trabajador</h2>
-                    <label for="dni">DNI:
-                        <input type="text" name="dni" value="<?php echo $datos_empleado['dni']; ?>" readonly>
-                    </label>
+
+                    <input type="hidden" name="dni" value="<?php echo $datos_empleado['dni']; ?>" readonly>
 
                     <label for="nombre">Nombre:
                         <input type="text" name="nombre" value="<?php echo $datos_empleado['nombre']; ?>">
@@ -138,15 +137,17 @@ include("../seguridad/conexion.php");
                     </label>
 
                     <label for="IBAN">IBAN:
-                        <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>">
+                        <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>" class="extendido">
                     </label>
 
-                    <label for="IBAN">email:
-                        <input type="text" name="mail" value="<?php echo $datos_empleado['mail']; ?>">
+                    <label for="mail">Email:
+                        <input type="text" name="mail" value="<?php echo $datos_empleado['mail']; ?>" class="extendido">
                     </label>
-
                     <select name="n_departamento" id="departamento">
-                        <option value="<?php $datos_empleado['n_departamento']?>"><?php echo $datos_empleado['nombreDepartamento']?></option>
+                        <option value="<?php echo $datos_empleado['n_departamento'] ?>">
+                            Pertenece:
+                            <?php echo $datos_empleado['nombreDepartamento'] ?>
+                        </option>
                         <?php
                         // Fetch all departments
                         $query_departamentos = "SELECT * FROM departamentos";
@@ -159,16 +160,23 @@ include("../seguridad/conexion.php");
                         ?>
                     </select>
                     <select name="n_categoria" id="categoria" disabled="">
-                        <option value="<?php $datos_empleado['n_categoria']?>"><?php echo $datos_empleado['nombreCategoria']?></option>
+                        <option value="<?php echo $datos_empleado['n_categoria'] ?>">
+                            Pertenece:
+                            <?php echo $datos_empleado['nombreCategoria'] ?>
+                        </option>
                     </select>
 
-                    <button type="button" class="saveButton" id="saveChanges">Guardar Cambios</button>
+                    <button onclick="saveChanges()" type="button" class="saveButton">Guardar Cambios</button>
                     <button onclick="resetPassword()" type="button" class="addButton">Reestablecer contraseña</button>
+                    <button onclick="redirectToWarnings()" type="button" class="addButton">
+                        <i class='bx bx-history'></i>
+                        Historial de avisos
+                    </button>
                     <button onclick="deleteEmployee()" type="button" class="deleteButton">Eliminar trabajador</button>
-                    <a href="../../../sites/trabajadores.php">Volver atrás</a>
+                    <!-- <a href="../../../sites/trabajadores.php">Volver atrás</a> -->
                 </form>
 
-            <?php
+                <?php
             } else {
                 echo "No se encontraron datos para el trabajador con DNI: $dni_empleado";
             }
@@ -179,6 +187,20 @@ include("../seguridad/conexion.php");
         </div>
     </section>
     <script>
+
+        //! FUNCIÓN AVISOS
+
+        function redirectToWarnings() {
+
+            var formData = {
+                dni: $('[name="dni"]').val()
+            };
+
+            window.location.href = "historial-avisos.php?dni=" + formData.dni
+        }
+
+        //! FUNCIÓN ELIMINAR EMPLEADO
+
         function deleteEmployee() {
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -190,12 +212,56 @@ include("../seguridad/conexion.php");
                 confirmButtonText: 'Sí, eliminar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var form = document.getElementById("scheduleForm");
-                    form.action = "userDelete.php";
-                    form.submit();
+
+                    //* DATOS DEL FORMULARIO
+
+                    var formData = {
+                        dni: $('[name="dni"]').val()
+                    };
+
+                    $.ajax({
+                        url: 'userDelete.php',
+                        type: 'get',
+                        data: { dni: formData.dni },
+                        success: function (response) {
+                            var result = JSON.parse(response);
+
+                            if (result.success) {
+                                Swal.fire({
+                                    title: "Usuario eliminado correctamente.",
+                                    icon: "success",
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
+                                setTimeout(function () {
+                                    window.location.href = "../../../sites/trabajadores.php";
+                                }, 3000);
+
+                                // Redirigir o realizar otras acciones necesarias después del éxito
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: result.message,
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error en la solicitud AJAX',
+                                text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                            });
+                        }
+                    });
                 }
             });
         }
+
+        //! FUNCIÓN RESET PASSWORD
 
         function resetPassword() {
             Swal.fire({
@@ -208,16 +274,117 @@ include("../seguridad/conexion.php");
                 confirmButtonText: 'Sí, reestrablecer'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var form = document.getElementById("scheduleForm");
-                    form.action = "resetPassword.php";
-                    form.submit();
+
+                    //* DATOS DEL FORMULARIO
+
+                    var formData = {
+                        dni: $('[name="dni"]').val()
+                    };
+
+                    $.ajax({
+                        url: 'resetPassword.php',
+                        type: 'get',
+                        data: { dni: formData.dni },
+                        success: function (response) {
+                            var result = JSON.parse(response);
+
+                            if (result.success) {
+                                Swal.fire({
+                                    title: "Contraseña reseteada correctamente.",
+                                    icon: "success",
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
+                                setTimeout(function () {
+                                    window.location.href = "../../../sites/trabajadores.php";
+                                }, 3000);
+
+                                // Redirigir o realizar otras acciones necesarias después del éxito
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: result.message,
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error en la solicitud AJAX',
+                                text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                            });
+                        }
+                    });
                 }
             });
         }
-        $(document).ready(function() {
+
+        //! GUARDAR CAMBIOS
+
+        function saveChanges() {
+
+            //* DATOS DEL FORMULARIO
+
+            var formData = {
+                dni: $('[name="dni"]').val(),
+                nombre: $('[name="nombre"]').val(),
+                apellido1: $('[name="apellido1"]').val(),
+                apellido2: $('[name="apellido2"]').val(),
+                iban: $('[name="IBAN"]').val(),
+                mail: $('[name="mail"]').val(),
+                n_departamento: $('[name="n_departamento"]').val(),
+                n_categoria: $('[name="n_categoria"]').val()
+            };
+
+            $.ajax({
+                url: 'userSave.php',
+                type: 'post',
+                data: formData,
+                success: function (response) {
+                    // console.log(response);
+                    var result = JSON.parse(response);
+
+                    if (result.success) {
+                        Swal.fire({
+                            title: "Datos actualizados",
+                            icon: "success",
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        });
+                        setTimeout(function () {
+                            window.location.href = "../../../sites/trabajadores.php";
+                        }, 3000);
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message,
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la solicitud AJAX',
+                        text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                    });
+                }
+            });
+        }
+
+        //! OBTENER CATEGORÍA
+        $(document).ready(function () {
             var categoria = $('#categoria');
 
-            $('#departamento').change(function() {
+            $('#departamento').change(function () {
                 var departamento_id = $(this).val();
                 if (departamento_id !== '') {
                     $.ajax({
@@ -227,7 +394,7 @@ include("../seguridad/conexion.php");
                         dataType: 'html',
                         type: 'POST',
                         url: '../category/categoryGet.php'
-                    }).done(function(data) {
+                    }).done(function (data) {
                         categoria.html(data);
                         categoria.prop('disabled', false);
                     });
@@ -235,59 +402,6 @@ include("../seguridad/conexion.php");
                     categoria.val('');
                     categoria.prop('disabled', true);
                 }
-            });
-
-            $('#saveChanges').click(function() {
-                // Obtener valores de los campos del formulario
-                var formData = {
-                    dni: $('[name="dni"]').val(),
-                    nombre: $('[name="nombre"]').val(),
-                    apellido1: $('[name="apellido1"]').val(),
-                    apellido2: $('[name="apellido2"]').val(),
-                    IBAN: $('[name="IBAN"]').val(),
-                    mail: $('[name="mail"]').val(),
-                    n_departamento: $('[name="n_departamento"]').val(),
-                    n_categoria: $('[name="n_categoria"]').val()
-                };
-
-                $.ajax({
-                    url: 'userSave.php',
-                    type: 'post',
-                    data: formData,
-                    success: function(response) {
-                        var result = JSON.parse(response);
-
-                        if (result.success) {
-                            Swal.fire({
-                                title: "Datos actualizados",
-                                icon: "success",
-                                toast: true,
-                                position: "top-end",
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                            });
-                            setTimeout(function() {
-                                window.location.href = "../../../sites/trabajadores.php";
-                            }, 3000);
-
-                            // Redirigir o realizar otras acciones necesarias después del éxito
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: result.message,
-                            });
-                        }
-                    },
-                    error: function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error en la solicitud AJAX',
-                            text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
-                        });
-                    }
-                });
             });
         });
     </script>

@@ -1,27 +1,46 @@
 <?php
 include("../seguridad/conexion.php");
 
-// Verifica si los parámetros necesarios están presentes en la solicitud
+if (!$conexion) {
+    throw new Exception("Error al conectar con la DB:" . $conexion->error);
+}
+
 $query_modificar = "UPDATE userweb SET userpassword = ?, lastchangepassword = ? WHERE dniusuarioweb = ?";
-    
+
+try {
     $stmt = $conexion->prepare($query_modificar);
 
-    if ($stmt) {
-        // Asigna los parámetros
-        $null = NULL;
-        $stmt->bind_param("sss", $_REQUEST["dni"], $null, $_REQUEST["dni"]);
-
-        // Ejecuta la consulta
-        $stmt->execute();
-
-        // Cierra la consulta preparada
-        $stmt->close();
-
-        echo "Datos actualizados correctamente.\n<a href='../../../sites/trabajadores.php'>Volver atrás</a>";
-    } else {
-        echo "Error en la preparación de la consulta.";
+    if (!$stmt) {
+        $mensaje = "Error al preparar la consulta.";
+        $response = array('success' => false, 'message' => $mensaje);
+        echo json_encode($response);
     }
 
-// Cierra la conexión
-$conexion->close();
+    $null = NULL;
+    $stmt->bind_param("sss", $_REQUEST["dni"], $null, $_REQUEST["dni"]);
+
+    if (!$stmt) {
+        $mensaje = "Error al vincular parámetros la consulta.";
+        $response = array('success' => false, 'message' => $mensaje);
+        echo json_encode($response);
+    }
+
+    if ($stmt->execute()) {
+        $mensaje = "Contraseña reestablecida correctamente.";
+        $response = array('success' => true, 'message' => $mensaje);
+        echo json_encode($response);
+    } else {
+        $mensaje = "Error al ejecutar la consulta";
+        $response = array('success' => false, 'message' => $mensaje);
+        echo json_encode($response);
+    }
+
+    $stmt->close();
+
+} catch (Exception $e) {
+    $response = array('success' => false, 'message' => $e);
+    echo json_encode($response);
+} finally {
+    $conexion->close();
+}
 ?>

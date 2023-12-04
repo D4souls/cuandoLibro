@@ -15,37 +15,48 @@ function getDataWorkers($conexion)
     }
 
     $resultadoConsulta = $stm->get_result();
-    $tablaHtml = "
-    <h3>Hay $resultadoConsulta->num_rows trabajadores en la base de datos</h3>
-    <table class='tabla-datos'>
-        <tr>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Apellido1</th>
-            <th>Apellido2</th>
-            <th>Departamento</th>
-            <th>Categoría</th>
-        </tr>";
+    $tablaHtml = "";
 
-    while ($row = $resultadoConsulta->fetch_assoc()) {
-        $datosEmpleados[] = $row;
-        $dni_oculto = str_repeat("*", 4) . substr($row["dni"], 4);
-        $tablaHtml .= "<tr class='datos' id='trabajador_{$row["dni"]}' onclick=\"window.location.href='../scripts/php/userEdit/userEdit.php?dni={$row["dni"]}'\">
-        <td>" . $dni_oculto . "</td>
-        <td>" . $row['nombre'] . "</td>
-        <td>" . $row['apellido1'] . "</td>
-        <td>" . $row['apellido2'] . "</td>
-        <td>" . $row['nombreDepartamento'] . "</td>
-        <td>" . $row['nombreCategoria'] . "</td>
-        </tr>";
+    if ($resultadoConsulta->num_rows > 0) {
+        if ($resultadoConsulta->num_rows == 1) {
+            $tablaHtml .= "<h3>Hay 1 empleado dado de alta</h3>";
+        } else {
+            $tablaHtml .= "<h3>Hay " . $resultadoConsulta->num_rows . " empleados dados de alta</h3>";
+        }
+
+        $tablaHtml .= "
+        <table class='tabla-datos'>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>1º Apellido</th>
+                <th>2º Apellido</th>
+                <th>Departamento</th>
+                <th>Categoría</th>
+            </tr>";
+
+        while ($row = $resultadoConsulta->fetch_assoc()) {
+            $dni_oculto = str_repeat("*", 4) . substr($row["dni"], 4);
+            $tablaHtml .= "<tr class='datos' id='trabajador_{$row["dni"]}' onclick=\"window.location.href='../scripts/php/userEdit/userEdit.php?dni={$row["dni"]}'\">
+            <td>" . $dni_oculto . "</td>
+            <td>" . $row['nombre'] . "</td>
+            <td>" . $row['apellido1'] . "</td>
+            <td>" . $row['apellido2'] . "</td>
+            <td>" . $row['nombreDepartamento'] . "</td>
+            <td>" . $row['nombreCategoria'] . "</td>
+            </tr>";
+        }
+
+        $tablaHtml .= "</table>";
+    } else {
+        $tablaHtml .= "<h2 class='text'>No hay ningún empleado dado de alta...</h2>";
     }
-
-    $tablaHtml .= "</table>";
 
     $stm->close();
 
     return $tablaHtml;
 }
+
 
 
 function getDataDeraptment($conexion)
@@ -134,7 +145,8 @@ function getDataCategory($conexion, $id_departamento, $nombre_departamento)
     return $tablaHtml;
 }
 
-function totalMoney($conexion) {
+function totalMoney($conexion)
+{
     $var_consulta = "SELECT * FROM departamentos";
     $var_resultado = $conexion->query($var_consulta);
 
@@ -153,7 +165,8 @@ function totalMoney($conexion) {
     return $data;
 }
 
-function totalWorkers($conexion) {
+function totalWorkers($conexion)
+{
     $var_consulta = "SELECT COUNT(*) AS 'cantidad' FROM empleados";
     $var_resultado = $conexion->query($var_consulta);
     $data = $var_resultado->fetch_assoc();

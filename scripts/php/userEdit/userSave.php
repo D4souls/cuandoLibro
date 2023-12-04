@@ -1,32 +1,65 @@
 <?php
 include("../seguridad/conexion.php");
 
-// Validar y escapar los datos
-$nombre = mysqli_real_escape_string($conexion, $_REQUEST["nombre"]);
-$apellido1 = mysqli_real_escape_string($conexion, $_REQUEST["apellido1"]);
-$apellido2 = mysqli_real_escape_string($conexion, $_REQUEST["apellido2"]);
-$IBAN = mysqli_real_escape_string($conexion, $_REQUEST["IBAN"]);
-$mail = mysqli_real_escape_string($conexion, $_REQUEST["mail"]);
-$n_departamento = mysqli_real_escape_string($conexion, $_REQUEST["n_departamento"]);
-$n_categoria = mysqli_real_escape_string($conexion, $_REQUEST["n_categoria"]);
-$dni = mysqli_real_escape_string($conexion, $_REQUEST["dni"]);
 
-$query_modificar = "UPDATE empleados SET nombre = ?, apellido1 = ?, apellido2 = ?, IBAN = ?, mail = ?, n_departamento = ?, n_categoria = ? WHERE dni = ?";
-$stmt = $conexion->prepare($query_modificar);
-
-if ($stmt) {
-    $stmt->bind_param("ssssssss", $nombre, $apellido1, $apellido2, $IBAN, $mail ,$n_departamento, $n_categoria, $dni);
-    $stmt->execute();
-    $stmt->close();
-
-    $response = array('success' => true, 'message' => 'Datos actualizados correctamente');
+if (!$conexion) {
+    $mensaje = "Error al conectarse a la DB";
+    $response = array('success' => false, 'message' => $mensaje);
     echo json_encode($response);
-} else {
-    $stmtMessage = "Error en la preparación de la consulta.";
-    $response = array('success' => false, 'message' => $stmtMessage);
-    echo json_encode($response);
-    exit;
+    exit();
 }
 
-// Cierra la conexión
-$conexion->close();
+$nombre = $_REQUEST["nombre"];
+$apellido1 = $_REQUEST["apellido1"];
+$apellido2 = $_REQUEST["apellido2"];
+$IBAN = $_REQUEST["iban"];
+$mail = $_REQUEST["mail"];
+$n_departamento = $_REQUEST["n_departamento"];
+$n_categoria = $_REQUEST["n_categoria"];
+$dni = $_REQUEST["dni"];
+
+$query_modificar = "UPDATE empleados SET nombre = ?, apellido1 = ?, apellido2 = ?, IBAN = ?, mail = ?, n_departamento = ?, n_categoria = ? WHERE dni = ?";
+try {
+    $stmt = $conexion->prepare($query_modificar);
+
+    if (!$stmt) {
+        $mensaje = "Error al preparar la consulta";
+        $response = array('success' => false, 'message' => $mensaje);
+        
+        echo json_encode($response);
+        exit();
+    }
+
+    $stmt->bind_param("ssssssss", $nombre, $apellido1, $apellido2, $IBAN, $mail, $n_departamento, $n_categoria, $dni);
+
+    if (!$stmt) {
+        $mensaje = "Error al vincular parametros en la consulta";
+        $response = array('success' => false, 'message' => $mensaje);
+        
+        echo json_encode($response);
+        exit();
+    }
+
+    if ($stmt->execute()) {
+        $mensaje = "Datos actualizados correctamente";
+        $response = array('success' => true, 'message' => $mensaje);
+        
+        echo json_encode($response);
+    } else {
+        $mensaje = "Error al ejecutar la consulta";
+        $response = array('success' => false, 'message' => $mensaje);
+        
+        echo json_encode($response);
+    }
+    $stmt->close();
+
+} catch (Exception $e) {
+    $mensaje = "Error: " . $e->getMessage();
+    $response = array('success' => false, 'message' => $mensaje);
+    
+    echo json_encode($response);
+} finally {
+    if ($conexion) {
+        $conexion->close();
+    }
+}

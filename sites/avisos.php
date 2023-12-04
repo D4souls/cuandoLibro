@@ -3,8 +3,7 @@ include('../scripts/php/seguridad/seguridad.php');
 include('../scripts/php/seguridad/conexion.php');
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include_once('../config.php');
-include(COMPONENTS_PATH . 'sidebar.php');
+include('../scripts/components/sidebar.php');
 
 $nav_dashboard = '../dashboard.php';
 $nav_turnosP = 'horarios.php';

@@ -30,24 +30,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultado_comprobacion->execute();
 
         if ($resultado_comprobacion->fetch()) {
-            print("<h3>[!] Error: Ya hay un trabajador registrado con estos datos</h3>\n<a href='../../../sites/trabajadores.php'>Cerrar ventana</a>");
+            $mensaje = "Ya hay un usuario con el mismo DNI";
+            $response = array('success' => false, 'message' => $mensaje);
+            echo json_encode($response);
         } else {
             $query_insert = "INSERT INTO empleados (dni, nombre, apellido1, apellido2, iban, mail, n_categoria, n_departamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $resultado_insert = $conexion->prepare($query_insert);
             $resultado_insert->bind_param("ssssssss", $dni, $nombre, $apellido1, $apellido2, $iban, $mail, $n_categoria, $n_departamento);
 
             if ($resultado_insert->execute()) {
-                echo "<h3>[+] Trabajador dado de alta correctamente!</h3>\n<a href='../../../sites/trabajadores.php'>Cerrar ventana</a>";
-                exit();
+                $mensaje = "Usuario dado de alta!";
+                $response = array('success' => true, 'message' => $mensaje);
+                echo json_encode($response);
             }
         }
     } catch (mysqli_sql_exception $e) {
         // Manejar el error de duplicidad de clave primaria
         if ($e->getCode() == 1062) {
-            print("<h3>[!] Error: El DNI ya está registrado</h3>\n<a href='../../../sites/trabajadores.php'>Cerrar ventana</a>");
+            $mensaje = "Ya hay un usuario con el mismo DNI";
+            $response = array('success' => false, 'message' => $mensaje);
+            echo json_encode($response);
         } else {
             // Otro tipo de error
-            print("<h3>[!] Error: " . $e->getMessage() . "</h3>");
+            $response = array('success' => false, 'message' => $e->getMessage());
+            echo json_encode($response);
         }
     }
 }

@@ -15,9 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_comprobar->bind_result($id, $usernameweb, $db_password, $rol, $dniusuarioweb, $lastlogout, $datePasswordChange);
 
     if ($stmt_comprobar->fetch()) {
+        $stmt_comprobar->close();
         if ($datePasswordChange === null) {
             if ($password == $db_password) {
                 $_SESSION["autentificado"] = "SI";
+                $_SESSION["ultimoAcceso"] = date("d-m-Y H:i:s");
                 $_SESSION["userwebdni"] = $dniusuarioweb;
                 if ($rol == 1) {
                     header("Location: ../../../sites/my-portal.php");
@@ -37,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($hashed_password_input === $db_password) {
                 $_SESSION["autentificado"] = "SI";
+                $_SESSION["ultimoAcceso"] = date("d-m-Y H:i:s");
                 $_SESSION["userwebdni"] = $dniusuarioweb;
                 if ($rol == 1) {
                     header("Location: ../../../sites/my-portal.php");
@@ -52,15 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } else {
+        $stmt_comprobar->close();
         $error_message = "Usuario no encontrado";
         header("Location: ../../../index.php?error=" . urlencode($error_message));
         exit();
     }
-
-    $stmt_comprobar->close();
 } else {
+    $conexion->close();
     header("Location: ../../../index.php");
     exit();
 }
 
-$conexion->close();

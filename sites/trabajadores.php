@@ -4,8 +4,7 @@ include("../scripts/php/seguridad/conexion.php");
 include('../scripts/php/workers/getDataWorkers.php');
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include_once('../config.php');
-include(COMPONENTS_PATH . 'sidebar.php');
+include('../scripts/components/sidebar.php');
 
 $nav_dashboard = '../dashboard.php';
 $nav_turnosP = 'horarios.php';
@@ -24,6 +23,7 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
   <meta name="theme-color" content="#695CFE" />
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="../scripts/js/dashboard.js"></script>
   <link rel="icon" href="../img/logo-alt.png">
   <title>CL | Trabajadores</title>
 </head>
@@ -34,12 +34,18 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
   <section class="homeTitle" id="trabajadores">
     <div class="text">Trabajadores</div>
     <div class="contenedor-tabla">
-      <button class="nav-text"><a href="alta-trabajador.php"><i class="bx bx-user-plus"></i>Agregar
-          empleado</a></button>
+      <button onclick="buttonAction()" type="button" class="nav-text">
+        <i class="bx bx-user-plus"></i>
+        Agregar empleado</button>
       <?php echo $data = getDataWorkers($conexion) ?>
     </div>
   </section>
-  <script src="../scripts/js/dashboard.js"></script>
 </body>
+
+<script>
+  function buttonAction() {
+    window.location.href = "../scripts/php/userAdd/alta-trabajador.php";
+  }
+</script>
 
 </html>

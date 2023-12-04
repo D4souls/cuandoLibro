@@ -654,6 +654,10 @@ body.dark #category.homeTitle a{
     padding: 0 5px;
 }
 
+.form .extendido{
+    width: 80%;
+}
+
 .form label input,
 .saveButton,
 .deleteButton{ font-size: 16px; }

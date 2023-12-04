@@ -1,11 +1,11 @@
 <?php
-include_once('../config.php');
-include(SECURITY_PATH . 'seguridad.php');
-include(SECURITY_PATH . 'conexion.php');
-include(SCHEDULE_PATH . "functionSchedule.php");
+include_once('../scripts/php/seguridad/seguridad.php');
+include_once('../scripts/php/seguridad/conexion.php');
+include_once('../scripts/php/schedule/functionSchedule.php');
+
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include(COMPONENTS_PATH . 'sidebar.php');
+include('../scripts/components/sidebar.php');
 
 $nav_dashboard = 'dashboard.php';
 $nav_turnosP = 'horarios.php';

@@ -3,10 +3,20 @@ session_start();
 
 //COMPRUEBA QUE EL USUARIO ESTA AUTENTIFICADO
 if (!isset($_SESSION["autentificado"]) || $_SESSION["autentificado"] != "SI") {
-    //si no existe, envío a la página de autenticación
     $error_message = "Credenciales no válidas";
     header("Location: ../../../index.php?error=".urlencode($error_message));
-    //además salgo de este script
     exit();
+} else {
+    $fechaGuardada = $_SESSION["ultimoAcceso"];
+    $ahora = date("d-m-Y H:i:s");
+    $tiempoTranscurrido = (strtotime($ahora) - strtotime($fechaGuardada));
+
+    if($tiempoTranscurrido >= 600){
+        session_destroy();
+        $error_message = "Pérdida de conexión por inactividad";
+        header("Location: ../../../index.php?error=".urlencode($error_message));
+    } else {
+        $_SESSION["ultimoAcceso"] = date("d-m-Y H:i:s");
+    }
 }
 ?>

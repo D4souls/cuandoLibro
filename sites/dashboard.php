@@ -1,12 +1,11 @@
 <?php
-include_once('../config.php');
-include(SECURITY_PATH . 'seguridad.php');
-include(SECURITY_PATH . 'conexion.php');
-include('../scripts/php/login/datosTrabajadorLogin.php');
-include('../scripts/php/workers/getDataWorkers.php');
+include_once('../scripts/php/seguridad/seguridad.php');
+include_once('../scripts/php/seguridad/conexion.php');
+include_once('../scripts/php/login/datosTrabajadorLogin.php');
+include_once('../scripts/php/workers/getDataWorkers.php');
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include(COMPONENTS_PATH . 'sidebar.php');
+include('../scripts/components/sidebar.php');
 
 $nav_dashboard = '../dashboard.php';
 $nav_turnosP = 'horarios.php';
