@@ -127,7 +127,7 @@ include("../seguridad/conexion.php");
                 </label>
                 <label>
                     Cantidad de registros?
-                    <input type="number" name="cantidad" id="cantidad">
+                    <input type="number" name="cantidad" id="cantidad" placeholder="1">
                 </label>
                 <button type="button" class="saveButton" id="createSchedule">Crear turnos</button>
                 <a href="../../../sites/horarios.php">Volver atrás</a>
@@ -182,11 +182,13 @@ include("../seguridad/conexion.php");
                         timerProgressBar: true,
                     });
                 } else {
+                    console.log(formData);
                     $.ajax({
                         url: 'scheduleSave.php',
                         type: 'post',
                         data: formData,
                         success: function (response) {
+                            console.log(response);
                             var result = JSON.parse(response);
                             if (result.success) {
                                 Swal.fire({
@@ -205,8 +207,12 @@ include("../seguridad/conexion.php");
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Error',
-                                    text: result.message,
+                                    title: result.message,
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,   
+                                    timer: 3000,
+                                    timerProgressBar: true,
                                 });
                             }
                             },

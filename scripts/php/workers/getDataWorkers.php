@@ -61,7 +61,7 @@ function getDataWorkers($conexion)
 
 function getDataDeraptment($conexion)
 {
-    $query = "SELECT * FROM departamentos";
+    $query = "SELECT id_departamento, nombre, presupuesto, gastos FROM departamentos";
 
     $stm = $conexion->prepare($query);
     if (!$stm) {
@@ -73,27 +73,38 @@ function getDataDeraptment($conexion)
     }
 
     $resultadoConsulta = $stm->get_result();
-    $tablaHtml = "
-    <h3>Hay $resultadoConsulta->num_rows departamentos en la base de datos</h3>
-    <table class='tabla-datos'>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Presupuesto</th>
-        </tr>";
+    $tablaHtml = "";
 
-    while ($row = $resultadoConsulta->fetch_assoc()) {
+    if ($resultadoConsulta->num_rows > 0) {
 
-        // Construye la tabla HTML como una cadena
-        $tablaHtml .= "<tr class='datos' id='departamento_{$row["id_departamento"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento={$row["id_departamento"]}'\">
-            <td>" . $row['id_departamento'] . "</td>
-            <td>" . $row['nombre'] . "</td>
-            <td>" . number_format($row['presupuesto'], 2, ',', '.') . "€</td>
+        $plural = $resultadoConsulta->num_rows == 1 ? "" : "s";
 
-        </tr>";
+        $tablaHtml = "
+        <h3>Hay $resultadoConsulta->num_rows departamento{$plural} dados de alta</h3>
+        <table class='tabla-datos'>
+            <tr>
+                <th>Nombre</th>
+                <th>Presupuesto total</th>
+                <th>Gastos</th>
+                <th>Presupuesto restante</th>
+            </tr>";
+
+        while ($row = $resultadoConsulta->fetch_assoc()) {
+
+            $tablaHtml .= "<tr class='datos hover:text-white hover hover:bg-[#41cf1d]' id='departamento_{$row["id_departamento"]}' onclick=\"window.location.href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento={$row["id_departamento"]}'\">
+                <td>" . $row['nombre'] . "</td>
+                <td>" . number_format($row['presupuesto'], 2, ',', '.') . "€</td>
+                <td>" . number_format($row['gastos'], 2, ',', '.') ."€</td>
+                <td>" . number_format(($row['presupuesto'] - $row['gastos']), 2, ',', '.')."€</td>
+
+            </tr>";
+        }
+
+        $tablaHtml .= "</table>";
+
+    } else {
+        $tablaHtml .= "<h3>No hay departamentos dados de alta...</h3>";
     }
-
-    $tablaHtml .= "</table>";
 
     $stm->close();
 
@@ -117,9 +128,12 @@ function getDataCategory($conexion, $id_departamento, $nombre_departamento)
     $resultadoConsulta = $stm->get_result();
 
     $tablaHtml = "";
-    if($resultadoConsulta->num_rows > 0) {
+    if ($resultadoConsulta->num_rows > 0) {
+
+        $plural = $resultadoConsulta->num_rows == 1 ? "" : "s";
+
         $tablaHtml = "
-        <h3>Hay $resultadoConsulta->num_rows categorias en el departamento</h3>
+        <h3>Hay $resultadoConsulta->num_rows categoria{$plural} activa.</h3>
         <table class='tabla-datos'>
             <tr>
                 <!-- <th>ID</th> -->
@@ -127,9 +141,9 @@ function getDataCategory($conexion, $id_departamento, $nombre_departamento)
                 <th>Sueldo base</th>
                 <th>Sueldo plus</th>
             </tr>";
-    
+
         while ($row = $resultadoConsulta->fetch_assoc()) {
-    
+
             // Construye la tabla HTML como una cadena
             $tablaHtml .= "<tr class='datos' id='categoria_{$row["id_categoria"]}' onclick=\"window.location.href='../scripts/php/category/categoryEdit.php?id_categoria={$row["id_categoria"]}&id_departamento={$id_departamento}&nombre_departamento={$nombre_departamento}'\">
                 <!-- <td>" . $row['id_categoria'] . "</td> -->
@@ -138,7 +152,7 @@ function getDataCategory($conexion, $id_departamento, $nombre_departamento)
                 <td>" . number_format($row['sueldo_plus'], 2, ',', '.') . "€/h</td>
             </tr>";
         }
-    
+
         $tablaHtml .= "</table>";
         $tablaHtml .= "<center>
             <a href='../scripts/php/departmentEdit/departmentEdit.php?id_departamento=$id_departamento'>

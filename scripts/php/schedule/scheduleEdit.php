@@ -114,6 +114,7 @@ include("../seguridad/conexion.php");
 
                 <form method="post" id="scheduleForm" class="form">
                     <h2 class="text">Realizar cambios</h2>
+                    <input type="hidden" name="id_categoria" value="<?php echo $datos['categoria']; ?>">
                     <input type="hidden" name="id_turnoP" value="<?php echo $datos['id_turnoP']; ?>">
                     <input type="hidden" name="fecha" value="<?php echo $datos['fecha']; ?>">
                     <!-- <input type="hidden" name="categoria" value="<?php echo $datos['categoria']; ?>"> -->
@@ -178,7 +179,7 @@ include("../seguridad/conexion.php");
                 if (result.isConfirmed) {
 
                     var formData = {
-                        dni: $('[name="dni"]').val(),
+                        id_categoria: $('[name="id_categoria"]').val(),
                         id_turnoP: $('[name="id_turnoP"]').val()
                     };
 

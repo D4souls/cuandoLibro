@@ -409,7 +409,7 @@ body.dark .switch::before{
 }
 
 body.dark .datos:hover td {
-    color: var(--text-color);
+    color: var(--primary-color-light);
 }
 
 .panel {

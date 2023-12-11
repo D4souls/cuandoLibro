@@ -5,10 +5,9 @@ include('../scripts/php/workers/getDataWorkers.php');
 $nombreDepartamento = isset($_GET['nombre_departamento']) ? urldecode($_GET['nombre_departamento']) : '';
 
 //? IMPORTAMOS SIDEBAR & RUTAS
-include_once('../config.php');
-include(COMPONENTS_PATH . 'sidebar.php');
+include('../scripts/components/sidebar.php');
 
-$nav_dashboard = '../dashboard.php';
+$nav_dashboard = 'dashboard.php';
 $nav_turnosP = 'horarios.php';
 $nav_workers = 'trabajadores.php';
 $nav_department = 'departamentos.php';

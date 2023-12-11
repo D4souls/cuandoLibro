@@ -52,6 +52,12 @@ function sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $n
                             <span class='text nav-text'>Avisos</span>
                         </a>
                     </li>
+                    <li class='nav-links'>
+                        <a href='http://localhost/phpmyadmin/' target='_blank'>
+                            <i class='bx bx-data icon'></i>
+                            <span class='text nav-text'>Mysql</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class='bottom-content'>
