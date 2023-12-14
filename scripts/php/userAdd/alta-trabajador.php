@@ -223,6 +223,7 @@ include_once('../seguridad/conexion.php');
                 type: 'post',
                 data: formData,
                 success: function (response) {
+                  console.log(response);
                   var result = JSON.parse(response);
                   if (result.success) {
                     Swal.fire({

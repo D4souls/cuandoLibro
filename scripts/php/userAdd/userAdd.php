@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // $iban = generadorIBAN($numeroAleatorio);
 
     include("../seguridad/conexion.php");
+    include("../userImages/crearImagen.php");
+    include("../seguridad/mail/sendWelcome.php");
 
     if ($conexion->connect_error) {
         die("[!] Conexión fallida: " . $conexion->connect_error);
@@ -38,9 +40,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $resultado_insert = $conexion->prepare($query_insert);
             $resultado_insert->bind_param("ssssssss", $dni, $nombre, $apellido1, $apellido2, $iban, $mail, $n_categoria, $n_departamento);
 
-            if ($resultado_insert->execute()) {
-                $mensaje = "Usuario dado de alta!";
-                $response = array('success' => true, 'message' => $mensaje);
+
+            $nombreCompleto = $nombre . " " . $apellido1;
+            $quitarAcentos = eliminar_acentos($nombreCompleto);
+            $fotoPerfil = crearFoto($quitarAcentos, $dni);
+
+            if ($fotoPerfil == true) {
+                if ($resultado_insert->execute()) {
+                    mkdir("../seguridad/nominas/" . $dni . "/");
+
+                    $data = array(
+                        "dni"=> $dni,
+                        "nombre" => $nombre,
+                        "apellido1" => $apellido1,
+                        "apellido2" => $apellido2,
+                        "mail" => $mail
+                    );
+
+                    $res = sendWelcome($data);
+
+                    $mensaje = "Usuario dado de alta!";
+                    $response = array('success' => true, 'message' => $mensaje);
+                    echo json_encode($response);
+                }
+            } else {
+                $mensaje = "Error al crear la fotografía personalizada";
+                $response = array('success' => false, 'message' => $mensaje . " " . $res);
                 echo json_encode($response);
             }
         }

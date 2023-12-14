@@ -125,8 +125,7 @@ include("../seguridad/conexion.php");
 
 
                     <label for="presupuesto">Presupuesto:
-                        <input type="number" step="0.01" name="presupuesto"
-                            value="<?php echo $datos_departamentos['presupuesto']; ?>">
+                        <input type="number" step="0.01" name="presupuesto" value="<?php echo $datos_departamentos['presupuesto']; ?>">
                     </label>
 
                     <button onclick="saveChanges()" type="button" class="saveButton">Guardar Cambios</button>

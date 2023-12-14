@@ -59,6 +59,8 @@ function getSchedule($conexion)
                 $tablaHtml .= "</tr>";
             }
             $tablaHtml .= "</table>";
+        } else {
+            $tablaHtml .= "<h3 class='text'>No hay turnos publicados...</h3>";
         }
     
         return $tablaHtml;

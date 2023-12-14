@@ -24,51 +24,37 @@ include("../seguridad/seguridad.php");
                 <span class="image">
                     <img src="../../../img/cuandoLibro-logo.png" alt="logoClaro" />
                 </span>
-
-                <div class="text header-text">
-                    <span class="name">CuandoLibro</span>
-                    <span class="profession">IAW & DB</span>
-                </div>
             </div>
             <i class="bx bx-chevron-right toggle"></i>
         </header>
 
         <div class="menu-bar">
             <div class="menu">
-                <li class="search-box">
-                    <i class="bx bx-search icon"></i>
-                    <input type="text" placeholder="Buscar..." />
-                </li>
 
                 <ul class="menu-links">
                     <li class="nav-links">
                         <a href="../dashboard.php">
                             <i class="bx bx-home-alt-2 icon"></i>
-                            <span class="text nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-links">
                         <a href="horarios.php">
                             <i class="bx bx-calendar-alt icon"></i>
-                            <span class="text nav-text">Horarios</span>
                         </a>
                     </li>
                     <li class="nav-links">
                         <a href="trabajadores.php">
                             <i class="bx bx-user icon"></i>
-                            <span class="text nav-text">Trabajadores</span>
                         </a>
                     </li>
                     <li class="nav-links">
                         <a href="departamentos.php">
                             <i class="bx bx-briefcase-alt-2 icon"></i>
-                            <span class="text nav-text">Departamentos</span>
                         </a>
                     </li>
                     <li class="nav-links">
                         <a href="avisos.php">
                             <i class="bx bx-error icon"></i>
-                            <span class="text nav-text">Avisos</span>
                         </a>
                     </li>
                 </ul>
@@ -80,16 +66,6 @@ include("../seguridad/seguridad.php");
                         <span class="text nav-text">Cerrar sesión</span>
                     </a>
                 </li>
-                <li class="mode">
-                    <div class="moon-sun">
-                        <i class="bx bx-moon icon moon"></i>
-                        <i class="bx bx-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Modo oscuro</span>
-                    <div class="toogle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
             </div>
         </div>
     </nav>
@@ -97,7 +73,6 @@ include("../seguridad/seguridad.php");
     <section class="homeTitle" id="trabajadores">
         <div class="contenedor-formulario">
             <?php
-            include("../seguridad/conexion.php");
             $dni_empleado = $_GET['dni'];
             $rol = $_GET["rol"];
 
@@ -108,12 +83,8 @@ include("../seguridad/seguridad.php");
                 $datos_empleado = mysqli_fetch_assoc($resultado_empleado);
                 ?>
 
-                <form action="myPortalSave.php" method="get" class="form flex flex-cols w-[600px] h-[600px]"
-                    id="scheduleForm">
+                <form action="myPortalSave.php" method="get" class="form flex flex-cols" id="scheduleForm">
                     <h2 class="text">Modificar trabajador</h2>
-                    <label for="dni">DNI:
-                        <input type="text" name="dni" value="<?php echo $datos_empleado['dni']; ?>" readonly>
-                    </label>
 
                     <label for="nombre">Nombre:
 
@@ -135,49 +106,12 @@ include("../seguridad/seguridad.php");
                         <input type="text" name="IBAN" size="24" value="<?php echo $datos_empleado['IBAN']; ?>">
                     </label>
 
-                    <label> Departamento:
-                        <?php
-                        $query_departamentos = "SELECT * FROM departamentos WHERE id_departamento = {$datos_empleado['n_departamento']}";
-                        $resultado_departamentos = mysqli_query($conexion, $query_departamentos);
-
-                        if ($resultado_departamentos && $resultado_departamentos->num_rows > 0) {
-                            $datosDepartamentos = mysqli_fetch_assoc($resultado_departamentos);
-                            ?>
-                            <input type="hidden" name="n_departamento"
-                                value="<?php echo $datosDepartamentos['id_departamento'] ?>">
-                            <input type="text" name="nombreDepartamento" value="<?php echo $datosDepartamentos['nombre'] ?>"
-                                readonly>
-                            <?php
-                        } else { ?>
-                            <input type="text" name="nombreDepartamento" value="Sin asignar...">
-                            <?php
-                        } ?>
-                    </label>
-
-                    <label> Categoría:
-                        <?php
-                        $query_categoria = "SELECT * FROM categorias WHERE id_categoria = {$datos_empleado['n_categoria']}";
-                        $resultado_categoria = mysqli_query($conexion, $query_categoria);
-
-                        if ($resultado_categoria && $resultado_categoria->num_rows > 0) {
-                            $datoscategoria = mysqli_fetch_assoc($resultado_categoria);
-                            ?>
-                            <input type="hidden" name="n_departamento" value="<?php echo $datoscategoria['id_categoria'] ?>">
-                            <input type="text" name="nombreCategoria" size="40" value="<?php echo $datoscategoria['nombre'] ?>"
-                                readonly>
-                            <?php
-                        } else { ?>
-                            <input type="text" name="nombreCategoria" value="Sin asignar...">
-                            <?php
-                        } ?>
-                    </label>
-
                     <label>Contraseña:
                         <input type="password" name="userpassword">
                     </label>
 
-                    <button class="saveButton" onclick="saveChanges()">Guardar Cambios</button>
-                    <button onclick="eliminarUsuario()" type="button" class="deleteButton">Eliminar trabajador</button>
+                    <button class="addButton" type="button" onclick="changePhoto()">Seleccionar Foto</button>
+                    <button class="saveButton">Guardar Cambios</button>
                     <?php
                     if ($rol === "1") {
                         print("<a href='../../../sites/my-portal.php'>Volver atrás</a>");
@@ -199,6 +133,13 @@ include("../seguridad/seguridad.php");
     </section>
     <!-- <script src="../scripts/js/dashboard.js"></script> -->
     <script src="../../js/dashboard.js"></script>
+    <script>
+
+        function changePhoto(){
+            window.location.href = "../userImages/cambiar-imagen.php?dni=<?php echo $dni_empleado ?>";
+        }
+
+    </script>
 </body>
 
 </html>

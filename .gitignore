@@ -1,3 +1,7 @@
 scripts/php/seguridad/mail/vendor
 scripts/php/seguridad/mail/composer.json
 scripts/php/seguridad/mail/composer.lock
+
+scripts/php/seguridad/generarNominas/vendor
+scripts/php/seguridad/generarNominas/composer.json
+scripts/php/seguridad/generarNominas/composer.lock

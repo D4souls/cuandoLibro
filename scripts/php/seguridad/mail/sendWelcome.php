@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 // Cargar la clase PHPMailer
 require 'vendor/autoload.php';
 
-function sendMail($data)
+function sendWelcome($data)
 {
     // Crear una instancia de PHPMailer
     $mail = new PHPMailer(true);
@@ -17,11 +17,7 @@ function sendMail($data)
 
     $nombreCompleto = $data["nombre"] . " " . $data["apellido1"] . " " . $data["apellido2"];
     $mailDestinatario = $data["mail"];
-    $fechaSinFormato = strtotime($data["fechaTurno"]);
-    $fechaTurno = date("d/m/Y", $fechaSinFormato);
-    $hora_entradaReal = $data["hora_entradaReal"];
-    $hora_entradaTrabajador = $data["hora_entradaTrabajador"];
-    $diferenciaTiempo = $data["diferenciaTiempo"];
+    $userWeb = strtoupper(substr($data['nombre'], 0, 1)). "." . $data['apellido1'];
 
     try {
         // Configurar el servidor SMTP
@@ -45,28 +41,27 @@ function sendMail($data)
         $mail->isHTML(true);
         $mail->Subject = '🔔 Nueva notificación';
         $mail->Body = "
-        <html>
-            <head></head>
+        <html lang='es'>
+            <head>
+            <meta charset='UTF-8' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <meta name='theme-color' content='#695CFE' />
+            </head>
             <body>
-                <h2>Hola <b>{$nombreCompleto}</b>!</h2>
-                <p>Hemos detectado una anomalía en el turno del día <b>{$fechaTurno}</b></p>
-                <table>
-                    <tr>
-                        <th>Hora de turno</th>
-                        <th>Fecha fichaje</th>
-                        <th>Diferencia de tiempo</th>
-                    </tr
-                    <tr>
-                        <td>{$hora_entradaTrabajador}</td>
-                        <td>{$hora_entradaReal}</td>
-                        <td>{$diferenciaTiempo->format('%H:%I:%S')}</td>
-                    </tr>
-                </table>
+                <h2>¡Hola <b>{$data['nombre']}</b>!</h2>
+                <p>Te damos la bienvenida a la empresa. Este será el correo electrónico por el cual
+                se enviarán todas las notificaciones. Te proporcionamos tus credenciales para que puedas acceder al sistema:</p>
+                <ul>
+                    <li><b>Usuario: {$userWeb}</b></li>
+                    <li><b>Contraseña: </b>{$data['dni']}</li>
+                </ul>
+                <h3>Recuerda</h3>
+                <p>Cuando inicies sesión por pimera vez haz click en tu tarjeta de información personal y cambia la contraseña para evitar <i>hackeos</i>.</p>
+                <p></p>
             </body>
         </html>
         ";
 
-        // Enviar el correo
         $mail->CharSet = 'UTF-8';
         $mail->send();
         return "📩 Correo enviado correctamente\n";

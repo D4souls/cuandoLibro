@@ -41,11 +41,6 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
     <div class="text">Avisos</div>
     <div class="contenedor-tabla">
       <table class="tabla-datos">
-        <tr>
-          <th>DNI</th>
-          <th>Tipo Aviso</th>
-          <th>Comentario</th>
-        </tr>
         <?php
         $query = "SELECT ta.nombre, a.dni, a.id_aviso, a.comentario FROM aviso a 
       INNER JOIN tipoaviso ta ON a.tipo = ta.id
@@ -60,6 +55,11 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
             $stmt->bind_result($tipoAviso, $dni, $id_aviso, $comentarioAviso);
             while ($stmt->fetch()) {
               ?>
+              <tr>
+                <th>DNI</th>
+                <th>Tipo Aviso</th>
+                <th>Comentario</th>
+              </tr>
               <tr class="datos">
                 <td>
                   <?php echo $dni ?>
@@ -74,6 +74,10 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
             </table>
             <?php
             }
+          } else {
+            ?>
+          <h3 class="text">No hay avisos...</h3>
+          <?php
           }
         } else {
           die("<p>Error al ejecutar la consulta: </p>" . $conexion->error);

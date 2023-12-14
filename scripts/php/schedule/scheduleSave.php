@@ -70,7 +70,7 @@ try {
 
                 //* COMPROBAMOS SI EL SUELDO DEL EMPLEADO AL INSERTARLO NO SUPERA EL LIMITE
 
-                if ($gastos + ($sueldo_normal * $cantidad) <= $presupuesto) {
+                if ($gastos + (($sueldo_normal * 8) * $cantidad) <= $presupuesto) {
 
                     //! INICIALIZAMOS LAS TRANSACCIONES
 
@@ -104,7 +104,7 @@ try {
 
                     //* GENERAMOS EL GASTO AL DEPARTAMENTO
 
-                    $gastoTotal = $gastos + ($sueldo_normal * $cantidad);
+                    $gastoTotal = $gastos + (($sueldo_normal * 8) * $cantidad);
 
                     $query_generarGasto = "UPDATE departamentos SET gastos = ? WHERE id_departamento = ?";
 

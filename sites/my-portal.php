@@ -103,7 +103,7 @@ $result = array_merge($datosUserLogin, $datosHorarios);
         <div class="card" id="editarPerfil">
             <!-- Incluir la imagen del usuario -->
             <div class="user-img">
-                <img alt="userImage" src="../img/imagen-prueba.jpg">
+                <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $result["dni"]?>.png">
             </div>
             <h3>Bienvenido de nuevo
                 <?php echo $result["nombre"] ?>

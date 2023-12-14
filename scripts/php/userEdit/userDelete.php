@@ -27,6 +27,8 @@
         $response = array('success' => false, 'message' => $mensaje);
         echo json_encode($response);
     } else {
+        rmdir("../seguridad/nominas/" . $dni);
+        unlink("../userImages/img/" . $dni . ".png");
         $mensaje = "Trabajador eliminado correctamente";
         $response = array('success' => true, 'message' => $mensaje);
         echo json_encode($response);

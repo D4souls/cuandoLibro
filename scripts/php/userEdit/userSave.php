@@ -1,5 +1,6 @@
 <?php
 include("../seguridad/conexion.php");
+include("../userImages/crearImagen.php");
 
 
 if (!$conexion) {
@@ -25,7 +26,7 @@ try {
     if (!$stmt) {
         $mensaje = "Error al preparar la consulta";
         $response = array('success' => false, 'message' => $mensaje);
-        
+
         echo json_encode($response);
         exit();
     }
@@ -35,20 +36,31 @@ try {
     if (!$stmt) {
         $mensaje = "Error al vincular parametros en la consulta";
         $response = array('success' => false, 'message' => $mensaje);
-        
+
         echo json_encode($response);
         exit();
     }
 
     if ($stmt->execute()) {
-        $mensaje = "Datos actualizados correctamente";
-        $response = array('success' => true, 'message' => $mensaje);
-        
+
+        $nombreCompleto = $nombre . " " . $apellido1;
+        $quitarAcentos = eliminar_acentos($nombreCompleto);
+        $fotoPerfil = crearFoto($quitarAcentos, $dni);
+
+        if($fotoPerfil){
+            $mensaje = "Datos actualizados correctamente";
+            $response = array('success' => true, 'message' => $mensaje);
+        } else {
+            $mensaje = "Error al actualizar foto de perfil";
+            $response = array('success' => false, 'message' => $mensaje);
+        }
+
+
         echo json_encode($response);
     } else {
         $mensaje = "Error al ejecutar la consulta";
         $response = array('success' => false, 'message' => $mensaje);
-        
+
         echo json_encode($response);
     }
     $stmt->close();
@@ -56,7 +68,7 @@ try {
 } catch (Exception $e) {
     $mensaje = "Error: " . $e->getMessage();
     $response = array('success' => false, 'message' => $mensaje);
-    
+
     echo json_encode($response);
 } finally {
     if ($conexion) {

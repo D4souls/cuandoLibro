@@ -41,7 +41,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
   <meta name="theme-color" content="#695CFE" />
   <link href="../css/dashboard.css" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="icon" href="img/cuandoLibro-logo.png">
+  <link rel="icon" href="../img/cuandoLibro-logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style type="text/tailwindcss">
@@ -65,7 +65,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
         id="card">
         <!-- Incluir la imagen del usuario -->
         <div class="user-img">
-          <img alt="userImage" src="img/imagen-prueba.jpg">
+          <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $datosLogin['dni']?>.png">
         </div>
         <div>
           <h3 class="text-2xl font-black col-span-2">Bienvenido de nuevo
@@ -105,7 +105,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
   <script src="scripts/js/dashboard.js"></script>
   <script>
     document.getElementById("card").onclick = function () {
-      window.location.href = "scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
+      window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
     }
 
     document.getElementById("graficoDepartamentos").onclick = function () {
