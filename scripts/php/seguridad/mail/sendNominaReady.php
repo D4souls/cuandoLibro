@@ -41,17 +41,18 @@ function sendNominaReady($data)
         $mail->isHTML(true);
         $mail->Subject = '🔔 Nueva notificación';
         $mail->Body = "
-        <html lang='es'>
+        <!DOCTYPE html>
+            <html lang='es'>
             <head>
-            <meta charset='UTF-8' />
-            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-            <meta name='theme-color' content='#695CFE' />
+                <meta charset='UTF-8' />
+                <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                <meta name='theme-color' content='#695CFE' />
             </head>
-            <body>
-                <h2>¡Hola <b>{$data['nombre']}</b>!</h2>
-                <p>Ya está disponible la nomina de {$fechaActual}. Accede a tu <a href='localhost'>portal personal</a> para poderla descargar.</p>
+            <body style='font-family: 'QuickSand', background-color: #E4E9F7; color: #707070; sans-serif; margin: 0; padding: 20px;'>
+                <h2 style='color: #41cf1d;'>¡Hola <b>{$data['nombre']}</b>!</h2>
+                <p style='margin-top: 10px;'>Ya está disponible la nómina del {$fechaActual}. Accede a tu <a href='localhost' style='color: #41cf1d; text-decoration: none; border-bottom: 1px solid #41cf1d;'>portal personal</a> para poder descargarla.</p>
             </body>
-        </html>
+            </html>
         ";
 
         $mail->CharSet = 'UTF-8';

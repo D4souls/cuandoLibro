@@ -43,23 +43,22 @@ function sendWelcome($data)
         $mail->Body = "
         <html lang='es'>
             <head>
-            <meta charset='UTF-8' />
-            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-            <meta name='theme-color' content='#695CFE' />
+                <meta charset='UTF-8' />
+                <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                <meta name='theme-color' content='#695CFE' />
             </head>
-            <body>
+            <body style='font-family: 'QuickSand', sans-serif; margin: 0; padding: 20px;'>
                 <h2>¡Hola <b>{$data['nombre']}</b>!</h2>
-                <p>Te damos la bienvenida a la empresa. Este será el correo electrónico por el cual
-                se enviarán todas las notificaciones. Te proporcionamos tus credenciales para que puedas acceder al sistema:</p>
-                <ul>
+                <p>Te damos la bienvenida a la empresa. Este será el correo electrónico por el cual se enviarán todas las notificaciones. Te proporcionamos tus credenciales para que puedas acceder al sistema:</p>
+                <ul style='list-style: none; padding: 0;'>
                     <li><b>Usuario: {$userWeb}</b></li>
                     <li><b>Contraseña: </b>{$data['dni']}</li>
                 </ul>
                 <h3>Recuerda</h3>
-                <p>Cuando inicies sesión por pimera vez haz click en tu tarjeta de información personal y cambia la contraseña para evitar <i>hackeos</i>.</p>
-                <p></p>
+                <p>Cuando inicies sesión por primera vez, haz clic en tu tarjeta de información personal y cambia la contraseña para evitar <i>hackeos</i>.</p>
             </body>
-        </html>
+            </html>
+
         ";
 
         $mail->CharSet = 'UTF-8';

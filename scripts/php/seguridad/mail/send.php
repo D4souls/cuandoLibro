@@ -45,25 +45,27 @@ function sendMail($data)
         $mail->isHTML(true);
         $mail->Subject = '🔔 Nueva notificación';
         $mail->Body = "
-        <html>
+        <!DOCTYPE html>
+            <html>
             <head></head>
-            <body>
+            <body style='font-family: 'QuickSand', sans-serif; margin: 0; padding: 20px;'>
                 <h2>Hola <b>{$nombreCompleto}</b>!</h2>
                 <p>Hemos detectado una anomalía en el turno del día <b>{$fechaTurno}</b></p>
-                <table>
+                <table style='border-collapse: collapse; width: 100%; margin-top: 10px;'>
+                    <tr style='background-color: #41cf1d; color: #FFF;'>
+                        <th style='padding: 10px; text-align: left;'>Hora de turno</th>
+                        <th style='padding: 10px; text-align: left;'>Fecha fichaje</th>
+                        <th style='padding: 10px; text-align: left;'>Diferencia de tiempo</th>
+                    </tr>
                     <tr>
-                        <th>Hora de turno</th>
-                        <th>Fecha fichaje</th>
-                        <th>Diferencia de tiempo</th>
-                    </tr
-                    <tr>
-                        <td>{$hora_entradaTrabajador}</td>
-                        <td>{$hora_entradaReal}</td>
-                        <td>{$diferenciaTiempo->format('%H:%I:%S')}</td>
+                        <td style='border: 1px solid #ddd; padding: 8px;'>{$hora_entradaTrabajador}</td>
+                        <td style='border: 1px solid #ddd; padding: 8px;'>{$hora_entradaReal}</td>
+                        <td style='border: 1px solid #ddd; padding: 8px;'>{$diferenciaTiempo->format('%H:%I:%S')}</td>
                     </tr>
                 </table>
             </body>
-        </html>
+            </html>
+
         ";
 
         // Enviar el correo
