@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CuandoLibro [![xampp](https://www.gnu.org/licenses/gpl-3.0.html)]
 Página web para gestionar una pequeña empresa. Está hecho con HTML, CSS, PHP y JavaScript.
 =======
@@ -13,7 +12,6 @@ Página web para gestionar una pequeña empresa. Está hecho con HTML, CSS, PHP 
   <img src="https://img.shields.io/badge/Composer-885630.svg?style=for-the-badge&logo=Composer&logoColor=white" alt="composer-for-php">
   <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="node.js">
 </h1>
->>>>>>> d1bf0e1a22df5c086f4aecbe6ee5a6bb2c389f22
 
 ## Descripción
 Aplicación vía web para la administración de una pequeña empresa. Con esta aplicación podrás desde crear un usuario hasta gestionar las nóminas de cada mes, esta aplicación ofrece las herramientas necesarias para simplificar y agilizar los procesos de administración de la empresa. Con la aplicación podrás:
