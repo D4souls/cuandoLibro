@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/D4souls/cuandoLibro/blob/main/img/MicrosoftTeams-image.png" alt="logoCuandoLibro" width="250px"><br>
+  <img src="https://github.com/D4souls/cuandoLibro/blob/main/img/banner.png" alt="logoCuandoLibro" width="100%"><br>
   <img src="https://img.shields.io/badge/XAMPP-FB7A24.svg?style=for-the-badge&logo=XAMPP&logoColor=white" alt="xampp">
   <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="php">
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="html5">
@@ -27,7 +27,7 @@ Aplicación vía web para la administración de una pequeña empresa. Con esta a
 
 ## Instalación
 Para poder usar todas las funcionalidades que tiene la aplicación se requiere tener instalado xampp y seguir estos pasos:
-> **Información: **
+> [!CAUTION]
 > Todas las rutas que hay son desde la carpeta raiz del proyecto.
 1. **(Opcional) Instalar composer y node**<br>
 
@@ -85,7 +85,7 @@ Para poder usar todas las funcionalidades que tiene la aplicación se requiere t
 ## Funcionalidades
 | Nombre | Funcionalidades |
 | --- | ---|
-| Empleados | Alta y baja del trabajador, modificación de datos personales, asignación de departamento y categoría, acceso a *My-portal*, generación automatica de credenciales temporales, visualizador de historial de avisos |
+| Empleados | Alta y baja del trabajador, modificación de datos personales, asignación de departamento y categoría, acceso a *My-portal*, generación automática de credenciales temporales, visualizador de historial de avisos |
 | Departamentos | Creación y eliminación de departamento, asignación de dinero, gestión de gastos, gestión de categorías según departamento |
 | Categorías | Creación y eliminación de categorías, asignación de sueldo /h |
 | Turnos | Creación y eliminación de 1 o varios turnos, asignación y desasignación de turno a trabajador |
