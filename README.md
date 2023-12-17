@@ -27,7 +27,7 @@ Aplicación vía web para la administración de una pequeña empresa. Con esta a
 
 ## Instalación
 Para poder usar todas las funcionalidades que tiene la aplicación se requiere tener instalado xampp y seguir estos pasos:
-> **Información**
+> **Información: **
 > Todas las rutas que hay son desde la carpeta raiz del proyecto.
 1. **(Opcional) Instalar composer y node**<br>
 
