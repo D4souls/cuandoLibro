@@ -182,7 +182,7 @@ function totalMoney($conexion)
             $data[] = array(
                 "id" => $row["id_departamento"],
                 "nombre" => $row["nombre"],
-                "dinero" => $row["presupuesto"],
+                "dinero" => $row["presupuesto"] - $row["gastos"],
             );
         }
     }
@@ -197,4 +197,34 @@ function totalWorkers($conexion)
     $data = $var_resultado->fetch_assoc();
 
     return $data['cantidad'];
+}
+
+function getWarnings($conexion){
+
+    $nombreAviso = '';
+    $cantidadAvisos = '';
+    $dataStorage = array();
+    $data = '';
+
+    $query = "SELECT ta.nombre, COUNT(a.id_aviso) AS 'cantidadAvisos' FROM tipoaviso ta INNER JOIN aviso a ON ta.id = a.tipo GROUP BY ta.id";
+    
+    $stmt = $conexion->prepare($query);
+
+    $stmt->execute();
+
+    $stmt->store_result();
+
+    $stmt->bind_result($nombreAviso, $cantidadAvisos);
+
+    while($stmt->fetch()){
+        $avisos[] = array(
+            'nombre' => $nombreAviso,
+            'cantidad' => $cantidadAvisos,
+        );
+        
+        $data = array_merge($dataStorage ,$avisos);
+    }
+
+
+    return $data;
 }

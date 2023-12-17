@@ -23,7 +23,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
 </head>
 
 <body>
-<nav class="sidebar close">
+    <nav class="sidebar close">
         <header>
             <div class="image-text">
                 <span class="image">
@@ -74,57 +74,68 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
         </div>
     </nav>
     <section class="homeTitle" id="trabajadores">
-        <div class="text">Turnos publicados</div>
+        <div class="text">Avisos</div>
         <div class="contenedor-tabla">
-            <?php
-            if (isset($datosHorarios) && !empty($datosHorarios)) {
-                ?>
-                <table class='tabla-datos'>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Turno</th>
-                        <th>Hora entrada</th>
-                        <th>Hora salida</th>
-                        <th>Estado</th>
-                    </tr>
-
-                    <?php
-                    foreach ($datosHorarios as $turno) {
-                        ?>
-                        <tr class='datos'>
-                            <td>
-                                <?php echo date("d/m/Y", strtotime($turno['fecha'])) ?>
-                            </td>
-                            <td
-                                title="Hora entrada: <?php echo date("H:i", strtotime($turno['he'])) . '| Hora salida: ' . date("H:i", strtotime($turno['hs'])); ?>">
-                                <?php echo $turno['nombre'] . " (" . date("H:i", strtotime($turno['he'])) . " a ". date("H:i", strtotime($turno['hs'])) .")" ?>
-                            </td>
-                            <td>
-                                <?php echo isset($turno['hfe']) ? date("H:i:s", strtotime($turno['hfe'])) : "Sin datos..." ?>
-                            </td>
-                            <td>
-                                <?php echo isset($turno['hfs']) ? date("H:i:s", strtotime($turno['hfs'])) : "Sin datos..." ?>
-                            </td>
-                            <td>
-                                <?php if($turno['hfe'] == null){
-                                    echo "Turno sin realizar...";
-                                }elseif ($turno['hfe'] != null && $turno['hfs'] == null){
-                                    echo "Turno en proceso...";
-                                } elseif ($turno['hfe'] != null && $turno['hfs'] != null){
-                                    echo "Turno realizado";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                        <?php
-                    } ?>
-
-                </table>
+            <table class="tabla-datos">
                 <?php
-            } else {
-                echo "<h3 class='text'>Juhuju!!! No tienes ningún turno (de momento)</h3>";
-            }
-            ?>
+                try {
+                    $query = "SELECT ta.nombre, a.dni, a.id_aviso, a.comentario, tp.fecha FROM aviso a 
+                    INNER JOIN tipoaviso ta ON a.tipo = ta.id
+                    INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP
+                    WHERE a.dni = ?";
+                    $stmt = $conexion->prepare($query);
+                    if (!$stmt) {
+                        throw new Exception("Error al preparar la consulta: " . $conexion->error);
+                    }
+                    $stmt->bind_param("s", $userLogin);
+                    if ($stmt->execute()) {
+                        $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
+                        if ($stmt->num_rows > 0) {
+                            ?>
+                            <tr>
+                                <th>DNI</th>
+                                <th>Tipo Aviso</th>
+                                <th>Comentario</th>
+                                <th>Fecha Aviso</th>
+                            </tr>
+                            <?php
+                            $stmt->bind_result($tipoAviso, $dni, $id_aviso, $comentarioAviso, $fecha);
+                            while ($stmt->fetch()) {
+                                ?>
+                                <tr class="datos">
+                                    <td>
+                                        <?php echo $dni ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $tipoAviso ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $comentarioAviso ?>
+                                    </td>
+                                    <td>
+                                        <?php echo date('d/m/Y',strtotime($fecha)) ?>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                            <h3 class="text">Esto está desértico ¡Sigue asi!</h3>
+                            <?php
+                        }
+                    } else {
+                        throw new Exception("Error al ejecutar la consulta: " . $conexion->error);
+                    }
+                } catch (Exception $e) {
+                    print("<p>$e</p>");
+                } finally {
+                    if ($conexion) {
+                        $conexion->close();
+                    }
+                }
+
+                ?>
+            </table>
         </div>
     </section>
     <script src="../scripts/js/dashboard.js"></script>

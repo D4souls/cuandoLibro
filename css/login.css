@@ -105,3 +105,43 @@ form a {
 form a:hover {
     color: var(--accent-color);
 }
+
+form .saveButton {
+    color: var(--primary-color-light);
+    border: none;
+    background: var(--primary-color);
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform var(--tran-04);
+}
+
+form .addButton {
+    color: var(--primary-color-light);
+    border: none;
+    background: var(--text-color);
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--tran-04);
+    font-size: 18px;
+}
+
+form .deleteButton {
+    color: var(--primary-color-light);
+    border: none;
+    background: var(--toggle-color);
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: var(--tran-04);
+}
+.deleteButton:hover{
+    background: red;
+}
+
+.addButton:hover,
+.deleteButton:hover,
+.saveButton:hover {
+    transform: scale(1.1);
+}

@@ -12,7 +12,7 @@ include('../workers/getDataWorkers.php');
     <link href="../../../css/dashboard.css" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="icon" href="../../../img/logo-alt.png">
-    <script src="../../js/dashboard.js"></script>
+    <!-- <script src="../../js/dashboard.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <!-- SweetAlert2 CSS -->
@@ -75,6 +75,11 @@ include('../workers/getDataWorkers.php');
                         <a href="../../../sites/avisos.php">
                             <i class="bx bx-error icon"></i>
                             <span class="text nav-text">Avisos</span>
+                        </a>
+                    </li>
+                    <li class='nav-links'>
+                        <a href='http://localhost/phpmyadmin/index.php?route=/database/structure&db=fichajedb' target='_blank'>
+                            <i class='bx bx-data icon'></i>
                         </a>
                     </li>
                 </ul>

@@ -26,81 +26,68 @@ include('../seguridad/seguridad.php');
 </head>
 
 <body>
-    <nav class="sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="../../../img/cuandoLibro-logo.png" alt="logoClaro" />
-                </span>
+<nav class="sidebar close">
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <img src="../../../img/cuandoLibro-logo.png" alt="logoClaro" />
+                    </span>
+                </div>
+                <i class="bx bx-chevron-right toggle"></i>
+            </header>
 
-                <div class="text header-text">
-                    <span class="name">CuandoLibro</span>
-                    <span class="profession">IAW & DB</span>
+            <div class="menu-bar">
+                <div class="menu">
+
+                    <ul class="menu-links">
+                        <li class="nav-links">
+                            <a href="../../../sites/dashboard.php">
+                                <i class="bx bx-home-alt-2 icon"></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-links">
+                            <a href="../../../sites/horarios.php">
+                                <i class="bx bx-calendar-alt icon"></i>
+                                <span class="text nav-text">Horarios</span>
+                            </a>
+                        </li>
+                        <li class="nav-links">
+                            <a href="../../../sites/trabajadores.php">
+                                <i class="bx bx-user icon"></i>
+                                <span class="text nav-text">Trabajadores</span>
+                            </a>
+                        </li>
+                        <li class="nav-links">
+                            <a href="../../../sites/departamentos.php">
+                                <i class="bx bx-briefcase-alt-2 icon"></i>
+                                <span class="text nav-text">Departamentos</span>
+                            </a>
+                        </li>
+                        <li class="nav-links">
+                            <a href="avisos.php">
+                                <i class="bx bx-error icon"></i>
+                                <span class="text nav-text">Avisos</span>
+                            </a>
+                        </li>
+                        <li class='nav-links'>
+                            <a href='http://localhost/phpmyadmin/index.php?route=/database/structure&db=fichajedb'
+                                target='_blank'>
+                                <i class='bx bx-data icon'></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bottom-content">
+                    <li class="">
+                        <a href="../seguridad/cerrarSesion.php">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Cerrar sesión</span>
+                        </a>
+                    </li>
                 </div>
             </div>
-            <i class="bx bx-chevron-right toggle"></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
-                <li class="search-box">
-                    <i class="bx bx-search icon"></i>
-                    <input type="text" placeholder="Buscar..." />
-                </li>
-
-                <ul class="menu-links">
-                    <li class="nav-links">
-                        <a href="../dashboard.php">
-                            <i class="bx bx-home-alt-2 icon"></i>
-                            <span class="text nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-links">
-                        <a href="horarios.php">
-                            <i class="bx bx-calendar-alt icon"></i>
-                            <span class="text nav-text">Horarios</span>
-                        </a>
-                    </li>
-                    <li class="nav-links">
-                        <a href="trabajadores.php">
-                            <i class="bx bx-user icon"></i>
-                            <span class="text nav-text">Trabajadores</span>
-                        </a>
-                    </li>
-                    <li class="nav-links">
-                        <a href="departamentos.php">
-                            <i class="bx bx-briefcase-alt-2 icon"></i>
-                            <span class="text nav-text">Departamentos</span>
-                        </a>
-                    </li>
-                    <li class="nav-links">
-                        <a href="avisos.php">
-                            <i class="bx bx-error icon"></i>
-                            <span class="text nav-text">Avisos</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="bottom-content">
-                <li class="">
-                    <a href="../seguridad/cerrarSesion.php">
-                        <i class="bx bx-log-out icon"></i>
-                        <span class="text nav-text">Cerrar sesión</span>
-                    </a>
-                </li>
-                <li class="mode">
-                    <div class="moon-sun">
-                        <i class="bx bx-moon icon moon"></i>
-                        <i class="bx bx-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Modo oscuro</span>
-                    <div class="toogle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
-            </div>
-        </div>
-    </nav>
+        </nav>
 
     <section class="homeTitle" id="trabajadores">
         <div class="contenedor-formulario">
@@ -167,7 +154,7 @@ include('../seguridad/seguridad.php');
                     <?php
 
                     //! MOSTRAR BOTÓN SI TIENE AVISOS
-
+                
                     $queryAvisos = "SELECT dni FROM aviso WHERE dni = ?";
                     $stmt_queryAvisos = $conexion->prepare($queryAvisos);
 

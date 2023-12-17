@@ -77,6 +77,11 @@ $nombre_departamento = $_GET["nombre_departamento"];
                             <span class="text nav-text">Avisos</span>
                         </a>
                     </li>
+                    <li class='nav-links'>
+                        <a href='http://localhost/phpmyadmin/index.php?route=/database/structure&db=fichajedb' target='_blank'>
+                            <i class='bx bx-data icon'></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="bottom-content">

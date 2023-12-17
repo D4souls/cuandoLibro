@@ -1,5 +1,6 @@
 <?php
 include("../seguridad/conexion.php");
+include("../seguridad/mail/sendSchedule.php");
 
 if (!$conexion) {
     throw new Exception("Error en la conexion a la DB: " . $conexion->error);
@@ -56,10 +57,23 @@ try {
                 throw new Exception("Error al vincular parametros de la consulta" . $conexion->error);
             }
 
+            
             if ($stmt->execute()) {
                 $stmt->close();
-                $response = array('success' => true, 'message' => 'Turno asignado correctamente');
-                echo json_encode($response);
+
+                //? GENERAMOS UN MAIL DE CARACTER INFORMATIVO
+    
+                $mail = sendSchedule($_REQUEST['dni'], $_REQUEST["id_turnoP"], $conexion);
+
+                if($mail){
+                    $response = array('success' => true, 'message' => 'Turno asignado correctamente y aviso enviado');
+                    echo json_encode($response);
+                } else {
+                    $response = array('success' => true, 'message' => 'Turno asignado correctamente');
+                    echo json_encode($response);
+                }
+
+
             } else {
                 $stmt->close();
                 $response = array('success' => false, 'message' => 'Error al asignar turno correctamente');

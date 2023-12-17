@@ -11,7 +11,7 @@ if (!isset($_SESSION["autentificado"]) || $_SESSION["autentificado"] != "SI") {
     $ahora = date("d-m-Y H:i:s");
     $tiempoTranscurrido = (strtotime($ahora) - strtotime($fechaGuardada));
 
-    if($tiempoTranscurrido >= 600){
+    if($tiempoTranscurrido >= 900){
         session_destroy();
         $error_message = "Pérdida de conexión por inactividad";
         header("Location: ../../../index.php?error=".urlencode($error_message));

@@ -5,7 +5,7 @@ include("conexion.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
-    $user = $_POST["user"];
+    $user = ucwords($_POST["user"], ".");
 
     $query_comprobarpasswd = "SELECT * FROM userweb WHERE username = ?";
     $stmt_comprobar = $conexion->prepare($query_comprobarpasswd);
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../../../sites/my-portal.php");
                     exit();
                 } else {
-                    header("Location: ../../../sites/dashboard.php");
+                    header("Location: ../../../sites/seleccionar-login.php");
                     exit();
                 }
             } else {
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../../../sites/my-portal.php");
                     exit();
                 } else {
-                    header("Location: ../../../sites/dashboard.php");
+                    header("Location: ../../../sites/seleccionar-login.php");
                     exit();
                 }
             } else {

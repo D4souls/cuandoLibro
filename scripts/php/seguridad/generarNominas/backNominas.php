@@ -104,6 +104,10 @@ function calcularHorasExtras($dni, $fechaActual, $conexion)
                 $horasExtras = $hora_fichaje_salida - $hora_salida;
 
                 $totalHoras += $horasExtras;
+
+                if($totalHoras < 0) {
+                    $totalHoras = 0;
+                }
             }
 
             return $totalHoras;
@@ -131,10 +135,62 @@ function comprobarCarpeta($dni, $year)
             return "✅ Carpeta creada para " . $dni . "\n";
         }
 
-        return "❌ Ya tiene carpeta creada " . $dni . "\n";
+        return true;
 
     } catch (Exception $e) {
         return $e;
+    }
+
+}
+
+function insertarNomina($fecha, $dni, $totalDinero, $conexion){
+
+    try{
+
+        //? COMPROBAR SI YA HAY UN REGISTRO DE NÓMINA PARA ESE MES
+
+        $query = "SELECT dni, fecha FROM nominas WHERE dni = ? AND fecha = ?";
+
+        $stmt = $conexion->prepare($query);
+
+        if(!$stmt){
+            throw new Exception($conexion->error);
+        }
+
+        $stmt->bind_param("ss", $dni, $fecha);
+
+        if(!$stmt->execute()){
+            throw new Exception($stmt->error);
+        }
+
+        $stmt->store_result();
+
+        if($stmt->num_rows == 0){
+
+            //? INSERTAMOS DATOS EN LA DB
+
+            $query2 = "INSERT INTO nominas (fecha, dni, total) VALUES (?, ?, ?)";
+
+            $stmt2 = $conexion->prepare($query2);
+
+            if(!$stmt2){
+                throw new Exception($conexion->error);
+            }
+
+            $stmt2->bind_param("ssd", $fecha, $dni, $totalDinero);
+
+            if(!$stmt2->execute()){
+                throw new Exception($stmt2->error);
+            }
+
+            return true;
+
+        } else {
+            return "❌ " . $dni . " ya tiene registrado la nómina\n";
+        }
+
+    }catch(Exception $e){
+        return $e->getMessage();
     }
 
 }
@@ -211,10 +267,19 @@ try {
                 print("===========" . $dni . "===========\n");
                 
                 $carpeta = comprobarCarpeta($dni, date('Y'));
-                print $carpeta;
+                // print $carpeta;
 
-                $nomina = creaNomina($dataEmpleado);
-                print $nomina;
+                $today = date("Y-m-d");
+
+                $insertNomina = insertarNomina($today, $dni, $dataEmpleado['total_nomina'], $conexion);
+                
+                if($insertNomina){
+                    $nomina = creaNomina($dataEmpleado);
+                    print $nomina;
+                } else {
+                    print $insertNomina;
+                }
+
 
             }
 

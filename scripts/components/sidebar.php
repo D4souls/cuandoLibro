@@ -43,7 +43,7 @@ function sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $n
                         </a>
                     </li>
                     <li class='nav-links'>
-                        <a href='http://localhost/phpmyadmin/' target='_blank'>
+                        <a href='http://localhost/phpmyadmin/index.php?route=/database/structure&db=fichajedb' target='_blank'>
                             <i class='bx bx-data icon'></i>
                         </a>
                     </li>

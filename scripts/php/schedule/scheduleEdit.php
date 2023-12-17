@@ -30,22 +30,12 @@ include("../seguridad/conexion.php");
                 <span class="image">
                     <img src="../../../img/cuandoLibro-logo.png" alt="logoClaro" />
                 </span>
-
-                <div class="text header-text">
-                    <span class="name">CuandoLibro</span>
-                    <span class="profession">IAW & DB</span>
-                </div>
             </div>
             <i class="bx bx-chevron-right toggle"></i>
         </header>
 
         <div class="menu-bar">
             <div class="menu">
-                <li class="search-box">
-                    <i class="bx bx-search icon"></i>
-                    <input type="text" placeholder="Buscar..." />
-                </li>
-
                 <ul class="menu-links">
                     <li class="nav-links">
                         <a href="../dashboard.php">
@@ -77,6 +67,11 @@ include("../seguridad/conexion.php");
                             <span class="text nav-text">Avisos</span>
                         </a>
                     </li>
+                    <li class='nav-links'>
+                        <a href='http://localhost/phpmyadmin/index.php?route=/database/structure&db=fichajedb' target='_blank'>
+                            <i class='bx bx-data icon'></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="bottom-content">
@@ -86,16 +81,6 @@ include("../seguridad/conexion.php");
                         <span class="text nav-text">Cerrar sesión</span>
                     </a>
                 </li>
-                <li class="mode">
-                    <div class="moon-sun">
-                        <i class="bx bx-moon icon moon"></i>
-                        <i class="bx bx-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Modo oscuro</span>
-                    <div class="toogle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
             </div>
         </div>
     </nav>
@@ -104,6 +89,7 @@ include("../seguridad/conexion.php");
         <div class="contenedor-formulario">
             <?php include("../seguridad/conexion.php");
             $id = $_GET['id_turnoP'];
+            $ocupacion = false;
 
             $query = "SELECT * FROM turnos_publicados WHERE id_turnoP = '$id'";
             $resultado = mysqli_query($conexion, $query);
@@ -132,26 +118,42 @@ include("../seguridad/conexion.php");
 
 
                         if ($stm->fetch()) { // Si me devuleve algo me lo vas a mostrar
+                            $ocupacion = true;
                             echo "<option value='$dniUsado'>$dniUsado - $nombreUsado</option>";
                         } else {
+                            $ocupacion = false;
                             echo "<option value=''>-Selecciona un empleado-</option>";
                         }
 
-                        $empleados = "SELECT dni, nombre FROM empleados WHERE n_categoria = '{$datos['categoria']}' AND n_departamento = '{$datos['departamento']}'";
-                        $query = mysqli_query($conexion, $empleados);
-                        if ($query) {
-                            while ($row = mysqli_fetch_assoc($query)) {
-                                $dni = $row["dni"];
-                                $nombre = $row["nombre"];
-                                echo "<option value='$dni'>$dni - $nombre</option>";
+                        if($ocupacion == false){
+                            $empleados = "SELECT dni, nombre FROM empleados WHERE n_categoria = '{$datos['categoria']}' AND n_departamento = '{$datos['departamento']}'";
+                            $query = mysqli_query($conexion, $empleados);
+                            if ($query) {
+                                while ($row = mysqli_fetch_assoc($query)) {
+                                    $dni = $row["dni"];
+                                    $nombre = $row["nombre"];
+                                    echo "<option value='$dni'>$dni - $nombre</option>";
+                                }
+                            } else {
+                                echo "<option>No se pueden recuperar los empleados: " . mysqli_error($conexion) . "</option>";
                             }
-                        } else {
-                            echo "<option>No se pueden recuperar los empleados: " . mysqli_error($conexion) . "</option>";
                         }
+
                         ?>
                     </select>
                     <div id="mensaje"></div>
                     <button type="button" class="saveButton" onclick="guardarCambios()">Guardar cambios</button>
+                    
+                    <?php 
+                    
+                        if($ocupacion){
+                            ?>
+                            <button type="button" class="addButton" onclick="desasignarTurno()">Desasignar turno</button>
+                            <?php
+                        }
+
+                    ?>
+
                     <button onclick="changeActionAndSubmit()" type="button" class="deleteButton">Eliminar turno</button>
                     <a href="../../../sites/horarios.php">Volver atrás</a>
                 </form>
@@ -166,6 +168,9 @@ include("../seguridad/conexion.php");
     <!-- <script src="../scripts/js/dashboard.js"></script> -->
     <script src="../../js/dashboard.js"></script>
     <script>
+
+            //! ELIMINAR TURNO
+
         function changeActionAndSubmit() {
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -232,6 +237,76 @@ include("../seguridad/conexion.php");
             });
         }
 
+        //! DESASIGNAR TURNO
+
+        function desasignarTurno() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción notificará al empleado.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, desasignar turno'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var formData = {
+                        id_turnoP: $('[name="id_turnoP"]').val(),
+                        dni: $('[name="dni"]').val(),
+                    };
+
+                    $.ajax({
+                        url: "scheduleQuitWorker.php",
+                        type: "post",
+                        data: formData,
+                        success: function (response) {
+                            var result = JSON.parse(response);
+
+                            if (result.success) {
+                                Swal.fire({
+                                    title: result.message,
+                                    icon: "success",
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
+                                setTimeout(function () {
+                                    window.location.href = "scheduleEdit.php?id_turnoP=<?php echo $id ?>";
+                                }, 3000)
+                                // Redirigir o realizar otras acciones necesarias después del éxito
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: result.message,
+                                    toast: true,
+                                    position: "top-end",
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error en la solicitud AJAX',
+                                text: 'Hubo un problema al enviar los datos. Por favor, inténtalo de nuevo.'
+                            });
+                        }
+                    });
+
+                    // var form = document.getElementById("scheduleForm");
+                    // form.action = "scheduleDelete.php";  // Cambia la acción del formulario
+                    // form.submit();  // Envía el formulario
+                }
+            });
+        }
+
+        //! GUARDAR CAMBIOS
+
         function guardarCambios() {
 
             var formData = {
@@ -256,6 +331,7 @@ include("../seguridad/conexion.php");
                     type: "post",
                     data: formData,
                     success: function (response) {
+                        console.log(response);
                         var result = JSON.parse(response);
 
                         if (result.success) {

@@ -472,7 +472,61 @@ body.dark .datos:hover td {
     position: relative;
 }
 
+/* CARD 2 */
 
+.homeTitle .card2{
+    background-color: var(--sidebar-color);
+    box-shadow: var(--box-shadow);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    height: auto; /* Cambiado a auto para adaptarse al contenido */
+    max-width: 400px; /* Agregado un ancho máximo */
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    margin-top: 35px;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+}
+
+.card2 { text-align: justify;}
+.card2 h3{
+    font-size: 22px;
+}
+.card2 ul{
+    list-style: none;
+}
+
+.card2:hover{
+    box-shadow: none;
+    transition: var(--tran-04);
+}
+
+.homeTitle .card2 table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+
+.homeTitle .card2 th,
+.homeTitle .card2 td {
+    padding: 10px;
+    text-align: center; /* Centrar el contenido */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.homeTitle .card2 th {
+    background-color: var(--primary-color); /* Cambiar el color de fondo */
+    color: white; /* Cambiar el color del texto */
+}
+
+.homeTitle .card2 tr:hover {
+    background-color: var(--table-row-hover-bg);
+}
+
+/* CARD 2 */
 .user-img img{
     height: 110px;
     width: 110px;

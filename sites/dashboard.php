@@ -7,7 +7,7 @@ include_once('../scripts/php/workers/getDataWorkers.php');
 //? IMPORTAMOS SIDEBAR & RUTAS
 include('../scripts/components/sidebar.php');
 
-$nav_dashboard = '../dashboard.php';
+$nav_dashboard = 'dashboard.php';
 $nav_turnosP = 'horarios.php';
 $nav_workers = 'trabajadores.php';
 $nav_department = 'departamentos.php';
@@ -21,16 +21,18 @@ $datosLogin = obtenerDatosEmpleado($conexion, $_SESSION["userwebdni"]);
 /* Cantidad total de empleados */
 $totalEmpleados = totalWorkers($conexion);
 
+//? ESTADISTICAS DEPARTAMENTOS
 $dineroDepart = totalMoney($conexion);
-/* Nombre de los departamentos */
-$dep1 = $dineroDepart[0]['nombre'];
-$dep2 = $dineroDepart[1]['nombre'];
-$dep3 = $dineroDepart[2]['nombre'];
 
-/* Dinero por departamento */
-$dinero1 = $dineroDepart[0]['dinero'];
-$dinero2 = $dineroDepart[1]['dinero'];
-$dinero3 = $dineroDepart[2]['dinero'];
+//? CANTIDAD DE AVISOS
+$cantidadAvisos = getWarnings($conexion);
+
+function generarColorAleatorio()
+{
+  return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+}
+
+// print_r($cantidadAvisos);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -65,7 +67,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
         id="card">
         <!-- Incluir la imagen del usuario -->
         <div class="user-img">
-          <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $datosLogin['dni']?>.png">
+          <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $datosLogin['dni'] ?>.png">
         </div>
         <div>
           <h3 class="text-2xl font-black col-span-2">Bienvenido de nuevo
@@ -88,7 +90,7 @@ $dinero3 = $dineroDepart[2]['dinero'];
       </div>
       <!-- Graficos departamento -->
       <div id="graficoDepartamentos"
-        class="items-center flex p-2 gap-3 row-span-2 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
+        class="items-center flex p-2 row-span-2 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
         <div>
           <canvas class="w-[60vh]" id="departmentMoney"></canvas>
         </div>
@@ -100,6 +102,23 @@ $dinero3 = $dineroDepart[2]['dinero'];
           <?php echo $totalEmpleados ?> trabajadores dados de alta
         </span>
       </div>
+      <!-- Grafico de tipo de avisos -->
+      <div id="graficoAvisos"
+        class="items-center flex flex-col justify-center p-2 row-span-3 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
+        <div>
+          <?php 
+            if($cantidadAvisos == ''){
+              ?>
+              <center><h3 class='text'>No hay ningún aviso</h3></center>
+              <?php
+            } else {
+              ?>
+              <canvas class="w-[60vh]" id="typeWarnings"></canvas>
+              <?php
+            }
+          ?>
+        </div>
+      </div>
     </div>
   </section>
   <script src="scripts/js/dashboard.js"></script>
@@ -109,20 +128,27 @@ $dinero3 = $dineroDepart[2]['dinero'];
     }
 
     document.getElementById("graficoDepartamentos").onclick = function () {
-      window.location.href = "sites/departamentos.php";
+      window.location.href = "departamentos.php";
     }
+
+    document.getElementById("graficoAvisos").onclick = function () {
+      window.location.href = "avisos.php";
+    }
+
   </script>
 
   <script>
     const ctx = document.getElementById('departmentMoney');
+    const nombresDepartamentos = <?php echo json_encode(array_column($dineroDepart, 'nombre')); ?>;
+    const dineroDepartamentos = <?php echo json_encode(array_column($dineroDepart, 'dinero')); ?>;
 
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ["<?php echo $dep1 ?>", "<?php echo $dep2 ?>", "<?php echo $dep3 ?>"],
+        labels: nombresDepartamentos,
         datasets: [{
           label: '€/departamento',
-          data: [<?php echo $dinero1 ?>, <?php echo $dinero2 ?>, <?php echo $dinero3 ?>],
+          data: dineroDepartamentos,
           borderWidth: 1,
           backgroundColor: '#41cf1d',
         }]
@@ -130,12 +156,57 @@ $dinero3 = $dineroDepart[2]['dinero'];
       options: {
         scales: {
           y: {
-            beginAtZero: true
-          }
+            beginAtZero: true,
+          },
         }
       }
     });
   </script>
+
+  <script>
+    const grafico2 = document.getElementById('typeWarnings');
+
+    const nombresAvisos = <?php echo json_encode(array_column($cantidadAvisos, 'nombre')); ?>;
+    const cantidadesAvisos = <?php echo json_encode(array_column($cantidadAvisos, 'cantidad')); ?>;
+    const coloresAvisos = <?php echo json_encode(array_map('generarColorAleatorio', $cantidadAvisos)); ?>;
+
+    new Chart(grafico2, {
+      type: 'doughnut',
+      data: {
+        labels: nombresAvisos,
+        datasets: [{
+          label: 'cantidad de avisos',
+          data: cantidadesAvisos,
+          borderWidth: 1,
+          backgroundColor: coloresAvisos,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          colors: {
+            enabled: true
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              display: false
+            }
+          },
+          x: {
+            beginAtZero: true,
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+
+    });
+  </script>
+
 
 
   <script>

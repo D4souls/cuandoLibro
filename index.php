@@ -30,7 +30,7 @@
                     <i class='bx bx-lock-alt'></i>
                     <input type="password" name="password" placeholder="Contraseña...">
                 </label>
-                <a href="sites/recuperar-contrasena.php" class="link">He olvidado la Contraseña</a>
+                <!-- <a href="sites/recuperar-contrasena.php" class="link">He olvidado la Contraseña</a> -->
 
                 <button id="button">Acceder</button>
             </form>

@@ -7,8 +7,9 @@ include('../scripts/php/login/datosTurnos.php');
 $userLogin = $_SESSION["userwebdni"];
 $datosUserLogin = obtenerDatosEmpleado($conexion, $userLogin);
 $datosHorarios = obtenerHorarios($conexion, $userLogin);
+$proximosTurnos = proximosTrunos($conexion, $userLogin);
 $result = array_merge($datosUserLogin, $datosHorarios);
-// print_r ($datosHorarios);
+// print_r ($proximosTurnos);
 ?>
 
 
@@ -35,25 +36,16 @@ $result = array_merge($datosUserLogin, $datosHorarios);
                 <span class="image">
                     <img src="../img/cuandoLibro-logo.png" alt="logoClaro" />
                 </span>
-
-                <div class="text header-text">
-                    <span class="name">CuandoLibro</span>
-                    <span class="profession">IAW & DB</span>
-                </div>
             </div>
             <i class="bx bx-chevron-right toggle"></i>
         </header>
 
         <div class="menu-bar">
             <div class="menu">
-                <li class="search-box">
-                    <i class="bx bx-search icon"></i>
-                    <input type="text" placeholder="Buscar..." />
-                </li>
 
                 <ul class="menu-links">
                     <li class="nav-links">
-                        <a href="#dashboard">
+                        <a href="my-portal.php">
                             <i class="bx bx-home-alt-2 icon"></i>
                             <span class="text nav-text">Dashboard</span>
                         </a>
@@ -65,13 +57,13 @@ $result = array_merge($datosUserLogin, $datosHorarios);
                         </a>
                     </li>
                     <li class="nav-links">
-                        <a href="#avisos">
+                        <a href="my-portal-avisos.php">
                             <i class="bx bx-error icon"></i>
                             <span class="text nav-text">Avisos</span>
                         </a>
                     </li>
                     <li class="nav-links">
-                        <a href="#avisos">
+                        <a href="my-portal-nominas.php">
                             <i class='bx bx-wallet icon'></i>
                             <span class="text nav-text">Nóminas</span>
                         </a>
@@ -85,16 +77,6 @@ $result = array_merge($datosUserLogin, $datosHorarios);
                         <span class="text nav-text">Cerrar sesión</span>
                     </a>
                 </li>
-                <li class="mode">
-                    <div class="moon-sun">
-                        <i class="bx bx-moon icon moon"></i>
-                        <i class="bx bx-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Modo oscuro</span>
-                    <div class="toogle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
             </div>
         </div>
     </nav>
@@ -105,29 +87,29 @@ $result = array_merge($datosUserLogin, $datosHorarios);
             <div class="user-img">
                 <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $result["dni"]?>.png">
             </div>
-            <h3>Bienvenido de nuevo
-                <?php echo $result["nombre"] ?>
-            </h3>
-            <table>
-                <ul>
-                    <li>Departamento:
-                        <?php echo $result["nombreDep"] ?>
-                    </li>
-                    <li>Categoria:
-                        <?php echo $result["nombreCat"] ?>
-                    </li>
-                    <li>Última conexión:
-                        <?php echo $result["lastlogout"] ?>
-                    </li>
-                </ul>
-            </table>
-        </div>
+            <h3 class='text-2xl font-black'>Bienvenido de nuevo
+                    <?php echo $result["nombre"] ?>
+                </h3>
+                <table>
+                    <ul>
+                        <li>Departamento:
+                            <?php echo $result["nombreDep"] ?>
+                        </li>
+                        <li>Categoria:
+                            <?php echo $result["nombreCat"] ?>
+                        </li>
+                        <li>Última conexión:
+                            <?php echo $result["lastlogout"] ?>
+                        </li>
+                    </ul>
+                </table>
+            </div>
         <div class="card" id="accederHorarios">
             <?php
             if (isset($datosHorarios['fechaF']) && !empty($datosHorarios['fechaF'])) {
                 ?>
                 <table>
-                    <h2>Próximos turnos</h2>
+                    <h2 class="text-2xl font-black" >Próximos turnos</h2>
                     <tr>
                         <th>Fecha</th>
                         <th>Turno</th>
@@ -149,10 +131,10 @@ $result = array_merge($datosUserLogin, $datosHorarios);
             } ?>
         </div>
     </section>
-    <script src="../scripts/js/dashboard.js"></script>
+    <!-- <script src="../scripts/js/dashboard.js"></script> -->
     <script>
         document.getElementById("editarPerfil").onclick = function () {
-            window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $result['dni'] ?>&rol=<?php echo $result['rol']?>";
+            window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $result['dni'] ?>&rol=<?php echo $result['rol'] ?>";
         }
         document.getElementById("accederHorarios").onclick = function () {
             window.location.href = "my-portal-horarios.php";

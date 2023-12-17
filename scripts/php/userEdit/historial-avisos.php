@@ -24,12 +24,10 @@ include_once('../seguridad/conexion.php');
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.7/dist/sweetalert2.all.min.js"></script>
 
-    <title>CL | Editar trabajador</title>
+    <title>CL | Historial de avisos</title>
 </head>
 
 <body>
-
-
     <center>
         <div class="text">Historial de avisos</div>
     </center>
@@ -78,21 +76,23 @@ include_once('../seguridad/conexion.php');
                 if ($resultado_avisosPorEmpleado->num_rows > 0) {
                     while ($row = $resultado_avisosPorEmpleado->fetch_assoc()) {
                         ?>
-                        <td>
-                            <?php echo $row["nombre"] ?>
-                        </td>
-                        <td>
-                            <?php echo $row["comentario"] ?>
-                        </td>
-                        <td>
-                            <?php echo date("d/m/Y", strtotime($row["fecha"])) ?>
-                        </td>
-                        <td>
-                            <?php echo $row["nombreHorario"]?> (<?php echo date("H:i", strtotime($row["hora_entrada"]))?> - <?php echo date("H:i", strtotime($row["hora_salida"]))?>)
-                        </td>
-                        <td>
-                            <?php echo $row["id_turnoP"]?>
-                        </td>
+                        <tr class='datos'>
+                            <td>
+                                <?php echo $row["nombre"] ?>
+                            </td>
+                            <td>
+                                <?php echo $row["comentario"] ?>
+                            </td>
+                            <td>
+                                <?php echo date("d/m/Y", strtotime($row["fecha"])) ?>
+                            </td>
+                            <td>
+                                <?php echo $row["nombreHorario"]?> (<?php echo date("H:i", strtotime($row["hora_entrada"]))?> - <?php echo date("H:i", strtotime($row["hora_salida"]))?>)
+                            </td>
+                            <td>
+                                <?php echo $row["id_turnoP"]?>
+                            </td>
+                        </tr>
                         <?php
                     }
 
@@ -104,8 +104,6 @@ include_once('../seguridad/conexion.php');
             </tr>
         </table>
     </div>
-
-
 </body>
 
 </html>

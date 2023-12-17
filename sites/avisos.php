@@ -32,7 +32,7 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
       }
     }
   </style>
-  <title>CL | Dashboard</title>
+  <title>CL | Todos los avisos</title>
 </head>
 
 <body>
@@ -43,8 +43,8 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
       <table class="tabla-datos">
         <?php
         $query = "SELECT ta.nombre, a.dni, a.id_aviso, a.comentario FROM aviso a 
-      INNER JOIN tipoaviso ta ON a.tipo = ta.id
-      INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP";
+        INNER JOIN tipoaviso ta ON a.tipo = ta.id
+        INNER JOIN turnos_publicados tp ON a.id_turnoP = tp.id_turnoP";
         $stmt = $conexion->prepare($query);
         if (!$stmt) {
           die("<p>Error al preparar la consulta: </p>" . $conexion->error);
@@ -53,16 +53,19 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
           $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
           if ($stmt->num_rows > 0) {
             $stmt->bind_result($tipoAviso, $dni, $id_aviso, $comentarioAviso);
+            $dni_oculto = str_repeat("*", 4) . substr($dni, 4);
+            ?>
+            <tr>
+              <th>DNI</th>
+              <th>Tipo Aviso</th>
+              <th>Comentario</th>
+            </tr>
+            <?php
             while ($stmt->fetch()) {
               ?>
-              <tr>
-                <th>DNI</th>
-                <th>Tipo Aviso</th>
-                <th>Comentario</th>
-              </tr>
               <tr class="datos">
                 <td>
-                  <?php echo $dni ?>
+                  <?php echo $dni_oculto ?>
                 </td>
                 <td>
                   <?php echo $tipoAviso ?>
@@ -71,13 +74,12 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
                   <?php echo $comentarioAviso ?>
                 </td>
               </tr>
-            </table>
-            <?php
+              <?php
             }
           } else {
             ?>
-          <h3 class="text">No hay avisos...</h3>
-          <?php
+            <h3 class="text">No hay avisos...</h3>
+            <?php
           }
         } else {
           die("<p>Error al ejecutar la consulta: </p>" . $conexion->error);

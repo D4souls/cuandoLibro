@@ -4,7 +4,7 @@ function proximosTrunos($conexion, $userwebdni)
 {
     $proximosturnos = array();
 
-    $query = "SELECT tp.fecha, t.nombre FROM turnos_publicados tp LEFT JOIN turnos t ON tp.id_turno = t.id_turno WHERE tp.dni = '$userwebdni'";
+    $query = "SELECT tp.fecha, t.nombre FROM turnos_publicados tp INNER JOIN turnos t ON tp.id_turno = t.id_turno WHERE tp.dni = '$userwebdni' AND tp.hora_fichaje_entrada IS NULL LIMIT 3";
     $query_ejecutar = $conexion->query($query);
 
     if ($query_ejecutar->num_rows > 0) {

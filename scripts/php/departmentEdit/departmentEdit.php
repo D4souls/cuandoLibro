@@ -41,10 +41,6 @@ include("../seguridad/conexion.php");
 
         <div class="menu-bar">
             <div class="menu">
-                <li class="search-box">
-                    <i class="bx bx-search icon"></i>
-                    <input type="text" placeholder="Buscar..." />
-                </li>
 
                 <ul class="menu-links">
                     <li class="nav-links">
@@ -77,6 +73,11 @@ include("../seguridad/conexion.php");
                             <span class="text nav-text">Avisos</span>
                         </a>
                     </li>
+                    <li class='nav-links'>
+                        <a href='http://localhost/phpmyadmin/index.php?route=/database/structure&db=fichajedb' target='_blank'>
+                            <i class='bx bx-data icon'></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="bottom-content">
@@ -85,16 +86,6 @@ include("../seguridad/conexion.php");
                         <i class="bx bx-log-out icon"></i>
                         <span class="text nav-text">Cerrar sesión</span>
                     </a>
-                </li>
-                <li class="mode">
-                    <div class="moon-sun">
-                        <i class="bx bx-moon icon moon"></i>
-                        <i class="bx bx-sun icon sun"></i>
-                    </div>
-                    <span class="mode-text text">Modo oscuro</span>
-                    <div class="toogle-switch">
-                        <span class="switch"></span>
-                    </div>
                 </li>
             </div>
         </div>
