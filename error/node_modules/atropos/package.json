@@ -1,0 +1,74 @@
+{
+  "name": "atropos",
+  "version": "2.0.2",
+  "description": "Touch-friendly 3D parallax hover effects",
+  "types": "atropos.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./atropos.d.ts",
+      "default": "./atropos.mjs"
+    },
+    "./react": {
+      "types": "./atropos-react.d.ts",
+      "default": "./atropos-react.mjs"
+    },
+    "./element": {
+      "types": "./atropos-element.d.ts",
+      "default": "./atropos-element.mjs"
+    },
+    "./atropos.js": {
+      "types": "./atropos.d.ts",
+      "default": "./atropos.js"
+    },
+    "./atropos.min.js": {
+      "types": "./atropos.d.ts",
+      "default": "./atropos.min.js"
+    },
+    "./css": "./atropos.css",
+    "./css/min": "./atropos.min.css",
+    "./less": "./atropos.less",
+    "./scss": "./atropos.scss",
+    "./atropos.css": "./atropos.css",
+    "./atropos.min.css": "./atropos.min.css",
+    "./atropos.less": "./atropos.less",
+    "./atropos.scss": "./atropos.scss",
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "react": [
+        "./atropos-react.d.ts"
+      ],
+      ".": [
+        "./atropos.d.ts"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nolimits4web/atropos.git"
+  },
+  "keywords": [
+    "atropos",
+    "effect",
+    "parallax",
+    "hover",
+    "3d",
+    "react",
+    "javascript",
+    "portfolio",
+    "gallery",
+    "showcase"
+  ],
+  "author": "Vladimir Kharlampidi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nolimits4web/atropos/issues"
+  },
+  "homepage": "https://atroposjs.com",
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "releaseDate": "July 4, 2023"
+}
