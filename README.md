@@ -1,4 +1,4 @@
-# Descripción
+# CuandoLibro [![xampp](https://www.gnu.org/licenses/gpl-3.0.html)]
 Página web para gestionar una pequeña empresa. Está hecho con HTML, CSS, PHP y JavaScript.
 
 ## Funciones

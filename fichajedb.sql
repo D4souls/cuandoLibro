@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2023 a las 20:28:08
+-- Tiempo de generación: 17-12-2023 a las 16:40:23
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 
 --
 -- Base de datos: `fichajedb`
-CREATE DATABASE fichajedb;
-USE fichajedb;
 --
 
 -- --------------------------------------------------------
@@ -37,6 +35,18 @@ CREATE TABLE `aviso` (
   `id_turnoP` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `aviso`
+--
+
+INSERT INTO `aviso` (`id_aviso`, `tipo`, `comentario`, `dni`, `id_turnoP`) VALUES
+(24, 5, 'El trabajador ha salido pronto 00:14:40', '22222222B', 46),
+(25, 1, 'El trabajador ha entrado tarde 00:08:12', '11111111A', 47),
+(26, 1, 'El trabajador ha entrado tarde 00:15:45', '22222222B', 50),
+(27, 5, 'El trabajador ha salido pronto 01:19:50', '22222222B', 50),
+(28, 1, 'El trabajador ha entrado tarde 01:00:30', '22222222B', 52),
+(29, 5, 'El trabajador ha salido pronto 00:00:01', '22222222B', 54);
+
 -- --------------------------------------------------------
 
 --
@@ -47,8 +57,8 @@ CREATE TABLE `categorias` (
   `id_categoria` int(10) NOT NULL,
   `id_departamento` int(10) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `sueldo_normal` int(9) NOT NULL,
-  `sueldo_plus` int(9) NOT NULL
+  `sueldo_normal` decimal(9,2) NOT NULL,
+  `sueldo_plus` decimal(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -56,13 +66,15 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `id_departamento`, `nombre`, `sueldo_normal`, `sueldo_plus`) VALUES
-(1, 1, 'Tecnico', 10, 15),
-(2, 2, 'Ingeniero', 15, 20),
-(3, 3, 'Consultor', 17, 22),
-(5, 3, 'Director', 25, 30),
-(7, 3, 'Diseñador Junior', 15, 5),
-(11, 1, 'prueba', 10, 10),
-(12, 1, 'ajsdb', 1, 1);
+(2, 2, 'Analista de Pruebas', 12.00, 20.00),
+(3, 3, 'Director de Arte', 25.00, 40.00),
+(5, 3, 'Diseñador de Experiencia de Usuario (UX)', 15.00, 25.00),
+(7, 3, 'Diseñador Gráfico Junior', 12.00, 20.00),
+(13, 1, 'Ingeniero de Soporte Técnico', 10.00, 20.00),
+(14, 1, 'Desarrollador de Software Junior', 15.00, 25.00),
+(15, 1, 'Ingeniero de Sistemas Senior', 25.00, 40.00),
+(16, 2, 'Ingeniero de Pruebas Automatizadas', 15.00, 25.00),
+(17, 2, 'QA Manager', 25.00, 40.00);
 
 -- --------------------------------------------------------
 
@@ -73,17 +85,18 @@ INSERT INTO `categorias` (`id_categoria`, `id_departamento`, `nombre`, `sueldo_n
 CREATE TABLE `departamentos` (
   `id_departamento` int(10) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `presupuesto` int(10) NOT NULL
+  `presupuesto` decimal(10,2) NOT NULL,
+  `gastos` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `departamentos`
 --
 
-INSERT INTO `departamentos` (`id_departamento`, `nombre`, `presupuesto`) VALUES
-(1, 'Ingenieria', 30000),
-(2, 'Testing', 15000),
-(3, 'Diseño', 12000);
+INSERT INTO `departamentos` (`id_departamento`, `nombre`, `presupuesto`, `gastos`) VALUES
+(1, 'Ingeniería', 30000.00, 0.00),
+(2, 'Testing', 18000.00, 960.00),
+(3, 'Diseño', 12000.00, 0.00);
 
 -- --------------------------------------------------------
 
@@ -97,6 +110,7 @@ CREATE TABLE `empleados` (
   `apellido1` varchar(50) NOT NULL,
   `apellido2` varchar(50) DEFAULT NULL,
   `IBAN` varchar(50) NOT NULL,
+  `mail` varchar(80) NOT NULL,
   `n_categoria` int(10) DEFAULT NULL,
   `n_departamento` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -105,11 +119,10 @@ CREATE TABLE `empleados` (
 -- Volcado de datos para la tabla `empleados`
 --
 
-INSERT INTO `empleados` (`dni`, `nombre`, `apellido1`, `apellido2`, `IBAN`, `n_categoria`, `n_departamento`) VALUES
-('11111111A', 'Rubén', 'Fernandez', 'Zapatero', 'es12345678', 7, 3),
-('12345678H', 'Verónica', 'Macho', 'Tojo', 'PT25905960248248664275964', 2, 2),
-('12774250G', 'Jose Antonio', 'Avila', 'Mollon', 'ES1159173965365197454410', 2, 2),
-('72210584Z', 'Sergio', 'Avila', 'Macho', 'ES9437684930976379259720', 2, 2);
+INSERT INTO `empleados` (`dni`, `nombre`, `apellido1`, `apellido2`, `IBAN`, `mail`, `n_categoria`, `n_departamento`) VALUES
+('11111111A', 'José Antonio', 'Ávila', 'Mollón', 'ES123456789', 'joseantonioavila1@gmail.com', 2, 2),
+('22222222B', 'Verónica', 'Macho', 'Tojo', 'ES123456789', 'machoveronica@gmail.com', 2, 2),
+('33333333C', 'Sergio', 'Ávila', 'Macho', 'ES123123123', 'sergioavilamacho12@gmail.com', 14, 1);
 
 --
 -- Disparadores `empleados`
@@ -135,10 +148,18 @@ DELIMITER ;
 
 CREATE TABLE `nominas` (
   `id` int(9) NOT NULL,
-  `fecha` datetime NOT NULL,
+  `fecha` date NOT NULL,
   `dni` varchar(9) NOT NULL,
   `total` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `nominas`
+--
+
+INSERT INTO `nominas` (`id`, `fecha`, `dni`, `total`) VALUES
+(1, '0000-00-00', '33333333C', 20),
+(6, '2023-12-17', '33333333C', 20);
 
 -- --------------------------------------------------------
 
@@ -178,7 +199,9 @@ INSERT INTO `tipoaviso` (`id`, `nombre`) VALUES
 (1, 'Retraso'),
 (2, 'Falta injustificada'),
 (3, 'Aviso leve'),
-(4, 'Aviso grave');
+(4, 'Aviso grave'),
+(5, 'Salida temprana'),
+(6, 'Ausencia sin justificar');
 
 -- --------------------------------------------------------
 
@@ -189,8 +212,8 @@ INSERT INTO `tipoaviso` (`id`, `nombre`) VALUES
 CREATE TABLE `turnos` (
   `id_turno` int(9) NOT NULL,
   `nombre` varchar(40) NOT NULL,
-  `hora_salida` time NOT NULL,
   `hora_entrada` time NOT NULL,
+  `hora_salida` time NOT NULL,
   `plus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -198,7 +221,7 @@ CREATE TABLE `turnos` (
 -- Volcado de datos para la tabla `turnos`
 --
 
-INSERT INTO `turnos` (`id_turno`, `nombre`, `hora_salida`, `hora_entrada`, `plus`) VALUES
+INSERT INTO `turnos` (`id_turno`, `nombre`, `hora_entrada`, `hora_salida`, `plus`) VALUES
 (1, 'Mañana', '06:00:00', '14:00:00', 0),
 (2, 'Tarde', '14:00:00', '22:00:00', 0),
 (3, 'Noche', '22:00:00', '06:00:00', 1),
@@ -226,34 +249,16 @@ CREATE TABLE `turnos_publicados` (
 --
 
 INSERT INTO `turnos_publicados` (`id_turnoP`, `categoria`, `departamento`, `fecha`, `hora_fichaje_entrada`, `hora_fichaje_salida`, `dni`, `id_turno`) VALUES
-(2, 2, 2, '2023-11-28', NULL, NULL, '12345678H', 1),
-(6, 2, 2, '2023-11-23', NULL, NULL, '72210584Z', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `turnos_publicados_backup`
---
-
-CREATE TABLE `turnos_publicados_backup` (
-  `categoria` int(10) DEFAULT NULL,
-  `departamento` int(10) DEFAULT NULL,
-  `fecha` date DEFAULT NULL,
-  `hora_fichaje_entrada` datetime DEFAULT NULL,
-  `hora_fichaje_salida` datetime DEFAULT NULL,
-  `dni` varchar(9) DEFAULT NULL,
-  `id_turno` int(9) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `turnos_publicados_backup`
---
-
-INSERT INTO `turnos_publicados_backup` (`categoria`, `departamento`, `fecha`, `hora_fichaje_entrada`, `hora_fichaje_salida`, `dni`, `id_turno`) VALUES
-(1, 1, '2023-11-16', NULL, NULL, '12774250G', 2),
-(1, 1, '2023-11-16', NULL, NULL, '72210584Z', 2),
-(1, 1, '2023-11-16', NULL, NULL, '12774250G', 2),
-(1, 1, '2023-11-16', NULL, NULL, '72210584Z', 2);
+(45, 2, 2, '2023-12-18', '2023-12-18 05:59:01', '2023-12-18 14:03:27', '11111111A', 1),
+(46, 2, 2, '2023-12-18', '2023-12-18 05:59:10', '2023-12-18 13:45:20', '22222222B', 1),
+(47, 2, 2, '2023-12-19', '2023-12-19 06:08:12', '2023-12-19 14:30:45', '11111111A', 1),
+(48, 2, 2, '2023-12-19', '2023-12-19 06:02:37', '2023-12-19 14:45:20', '22222222B', 1),
+(49, 2, 2, '2023-12-20', '2023-12-20 06:01:30', '2023-12-20 14:15:22', '11111111A', 1),
+(50, 2, 2, '2023-12-20', '2023-12-20 06:15:45', '2023-12-20 12:40:10', '22222222B', 1),
+(51, 2, 2, '2023-12-21', '2023-12-21 06:04:55', '2023-12-21 14:55:40', '11111111A', 1),
+(52, 2, 2, '2023-12-21', '2023-12-21 07:00:30', '2023-12-21 15:38:55', '22222222B', 1),
+(53, 2, 2, '2023-12-22', '2023-12-22 06:03:17', '2023-12-22 14:00:00', '11111111A', 1),
+(54, 2, 2, '2023-12-22', '2023-12-22 06:01:15', '2023-12-22 13:59:59', '22222222B', 1);
 
 -- --------------------------------------------------------
 
@@ -276,10 +281,9 @@ CREATE TABLE `userweb` (
 --
 
 INSERT INTO `userweb` (`id`, `username`, `userpassword`, `rol`, `dniusuarioweb`, `lastlogout`, `lastchangepassword`) VALUES
-(1, 's.avila', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2, '72210584Z', '2023-11-27 09:55:22', '2023-11-23 11:56:01'),
-(8, 'V.Macho', '12345678H', 1, '12345678H', '2023-11-20 09:36:09', NULL),
-(9, 'J.Avila', 'a280f9c1266fc6a4aea482b8206f367bbd96a76a075140cd67ef4e92c01e3142', 1, '12774250G', '2023-11-27 09:57:41', '2023-11-23 13:43:06'),
-(10, 'R.pito', '11111111A', 1, '11111111A', '2023-11-23 13:56:16', NULL);
+(1, 'S.Avila', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 2, '33333333C', '2023-12-17 13:56:55', '2023-12-17 00:16:27'),
+(45, 'J.Avila', '11111111A', 1, '11111111A', '2023-12-17 13:58:03', NULL),
+(46, 'V.Macho', '22222222B', 1, '22222222B', '2023-12-17 13:58:18', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -366,13 +370,13 @@ ALTER TABLE `userweb`
 -- AUTO_INCREMENT de la tabla `aviso`
 --
 ALTER TABLE `aviso`
-  MODIFY `id_aviso` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_aviso` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_categoria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -384,7 +388,7 @@ ALTER TABLE `departamentos`
 -- AUTO_INCREMENT de la tabla `nominas`
 --
 ALTER TABLE `nominas`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -396,7 +400,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tipoaviso`
 --
 ALTER TABLE `tipoaviso`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `turnos`
@@ -408,13 +412,13 @@ ALTER TABLE `turnos`
 -- AUTO_INCREMENT de la tabla `turnos_publicados`
 --
 ALTER TABLE `turnos_publicados`
-  MODIFY `id_turnoP` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_turnoP` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `userweb`
 --
 ALTER TABLE `userweb`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Restricciones para tablas volcadas
