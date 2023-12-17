@@ -1,6 +1,3 @@
-# CuandoLibro [![xampp](https://www.gnu.org/licenses/gpl-3.0.html)]
-Página web para gestionar una pequeña empresa. Está hecho con HTML, CSS, PHP y JavaScript.
-=======
 <h1 align="center">
   <img src="https://github.com/D4souls/cuandoLibro/blob/main/img/MicrosoftTeams-image.png" alt="logoCuandoLibro" width="250px"><br>
   <img src="https://img.shields.io/badge/XAMPP-FB7A24.svg?style=for-the-badge&logo=XAMPP&logoColor=white" alt="xampp">
