@@ -1,38 +1,97 @@
-# Descripción
-Página web para gestionar una pequeña empresa. Está hecho con HTML, CSS, PHP y JavaScript.
+<h1 align="center">
+  <img src="https://github.com/D4souls/cuandoLibro/blob/main/img/MicrosoftTeams-image.png" alt="logoCuandoLibro" width="250px"><br>
+  <img src="https://img.shields.io/badge/XAMPP-FB7A24.svg?style=for-the-badge&logo=XAMPP&logoColor=white" alt="xampp">
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="php">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="html5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="css3"><br>
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwind">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="javascript">
+  <img src="https://img.shields.io/badge/Composer-885630.svg?style=for-the-badge&logo=Composer&logoColor=white" alt="composer-for-php">
+  <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="node.js">
+</h1>
 
-## Funciones
-- Trabajadores: <br>
-✔️ Agregar usuarios.<br>
-✔️ Modificar Usuarios.<br>
-✔️ Eliminar usuarios.<br>
-❌ Acceso via web a sus datos, horario y nómina.<br><br>
+## Descripción
+Aplicación vía web para la administración de una pequeña empresa. Con esta aplicación podrás desde crear un usuario hasta gestionar las nóminas de cada mes, esta aplicación ofrece las herramientas necesarias para simplificar y agilizar los procesos de administración de la empresa. Con la aplicación podrás:
 
-- Departamentos:<br>
-✔️ Agregar departamentos.<br>
-✔️ Modificar departamentos.<br>
-✔️ Estadísitcas de los departamentos.<br><br>
+- **Gestionar trabajdores y departamentos:** Podrás dar de alta y actualizar información de tus trabajadores y de los departamentos.
+- **Creación de turnos:** Crea y asigna distintos turnos para cada día según el departamento que lo necesite.
+- **My-Portal:** Todos los usuarios tendrán un portal personal donde podrán ver sus próximos turnos, estado de estos, comprobar avisos, descargar las nóminas del mes.
+- **Seguridad de fichaje:** La aplicación contiene unos sistemas de seguridad los cuales son capaces de captar, almacenar y comparar la hora a la que ficha y desficha el trabajador.
+- **Gestión de avisos:** El sistema de turnos y de fichaje de los trabajadores está vinculado a un sistema de seguridad el cual notificará al administrador y al trabajador de las posibles incidencias.
+- **Creación de nóminas mensuales:** Cuando se configure el sistema de generación de nóminas estas se generarán automanticamente y se notificará a cada trabajador.
+  
+![Preview Interface](https://github.com/D4souls/cuandoLibro/blob/main/img/preview-interface.png)
 
-- Categorias:<br>
-✔️ Ver categorias por departamentos<br>
-✔️ Crear, editar y eliminarlas<br><br>
+> [!NOTE]
+> Para la automatización de las nóminas y el fichaje de cada empleado se requiere programarlo en el administrador del sistema.
 
-- Turnos:<br>
-✔️ Crear turnos<br>
-✔️ Eliminar turnos<br>
-✔️ Asignar turnos<br><br>
+## Instalación
+Para poder usar todas las funcionalidades que tiene la aplicación se requiere tener instalado xampp y seguir estos pasos:
+> **Información**
+> Todas las rutas que hay son desde la carpeta raiz del proyecto.
+1. **(Opcional) Instalar composer y node**<br>
 
-- Horarios:<br>
-❌ Crear horarios.<br>
-❌ Modificar horarios.<br><br>
+   Si no tienes instalado `composer` y `node`, accede a:
+   - [Composer Web](https://getcomposer.org/download/) y descarga su última versión.
+   - [Node Web](https://nodejs.org/en) y descarga su última versión.
+1. **Clonar repositorio**
+   
+   ```
+   git clone https://github.com/D4souls/cuandoLibro
+   ```
+3. **Instalar phpmailer**
 
-- Avisos:<br>
-❌ Ver avisos según el nombre del trabajador<br>
-❌ Ver avisos según turnos<br>
-❌ Ver avisos según departamentos<br><br>
+   ```
+   cd .\scripts\php\seguridad\mail
+   ```
+   ```
+   composer require phpmailer/phpmailer
+   ```
+5. **Instalar DOMPDF**
+   
+   ```
+   cd .\scripts\php\seguridad\generarNominas
+   ```
+   ```
+   composer require dompdf/dompdf
+   ```
+7. **Activar GD**
+   Para este paso es necesario acceder a la configuración de *Apache* (php.ini) y activar esta extensión:<br>
+   
+   **Antes:**
+   ```
+   ;extension=gd
+   ```
+   **Después:**
+   ```
+   extension=gd
+   ```
+8. **Instalar Atropos**
+    
+   ```
+   cd .\error
+   ```
+   ```
+   npm i atropos
+   ```
 
-- Nóminas:<br>
-❌ Generar nóminas.<br><br>
+9. **Creación DB**
 
-- Página de login:<br>
-✔️ Creada y funcional<br>
+    Ejecutar el archivo [`SQL`](https://github.com/D4souls/cuandoLibro/blob/main/fichajedb.sql) en nuestro gestor de bases de datos.
+
+> [!IMPORTANT]
+> Se tendrá que incluir el repositorio en la carptea de *htdocs* o crear un *nuevo host virtual*.
+
+## Funcionalidades
+| Nombre | Funcionalidades |
+| --- | ---|
+| Empleados | Alta y baja del trabajador, modificación de datos personales, asignación de departamento y categoría, acceso a *My-portal*, generación automatica de credenciales temporales, visualizador de historial de avisos |
+| Departamentos | Creación y eliminación de departamento, asignación de dinero, gestión de gastos, gestión de categorías según departamento |
+| Categorías | Creación y eliminación de categorías, asignación de sueldo /h |
+| Turnos | Creación y eliminación de 1 o varios turnos, asignación y desasignación de turno a trabajador |
+| Avisos | Creación de aviso por: entrada tardía, salida temprana, falta injustificada de asistencia |
+| Seguridad | Gestión de inactividad, cifrado de contraseñas, control de acceso según rol (usuario o administrador), control de peticiones usando *ajax* |
+| Extras | Creación de nóminas, autogeneración de fotografía corporativa, creación de directorios personales |
+
+## Licencia
+GNU General Public License v3.0 ([Ver licencia](https://github.com/D4souls/cuandoLibro/blob/main/LICENSE))
