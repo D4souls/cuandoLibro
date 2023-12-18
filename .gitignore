@@ -1,9 +1,16 @@
-scripts/php/seguridad/mail/vendor
-scripts/php/seguridad/mail/composer.json
-scripts/php/seguridad/mail/composer.lock
-scripts/php/seguridad/generarNominas/vendor
-scripts/php/seguridad/generarNominas/composer.json
-scripts/php/seguridad/generarNominas/composer.lock
-error/node_modules
-error/package-lock.json
-error/package.json
+# Excluir directorios de dependencias de Composer
+/scripts/php/seguridad/mail/vendor
+/scripts/php/seguridad/generarNominas/vendor
+
+# Excluir archivos de configuración de Composer
+/scripts/php/seguridad/mail/composer.json
+/scripts/php/seguridad/mail/composer.lock
+/scripts/php/seguridad/generarNominas/composer.json
+/scripts/php/seguridad/generarNominas/composer.lock
+
+# Excluir directorios de dependencias de Node.js
+/error/node_modules
+
+# Excluir archivos de configuración de Node.js
+/error/package-lock.json
+/error/package.json
