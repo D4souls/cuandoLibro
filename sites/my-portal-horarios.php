@@ -23,7 +23,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
 </head>
 
 <body>
-<nav class="sidebar close">
+    <nav class="sidebar close">
         <header>
             <div class="image-text">
                 <span class="image">
@@ -97,7 +97,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
                             </td>
                             <td
                                 title="Hora entrada: <?php echo date("H:i", strtotime($turno['he'])) . '| Hora salida: ' . date("H:i", strtotime($turno['hs'])); ?>">
-                                <?php echo $turno['nombre'] . " (" . date("H:i", strtotime($turno['he'])) . " a ". date("H:i", strtotime($turno['hs'])) .")" ?>
+                                <?php echo $turno['nombre'] . " (" . date("H:i", strtotime($turno['he'])) . " a " . date("H:i", strtotime($turno['hs'])) . ")" ?>
                             </td>
                             <td>
                                 <?php echo isset($turno['hfe']) ? date("H:i:s", strtotime($turno['hfe'])) : "Sin datos..." ?>
@@ -105,16 +105,14 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
                             <td>
                                 <?php echo isset($turno['hfs']) ? date("H:i:s", strtotime($turno['hfs'])) : "Sin datos..." ?>
                             </td>
-                            <td>
-                                <?php if($turno['hfe'] == null){
-                                    echo "Turno sin realizar...";
-                                }elseif ($turno['hfe'] != null && $turno['hfs'] == null){
-                                    echo "Turno en proceso...";
-                                } elseif ($turno['hfe'] != null && $turno['hfs'] != null){
-                                    echo "Turno realizado";
-                                }
-                                ?>
-                            </td>
+                            <?php if ($turno['hfe'] == null) {
+                                echo "<td class='text-red-500'>Turno sin realizar...</td>";
+                            } elseif ($turno['hfe'] != null && $turno['hfs'] == null) {
+                                echo "<td>Turno en proceso...</td>";
+                            } elseif ($turno['hfe'] != null && $turno['hfs'] != null) {
+                                echo "<td class='text-green-500'>Turno realizado</td>";
+                            }
+                            ?>
                         </tr>
                         <?php
                     } ?>
@@ -127,7 +125,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
             ?>
         </div>
     </section>
-    <script src="../scripts/js/dashboard.js"></script>
+    <!-- <script src="../scripts/js/dashboard.js"></script> -->
 </body>
 
 </html>

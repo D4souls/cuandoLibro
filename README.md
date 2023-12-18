@@ -25,7 +25,7 @@ Aplicación vía web para la administración de una pequeña empresa. Con esta a
 > [!NOTE]
 > Para la automatización de las nóminas y el fichaje de cada empleado se requiere programarlo en el administrador del sistema.
 
-## Instalación
+## Instalación [powershell](https://img.shields.io/badge/PowerShell-5391FE.svg?style=for-the-badge&logo=PowerShell&logoColor=white)
 Para poder usar todas las funcionalidades que tiene la aplicación se requiere tener instalado xampp y seguir estos pasos:
 > [!CAUTION]
 > Todas las rutas que hay son desde la carpeta raiz del proyecto.

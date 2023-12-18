@@ -138,7 +138,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
             </table>
         </div>
     </section>
-    <script src="../scripts/js/dashboard.js"></script>
+    <!-- <script src="../scripts/js/dashboard.js"></script> -->
 </body>
 
 </html>

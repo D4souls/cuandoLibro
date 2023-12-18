@@ -34,17 +34,19 @@ function getSchedule($conexion)
             while ($var_fila = $var_resultado->fetch_array()) {
                 $fechaToSTR = strtotime($var_fila['fecha']);
                 $fechaFormateada = date("d/m/Y", $fechaToSTR);
-
-                if($var_fila['dni'] == null){
-                    $var_fila['dni'] = 'Sin asignar...';
-                }
     
                 if($var_fila['hfe'] == null){
                     $tablaHtml .= "<tr class='datos' id='idTurnoPublicado_{$var_fila["idturnoP"]}' onclick=\"window.location.href='../scripts/php/schedule/scheduleEdit.php?id_turnoP={$var_fila["idturnoP"]}'\">";
                 } else {
                     $tablaHtml .= "<tr class='datos'>";
                 }
-                $dni_oculto = str_repeat("*", 4) . substr($var_fila["dni"], 4);
+
+                if($var_fila['dni'] == null){
+                    $dni_oculto = 'Sin asignar...';
+                } else {
+                    $dni_oculto = str_repeat("*", 4) . substr($var_fila["dni"], 4);
+                }
+
                 $tablaHtml .= "
                 
                     <td>{$var_fila['nombreDepartamento']}</td>

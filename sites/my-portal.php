@@ -85,43 +85,49 @@ $result = array_merge($datosUserLogin, $datosHorarios);
         <div class="card" id="editarPerfil">
             <!-- Incluir la imagen del usuario -->
             <div class="user-img">
-                <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $result["dni"]?>.png">
+                <img alt="userImage" src="../scripts/php/userImages/img/<?php echo $result["dni"] ?>.png">
             </div>
             <h3 class='text-2xl font-black'>Bienvenido de nuevo
-                    <?php echo $result["nombre"] ?>
-                </h3>
-                <table>
-                    <ul>
-                        <li>Departamento:
-                            <?php echo $result["nombreDep"] ?>
-                        </li>
-                        <li>Categoria:
-                            <?php echo $result["nombreCat"] ?>
-                        </li>
-                        <li>Última conexión:
-                            <?php echo $result["lastlogout"] ?>
-                        </li>
-                    </ul>
-                </table>
-            </div>
+                <?php echo $result["nombre"] ?>
+            </h3>
+            <table>
+                <ul>
+                    <li>Departamento:
+                        <?php echo $result["nombreDep"] ?>
+                    </li>
+                    <li>Categoria:
+                        <?php echo $result["nombreCat"] ?>
+                    </li>
+                    <li>Última conexión:
+                        <?php echo $result["lastlogout"] ?>
+                    </li>
+                </ul>
+            </table>
+        </div>
         <div class="card" id="accederHorarios">
             <?php
-            if (isset($datosHorarios['fechaF']) && !empty($datosHorarios['fechaF'])) {
+            if (!empty($proximosTurnos)) {
                 ?>
                 <table>
-                    <h2 class="text-2xl font-black" >Próximos turnos</h2>
+                    <h2 class="text-2xl font-black">Próximos turnos</h2>
                     <tr>
                         <th>Fecha</th>
                         <th>Turno</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <?php echo date("d-m-y", strtotime($datosHorarios['fechaTurno'])) ?>
-                        </td>
-                        <td>
-                            <?php echo $datosHorarios['turno'] ?>
-                        </td>
-                    </tr>
+                    <?php
+                    foreach ($proximosTurnos as $nextSchedule) {
+                        ?>
+                        <tr>
+                            <td>
+                                <?php echo date("d/m/Y", strtotime($nextSchedule['fecha'])) ?>
+                            </td>
+                            <td>
+                                <?php echo $nextSchedule['nombre'] ?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
                 </table>
                 <?php
             } else {

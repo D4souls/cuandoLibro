@@ -20,7 +20,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="icon" href="../img/cuandoLibro-logo.png">
-    <title>My site | Horarios</title>
+    <title>My site | Nominas</title>
 </head>
 
 <body>
@@ -101,6 +101,8 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
                     </div>
                     <?php
                 }
+            } else {
+                echo "Error al leer la carpete";
             }
             ?>
         </section>
@@ -160,7 +162,7 @@ $datosHorarios = todosTurnos($conexion, $userLogin);
                 }
             } else {
                 ?>
-                    <center><h2 class='text'>Vaya... parece que no has combrado aún :(</h2></center>
+                    <h2 class='text' aling="center">Vaya... parece que no has combrado aún :(</h2>
                 <?php
             }
 
