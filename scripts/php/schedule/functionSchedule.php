@@ -9,7 +9,8 @@ function getSchedule($conexion)
         $var_consulta = "SELECT tp.id_turnoP AS 'idturnoP', d.nombre AS 'nombreDepartamento', c.nombre AS 'nombreCat', tp.fecha AS 'fecha', tp.hora_fichaje_entrada AS 'hfe', tp.hora_fichaje_salida AS 'hfs', tp.dni AS 'dni', t.nombre AS 'nombreTurno' FROM turnos_publicados tp
                 INNER JOIN departamentos d ON tp.departamento = d.id_departamento
                 INNER JOIN categorias c ON c.id_categoria = tp.categoria
-                INNER JOIN turnos t ON t.id_turno = tp.id_turno;";
+                INNER JOIN turnos t ON t.id_turno = tp.id_turno
+                ORDER BY tp.fecha DESC";
         $var_resultado = $conexion->query($var_consulta);
         $tablaHtml = "";
         if ($var_resultado->num_rows > 0) {
@@ -21,7 +22,7 @@ function getSchedule($conexion)
                 ";
             }
             $tablaHtml .= "
-            <table class='tabla-datos'>
+            <table class='tabla-datos m-2'>
             <tr class='bg-slate-100'>
                 <th class=''>Departamento</th>
                 <th>Categoria</th>

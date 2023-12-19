@@ -29,7 +29,13 @@ $cantidadAvisos = getWarnings($conexion);
 
 function generarColorAleatorio()
 {
-  return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+
+  $colores = ['#96F87D', '#D7F827', '#27F8BC', '#2794F8', '#3427F8'];
+
+  $indiceAleatorio = array_rand($colores);
+
+  return $colores[$indiceAleatorio];
+
 }
 
 // print_r($cantidadAvisos);
@@ -60,7 +66,7 @@ function generarColorAleatorio()
   <?php echo $nav ?>
   <section class="homeTitle" id="dashboard">
     <div class="text">Dashboard</div>
-    <div class="grid md:grid-cols-3 md:grid-rows-5 sm:grid-cols-1 gap-5 m-4 mt-[40px]">
+    <div class="grid md:grid-cols-3 md:grid-rows-4 sm:grid-cols-1 gap-5 m-4">
       <!-- Datos usuario login -->
       <div
         class="flex p-2 gap-3 items-center border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer"
@@ -95,8 +101,8 @@ function generarColorAleatorio()
           <canvas class="w-[60vh]" id="departmentMoney"></canvas>
         </div>
       </div>
-      <!-- Ultimos empleados dado de alta -->
-      <div
+      <!-- Cantidad de trabajdores -->
+      <div id='cantidadTrabajadores'
         class="flex p-2 gap-3 border-box items-center place-content-center content-center bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
         <span id="contador" class="text-3xl font-extrabold">
           <?php echo $totalEmpleados ?> trabajadores dados de alta
@@ -106,16 +112,18 @@ function generarColorAleatorio()
       <div id="graficoAvisos"
         class="items-center flex flex-col justify-center p-2 row-span-3 border-box bg-white rounded-md shadow-2xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duraion-300 cursor-pointer">
         <div>
-          <?php 
-            if($cantidadAvisos == ''){
-              ?>
-              <center><h3 class='text'>No hay ningún aviso</h3></center>
-              <?php
-            } else {
-              ?>
-              <canvas class="w-[60vh]" id="typeWarnings"></canvas>
-              <?php
-            }
+          <?php
+          if ($cantidadAvisos == '') {
+            ?>
+            <center>
+              <h3 class='text'>No hay ningún aviso</h3>
+            </center>
+            <?php
+          } else {
+            ?>
+            <canvas class="w-[60vh]" id="typeWarnings"></canvas>
+            <?php
+          }
           ?>
         </div>
       </div>
@@ -125,6 +133,10 @@ function generarColorAleatorio()
   <script>
     document.getElementById("card").onclick = function () {
       window.location.href = "../scripts/php/userEdit/myportlaEdit.php?dni=<?php echo $datosLogin['dni'] ?>&rol=<?php echo $datosLogin["rol"] ?>";
+    }
+
+    document.getElementById("cantidadTrabajadores").onclick = function () {
+      window.location.href = "trabajadores.php";
     }
 
     document.getElementById("graficoDepartamentos").onclick = function () {
@@ -168,7 +180,7 @@ function generarColorAleatorio()
 
     const nombresAvisos = <?php echo json_encode(array_column($cantidadAvisos, 'nombre')); ?>;
     const cantidadesAvisos = <?php echo json_encode(array_column($cantidadAvisos, 'cantidad')); ?>;
-    const coloresAvisos = <?php echo json_encode(array_map('generarColorAleatorio', $cantidadAvisos)); ?>;
+    const coloresAvisos = <?php echo json_encode(array_map('generarColorAleatorio', array_fill(0, count($cantidadAvisos), null))); ?>;
 
     new Chart(grafico2, {
       type: 'doughnut',

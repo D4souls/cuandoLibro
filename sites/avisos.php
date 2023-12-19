@@ -53,7 +53,6 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
           $stmt->store_result(); //! ASEGURARSE DE ALMACENAR EL RESULTADO
           if ($stmt->num_rows > 0) {
             $stmt->bind_result($tipoAviso, $dni, $id_aviso, $comentarioAviso);
-            $dni_oculto = str_repeat("*", 4) . substr($dni, 4);
             ?>
             <tr>
               <th>DNI</th>
@@ -65,7 +64,7 @@ $nav = sidebar($nav_dashboard, $nav_turnosP, $nav_workers, $nav_department, $nav
               ?>
               <tr class="datos">
                 <td>
-                  <?php echo $dni_oculto ?>
+                  <?php echo substr_replace($dni, str_repeat("*", 4), 0, 4) ?>
                 </td>
                 <td>
                   <?php echo $tipoAviso ?>

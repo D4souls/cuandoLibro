@@ -175,11 +175,11 @@ include("../seguridad/seguridad.php");
                     </label>
 
                     <label for="IBAN">IBAN:
-                        <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>" readonly>
+                        <input type="text" name="IBAN" value="<?php echo $datos_empleado['IBAN']; ?>" readonly class="extendido">
                     </label>
 
                     <label for="mail">Email:
-                        <input type="text" name="mail" size="24" value="<?php echo $datos_empleado['mail']; ?>">
+                        <input type="text" name="mail" size="24" value="<?php echo $datos_empleado['mail']; ?>" class="extendido">
                     </label>
 
                     <input type="hidden" name="n_departamento" value="<?php echo $datos_empleado['n_departamento']; ?>" readonly>
