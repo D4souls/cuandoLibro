@@ -10,10 +10,10 @@ function sendMail($data)
     // Crear una instancia de PHPMailer
     $mail = new PHPMailer(true);
 
-    $correo = "cuandolibro@outlook.es";
-    $password = "donbosco787";
+    $correo = "";
+    $password = "";
     $nombre = "Administración Cuando Libro";
-    $host = "smtp.office365.com";
+    $host = "";
 
     $nombreCompleto = $data["nombre"] . " " . $data["apellido1"] . " " . $data["apellido2"];
     $mailDestinatario = $data["mail"];
