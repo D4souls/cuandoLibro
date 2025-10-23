@@ -93,5 +93,29 @@ Para poder usar todas las funcionalidades que tiene la aplicación se requiere t
 | Seguridad | Gestión de inactividad, cifrado de contraseñas, control de acceso según rol (usuario o administrador), control de peticiones usando *ajax* |
 | Extras | Creación de nóminas, autogeneración de fotografía corporativa, creación de directorios personales |
 
+## 📚 Documentación
+
+Para una guía completa sobre cómo usar todas las funcionalidades de la aplicación, consulta la **[Documentación completa](./docs/README.md)**.
+
+La documentación incluye:
+- **Guías para administradores**: Gestión de trabajadores, departamentos, categorías, turnos y avisos
+- **Guías para empleados**: My Portal, consulta de horarios, avisos y nóminas
+- **Documentación técnica**: Sistema de seguridad, fichaje y generación de nóminas
+
+### Acceso Rápido
+
+**Para Administradores:**
+- [Inicio de Sesión](./docs/01-inicio-sesion.md)
+- [Dashboard](./docs/02-dashboard.md)
+- [Gestión de Trabajadores](./docs/03-trabajadores.md)
+- [Gestión de Departamentos](./docs/04-departamentos.md)
+- [Gestión de Turnos](./docs/06-turnos.md)
+
+**Para Empleados:**
+- [My Portal - Dashboard Personal](./docs/08-my-portal.md)
+- [My Portal - Horarios](./docs/09-my-portal-horarios.md)
+- [My Portal - Avisos](./docs/10-my-portal-avisos.md)
+- [My Portal - Nóminas](./docs/11-my-portal-nominas.md)
+
 ## Licencia
 GNU General Public License v3.0 ([Ver licencia](https://github.com/D4souls/cuandoLibro/blob/main/LICENSE))
