@@ -3,6 +3,8 @@
 ## Descripción
 El Dashboard es la pantalla principal para los administradores después de iniciar sesión. Proporciona una vista general del estado de la empresa con información estadística y gráficos.
 
+![Vista previa del Dashboard](../img/preview-interface.png)
+
 ## Acceso
 
 **URL**: `/sites/dashboard.php`  

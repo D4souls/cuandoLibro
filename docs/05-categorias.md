@@ -175,14 +175,25 @@ El sistema determina automáticamente qué tipo de sueldo aplicar según:
 ### Estructura Organizativa
 
 ```
-Empresa
-  └── Departamento (Desarrollo)
-        ├── Categoría (Ingeniero Senior)
-        │     └── Empleados (Juan, María)
-        ├── Categoría (Desarrollador Junior)
-        │     └── Empleados (Pedro, Ana)
-        └── Categoría (Soporte Técnico)
-              └── Empleados (Luis, Carmen)
+                    🏢 EMPRESA
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+   📁 Desarrollo    📁 Diseño       📁 Testing
+        │                │                │
+        ├─ 🏷️ Senior     ├─ 🏷️ Director  ├─ 🏷️ QA Manager
+        │   25€/h        │   25€/h        │   25€/h
+        │   ├─ 👤 Juan   │   ├─ 👤 María  │   └─ 👤 Pedro
+        │   └─ 👤 Ana    │   └─ 👤 Luis   │
+        │                │                │
+        ├─ 🏷️ Junior     ├─ 🏷️ UX        └─ 🏷️ Analista
+        │   15€/h        │   15€/h            12€/h
+        │   ├─ 👤 Pedro  │   └─ 👤 Carmen      └─ 👤 Jorge
+        │   └─ 👤 Laura  │
+        │                │
+        └─ 🏷️ Soporte   └─ 🏷️ Gráfico
+            10€/h            12€/h
+            └─ 👤 Carlos     └─ 👤 Elena
 ```
 
 ### Flujo de Creación

@@ -1,5 +1,9 @@
 # 📚 Documentación de CuandoLibro
 
+<p align="center">
+  <img src="../img/cuandoLibro-logo.png" alt="Logo CuandoLibro" width="200">
+</p>
+
 Bienvenido a la documentación completa de CuandoLibro, una aplicación web para la administración de pequeñas empresas.
 
 ## 📖 Índice

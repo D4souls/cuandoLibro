@@ -14,24 +14,86 @@ El sistema genera nóminas automáticamente mediante una tarea programada (cron 
 0 23 28-31 * * [ $(date -d tomorrow +\%d) -eq 1 ] && php /path/to/generarNominas.php
 ```
 
-### Flujo del Sistema
+## Flujo del Sistema
 
 ```
-1. Fin del mes → Tarea programada se activa
-2. Sistema obtiene lista de todos los empleados activos
+┌────────────────────────────────────────────────────────────────────┐
+│              PROCESO DE GENERACIÓN DE NÓMINAS                      │
+└────────────────────────────────────────────────────────────────────┘
+
+1. FIN DE MES → Tarea programada se activa
+   │
+   ▼
+2. Sistema obtiene lista de empleados activos
+   │
+   ▼
 3. Para cada empleado:
-   a. Recopilar turnos del mes
-   b. Verificar fichajes
-   c. Calcular horas trabajadas
-   d. Clasificar horas (normales/plus)
-   e. Obtener sueldo por hora según categoría
-   f. Calcular devengos
-   g. Calcular deducciones
-   h. Generar PDF de la nómina
-   i. Guardar en directorio del empleado
-   j. Enviar notificación por email
+   │
+   ├─→ a. Recopilar turnos del mes
+   │    ┌────────────────────────────┐
+   │    │ Turnos trabajados          │
+   │    │ - Fecha                    │
+   │    │ - Horas entrada/salida     │
+   │    │ - Tipo (normal/nocturno)   │
+   │    └────────────────────────────┘
+   │
+   ├─→ b. Verificar fichajes
+   │    ┌────────────────────────────┐
+   │    │ Solo turnos completos      │
+   │    │ (con entrada Y salida)     │
+   │    └────────────────────────────┘
+   │
+   ├─→ c. Calcular horas trabajadas
+   │    ┌────────────────────────────┐
+   │    │ Horas normales: 120h       │
+   │    │ Horas plus: 20h            │
+   │    │ Total: 140h                │
+   │    └────────────────────────────┘
+   │
+   ├─→ d. Obtener tarifas
+   │    ┌────────────────────────────┐
+   │    │ Sueldo normal: 15€/h       │
+   │    │ Sueldo plus: 25€/h         │
+   │    └────────────────────────────┘
+   │
+   ├─→ e. Calcular devengos
+   │    ┌────────────────────────────┐
+   │    │ 120h × 15€ = 1,800€        │
+   │    │ 20h × 25€ = 500€           │
+   │    │ TOTAL: 2,300€              │
+   │    └────────────────────────────┘
+   │
+   ├─→ f. Calcular deducciones
+   │    ┌────────────────────────────┐
+   │    │ IRPF (15%): 345€           │
+   │    │ Seg. Social: 146€          │
+   │    │ TOTAL: 491€                │
+   │    └────────────────────────────┘
+   │
+   ├─→ g. Generar PDF
+   │    ┌────────────────────────────┐
+   │    │ DOMPDF                     │
+   │    │ HTML → PDF                 │
+   │    └────────────────────────────┘
+   │
+   ├─→ h. Guardar archivo
+   │    ┌────────────────────────────┐
+   │    │ /userFiles/DNI/nominas/    │
+   │    │ nomina_DNI_Mes_Año.pdf     │
+   │    └────────────────────────────┘
+   │
+   └─→ i. Enviar notificación
+        ┌────────────────────────────┐
+        │ ✉ Email al empleado        │
+        │ Nómina disponible          │
+        │ Líquido: 1,809€            │
+        └────────────────────────────┘
+   │
+   ▼
 4. Registro de log → Nóminas generadas exitosamente
 ```
+
+### Flujo del Sistema
 
 ## Componentes del Sistema
 

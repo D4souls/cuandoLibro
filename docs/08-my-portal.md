@@ -22,6 +22,25 @@ El My Portal muestra:
 
 La barra lateral incluye acceso a:
 
+```
+╔═══════════════════════════════════════╗
+║        🏢 MY PORTAL                   ║
+║                                       ║
+║  🏠  Dashboard         (esta página) ║
+║                                       ║
+║  📅  Horarios          → Ver turnos   ║
+║                                       ║
+║  ⚠️  Avisos            → Ver avisos   ║
+║                                       ║
+║  💰  Nóminas           → Descargar    ║
+║                                       ║
+║  ─────────────────────────────────    ║
+║                                       ║
+║  🚪  Cerrar sesión                    ║
+║                                       ║
+╚═══════════════════════════════════════╝
+```
+
 - **🏠 Dashboard**: Vista principal (página actual)
 - **📅 Horarios**: Ver todos tus [turnos programados](./09-my-portal-horarios.md)
 - **⚠️ Avisos**: Ver tus [avisos e incidencias](./10-my-portal-avisos.md)

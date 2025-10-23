@@ -9,6 +9,8 @@ La pantalla de inicio de sesión es el punto de entrada a la aplicación CuandoL
 
 ## Interfaz de Usuario
 
+![Pantalla de inicio de sesión](../img/loginPage.jpg)
+
 La pantalla de inicio de sesión contiene:
 - **Logo de la aplicación**: CuandoLibro
 - **Campo de Usuario**: Donde se introduce el nombre de usuario o DNI
